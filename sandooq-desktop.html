@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>🏦 صندوق الإخوة — كمبيوتر</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#07101a;--surf:rgba(255,255,255,0.04);--surf2:rgba(255,255,255,0.06);--bor:rgba(255,255,255,0.08);--gold:#d4aa3a;--gold2:#f0cc6a;--txt:#e8dfc8;--mut:#6a7d90;--grn:#27c97a;--red:#e05555;--blu:#4a9eff;--pur:#a78bfa}
+body{font-family:'Tajawal',sans-serif;direction:rtl;background:var(--bg);color:var(--txt);min-height:100vh}
+/* LOGIN */
+.lg-bg{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 0%,rgba(212,170,58,.12) 0%,var(--bg) 65%)}
+.lg-box{width:380px;text-align:center;padding:52px 40px;background:rgba(255,255,255,.03);border:1px solid rgba(212,170,58,.22);border-radius:26px}
+.lg-ic{font-size:68px;display:block;margin-bottom:14px}
+.lg-t{font-size:28px;font-weight:900;color:var(--gold)}
+.lg-s{font-size:13px;color:var(--mut);margin:6px 0 30px}
+.lg-inp{width:100%;padding:15px;background:rgba(255,255,255,.07);border:1.5px solid rgba(212,170,58,.3);border-radius:13px;color:var(--txt);font-family:'Tajawal';font-size:20px;text-align:center;letter-spacing:8px;outline:none}
+.lg-inp:focus{border-color:var(--gold)}
+.lg-btn{width:100%;margin-top:13px;padding:15px;background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;border-radius:13px;font-family:'Tajawal';font-size:16px;font-weight:800;color:#0a0f18;cursor:pointer}
+.lg-err{color:var(--red);font-size:13px;margin-top:10px}
+.lg-hint{font-size:11px;color:#2a3a4a;margin-top:12px}
+/* LAYOUT */
+.shell{display:flex;flex-direction:column;min-height:100vh}
+.hdr{background:rgba(10,20,35,.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(212,170,58,.15);padding:14px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.hdr h1{font-size:20px;font-weight:900;color:var(--gold)}
+.hdr p{font-size:11px;color:var(--mut);margin-top:2px}
+.hdr-r{display:flex;gap:8px;align-items:center}
+.hbtn{background:var(--surf);border:1px solid var(--bor);border-radius:9px;padding:8px 14px;color:var(--mut);cursor:pointer;font-family:'Tajawal';font-size:12px;font-weight:600}
+.hbtn:hover{border-color:rgba(212,170,58,.3);color:var(--gold)}
+.hbtn.sum{background:rgba(39,201,122,.1);border-color:rgba(39,201,122,.3);color:var(--grn);font-weight:800}
+.main{display:flex;flex:1}
+/* SIDEBAR */
+.sidebar{width:210px;background:rgba(10,18,30,.8);border-left:1px solid var(--bor);padding:20px 12px;position:sticky;top:57px;height:calc(100vh - 57px);overflow-y:auto;flex-shrink:0}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:11px;cursor:pointer;font-size:13px;font-weight:600;color:var(--mut);transition:all .2s;margin-bottom:4px}
+.nav-item:hover{background:rgba(255,255,255,.04);color:var(--txt)}
+.nav-item.on{background:linear-gradient(135deg,rgba(212,170,58,.18),rgba(212,170,58,.08));color:var(--gold);border:1px solid rgba(212,170,58,.25);font-weight:800}
+.nav-ic{font-size:17px;width:24px;text-align:center}
+.nav-sep{height:1px;background:var(--bor);margin:10px 8px}
+/* CONTENT */
+.content{flex:1;padding:24px 28px;overflow-y:auto;max-width:1100px}
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+.sc{border-radius:16px;padding:18px 20px}
+.sc.g{background:rgba(212,170,58,.08);border:1px solid rgba(212,170,58,.28)}
+.sc.gr{background:rgba(39,201,122,.07);border:1px solid rgba(39,201,122,.22)}
+.sc.r{background:rgba(224,85,85,.07);border:1px solid rgba(224,85,85,.22)}
+.sc.b{background:rgba(74,158,255,.07);border:1px solid rgba(74,158,255,.22)}
+.sc-ic{font-size:24px;margin-bottom:8px}
+.sc-l{font-size:11px;color:var(--mut);margin-bottom:4px}
+.sc-v{font-size:22px;font-weight:900}
+.sc.g .sc-v{color:var(--gold)}.sc.gr .sc-v{color:var(--grn)}.sc.r .sc-v{color:var(--red)}.sc.b .sc-v{color:var(--blu)}
+/* CARD */
+.card{background:var(--surf);border:1px solid var(--bor);border-radius:18px;padding:22px;margin-bottom:18px}
+.card-t{font-size:15px;font-weight:800;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+/* TWO COL */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+/* MEMBER GRID */
+.mg{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.mc{border-radius:13px;padding:14px 12px;display:flex;align-items:center;gap:11px;cursor:pointer;transition:all .18s;border:1.5px solid var(--bor);background:var(--surf)}
+.mc:hover{transform:translateY(-2px)}
+.mc.paid{background:rgba(39,201,122,.09);border-color:rgba(39,201,122,.4)}
+.mc.unpaid{background:rgba(224,85,85,.05);border-color:rgba(224,85,85,.22)}
+.mav{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;flex-shrink:0}
+.mav.paid{background:rgba(39,201,122,.18);color:var(--grn)}
+.mav.unpaid{background:rgba(224,85,85,.14);color:var(--red)}
+.mn{font-size:13px;font-weight:800}
+.ms{font-size:11px;margin-top:2px}
+.ms.paid{color:var(--grn)}.ms.unpaid{color:var(--red)}
+/* FORM */
+.fg{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
+.fl{font-size:11px;color:var(--mut);font-weight:600}
+.fi,.fs{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.11);border-radius:10px;padding:10px 13px;color:var(--txt);font-family:'Tajawal';font-size:14px;outline:none;width:100%}
+.fi:focus,.fs:focus{border-color:rgba(212,170,58,.5)}
+.fi::placeholder{color:#334455}
+.frow{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}
+.frow .fg{flex:1;min-width:120px;margin-bottom:0}
+/* BTNS */
+.btn{border:none;border-radius:10px;padding:10px 20px;font-family:'Tajawal';font-size:13px;font-weight:700;cursor:pointer;transition:all .18s}
+.btn:hover{opacity:.9;transform:translateY(-1px)}
+.bg{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#0a0f18}
+.br{background:rgba(224,85,85,.14);color:var(--red);border:1px solid rgba(224,85,85,.3)}
+.bgr{background:rgba(39,201,122,.14);color:var(--grn);border:1px solid rgba(39,201,122,.3)}
+.bbl{background:rgba(74,158,255,.13);color:var(--blu);border:1px solid rgba(74,158,255,.3)}
+.bsm{padding:5px 12px;font-size:12px;border-radius:8px}
+/* TABLE */
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{padding:9px 12px;background:rgba(255,255,255,.04);color:var(--mut);font-size:11px;text-align:right;font-weight:700}
+.tbl td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle}
+.tbl tr:hover td{background:rgba(255,255,255,.02)}
+/* BADGE */
+.bdg{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
+.b-g{background:rgba(39,201,122,.15);color:var(--grn)}
+.b-r{background:rgba(224,85,85,.14);color:var(--red)}
+.b-b{background:rgba(74,158,255,.14);color:var(--blu)}
+.b-d{background:rgba(212,170,58,.15);color:var(--gold)}
+/* PROGRESS */
+.prog{height:5px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;margin-top:10px}
+.prog-f{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--gold),var(--grn));transition:width .6s}
+/* OVERLAY */
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.8);display:flex;align-items:center;justify-content:center;z-index:200;padding:16px}
+.modal{background:#0d1e2f;border:1px solid rgba(212,170,58,.3);border-radius:20px;padding:30px;width:100%;max-width:480px}
+.modal h3{font-size:17px;font-weight:800;color:var(--gold);margin-bottom:6px}
+.modal p{font-size:13px;color:var(--mut);margin-bottom:18px}
+/* SUM MODAL */
+.smod{background:#0a1520;border:1.5px solid rgba(212,170,58,.35);border-radius:22px;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;box-shadow:0 40px 100px rgba(0,0,0,.7)}
+.smod-hdr{padding:20px 26px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;justify-content:space-between;align-items:center}
+.smod-hdr h2{font-size:17px;font-weight:900;color:var(--gold)}
+.smod-close{background:none;border:none;color:var(--mut);font-size:22px;cursor:pointer}
+.smod-close:hover{color:var(--red)}
+.smod-body{padding:20px 26px}
+.sopts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.sopt{background:var(--surf);border:1.5px solid var(--bor);border-radius:20px;padding:5px 15px;font-size:12px;cursor:pointer;color:var(--mut);font-family:'Tajawal';font-weight:600}
+.sopt.on{background:rgba(212,170,58,.12);border-color:var(--gold);color:var(--gold);font-weight:800}
+.sprev{background:rgba(255,255,255,.03);border:1px solid var(--bor);border-radius:12px;padding:16px;font-size:13px;line-height:2;color:var(--txt);white-space:pre-wrap;direction:rtl;font-family:'Tajawal';max-height:260px;overflow-y:auto;margin-bottom:16px}
+.sacts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:10px}
+.sa-btn{border:none;border-radius:13px;padding:14px 8px;font-family:'Tajawal';font-size:13px;font-weight:800;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:5px}
+.sa-btn:hover{transform:translateY(-2px)}
+.sa-btn .si{font-size:22px}
+.sa-cp{background:rgba(74,158,255,.13);color:var(--blu);border:1.5px solid rgba(74,158,255,.3)}
+.sa-wa{background:rgba(37,211,102,.12);color:#25d366;border:1.5px solid rgba(37,211,102,.3)}
+.sa-pr{background:rgba(212,170,58,.10);color:var(--gold);border:1.5px solid rgba(212,170,58,.3)}
+.cp-msg{text-align:center;font-size:13px;font-weight:700;color:var(--grn);min-height:20px}
+/* MONTH SEL */
+.msel{background:rgba(212,170,58,.08);border:1.5px solid rgba(212,170,58,.3);border-radius:10px;padding:9px 13px;color:var(--gold);font-family:'Tajawal';font-size:14px;font-weight:700;outline:none}
+/* MISC */
+.alert-r{background:rgba(224,85,85,.08);border:1px solid rgba(224,85,85,.22);border-radius:11px;padding:10px 14px;font-size:12px;margin-bottom:14px;line-height:1.8}
+.alert-g{background:rgba(212,170,58,.07);border:1px solid rgba(212,170,58,.2);border-radius:11px;padding:10px 14px;font-size:12px;margin-bottom:14px;line-height:1.8;color:var(--gold)}
+.empty{text-align:center;padding:36px;color:#334455;font-size:14px}
+.irow{display:flex;justify-content:space-between;padding:9px 12px;background:rgba(255,255,255,.03);border-radius:10px;margin-bottom:7px}
+.irow span:first-child{font-size:12px;color:var(--mut)}
+.irow span:last-child{font-size:12px;font-weight:700}
+.mem-row{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:rgba(255,255,255,.03);border-radius:13px;margin-bottom:9px;border:1px solid rgba(255,255,255,.06)}
+/* CHART */
+.chart-box{background:rgba(255,255,255,.02);border:1px solid var(--bor);border-radius:13px;padding:18px;margin-top:14px}
+/* YEAR PILLS */
+.year-tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.ytab{padding:6px 18px;border-radius:20px;cursor:pointer;font-size:13px;font-weight:700;border:1.5px solid var(--bor);background:var(--surf);color:var(--mut);transition:all .2s}
+.ytab.on{background:rgba(212,170,58,.15);border-color:var(--gold);color:var(--gold)}
+/* MONTH GRID */
+.month-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}
+.mg-cell{padding:8px 10px;border-radius:10px;border:1.5px solid var(--bor);background:var(--surf);text-align:center;cursor:pointer;transition:all .18s}
+.mg-cell:hover{border-color:rgba(212,170,58,.3)}
+.mg-cell.cur{border-color:rgba(212,170,58,.5);background:rgba(212,170,58,.08)}
+.mg-cell .mc-name{font-size:12px;font-weight:700;color:var(--txt)}
+.mg-cell .mc-stat{font-size:10px;margin-top:3px}
+.mc-stat.full{color:var(--grn)}.mc-stat.part{color:var(--gold)}.mc-stat.none{color:var(--mut)}
+@media(max-width:900px){.stats{grid-template-columns:1fr 1fr}.mg{grid-template-columns:repeat(2,1fr)}.two-col{grid-template-columns:1fr}.sidebar{display:none}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const{useState,useEffect,useRef}=React;
+const DM=["محمد","مشب","سعد","ظافر","عبدالله","عبدالرحمن","علي","ماجد"];
+const MONTHLY=100;
+const MA=["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
+const now=new Date();
+const CYM=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+const today=`${now.getDate()}/${now.getMonth()+1}/${now.getFullYear()}`;
+const fmtM=ym=>{const[y,m]=ym.split('-');return`${MA[+m-1]} ${y}`;};
+const LS={g:k=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):null;}catch{return null;}},s:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));}catch{}}};
+const sha256=async t=>{const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(t));return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');};
+const DEF_H='03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4';
+
+// توليد الأشهر: السنة الماضية + الحالية + القادمة
+function genMonths(){
+  const list=[];
+  for(let y=now.getFullYear()+1;y>=now.getFullYear()-1;y--){
+    for(let m=12;m>=1;m--){
+      const ym=`${y}-${String(m).padStart(2,'0')}`;
+      list.push({value:ym,label:fmtM(ym),year:y,month:m});
+    }
+  }
+  return list;
+}
+const ALL_MONTHS=genMonths();
+const YEARS=[...new Set(ALL_MONTHS.map(m=>m.year))].sort((a,b)=>b-a);
+
+function App(){
+  const[unlocked,setUnlocked]=useState(false);
+  const[pwInput,setPwInput]=useState('');
+  const[pwHash,setPwHash]=useState(()=>localStorage.getItem('snd-pw-hash')||DEF_H);
+  const[pwErr,setPwErr]=useState('');
+  const[members,setMembers]=useState(()=>LS.g('snd-members')||DM);
+  const[payments,setPayments]=useState(()=>LS.g('snd-payments')||{});
+  const[txs,setTxs]=useState(()=>LS.g('snd-transactions')||[]);
+  const[exps,setExps]=useState(()=>LS.g('snd-expenses')||[]);
+  const[view,setView]=useState('home');
+  const[month,setMonth]=useState(CYM);
+  const[selYear,setSelYear]=useState(now.getFullYear());
+  const[showSum,setShowSum]=useState(false);
+  const[showTx,setShowTx]=useState(false);
+  const[showExp,setShowExp]=useState(false);
+  const[showMem,setShowMem]=useState(false);
+  const[showRepay,setShowRepay]=useState(null);
+  const[showPw,setShowPw]=useState(false);
+  const[txForm,setTxForm]=useState({member:DM[0],amount:'',type:'سحب',note:'',date:new Date().toISOString().slice(0,10)});
+  const[expForm,setExpForm]=useState({desc:'',amount:'',date:new Date().toISOString().slice(0,10)});
+  const[newMem,setNewMem]=useState('');
+  const[memMsg,setMemMsg]=useState('');
+  const[newPw,setNewPw]=useState('');
+  const[pwMsg,setPwMsg]=useState('');
+  const[repayAmt,setRepayAmt]=useState('');
+  const[cpMsg,setCpMsg]=useState('');
+  const[impMsg,setImpMsg]=useState('');
+  const[sumOpts,setSumOpts]=useState({balance:true,month:true,members:true,loans:true,expenses:true});
+  const chartRef=useRef(null);const chartInst=useRef(null);
+
+  useEffect(()=>{LS.s('snd-members',members);},[members]);
+  useEffect(()=>{LS.s('snd-payments',payments);},[payments]);
+  useEffect(()=>{LS.s('snd-transactions',txs);},[txs]);
+  useEffect(()=>{LS.s('snd-expenses',exps);},[exps]);
+
+  const totC=Object.values(payments).filter(Boolean).length*MONTHLY;
+  const totW=txs.filter(t=>t.type==='سحب').reduce((s,t)=>s+t.amount,0);
+  const totL=txs.filter(t=>t.type==='قرض'&&!t.returned).reduce((s,t)=>s+(t.amount-(t.repaid||0)),0);
+  const totE=exps.reduce((s,e)=>s+e.amount,0);
+  const bal=totC-totW-totL-totE;
+  const curMem=members.map(m=>({name:m,paid:payments[`${m}-${CYM}`]||false}));
+  const selMem=members.map(m=>({name:m,paid:payments[`${m}-${month}`]||false}));
+  const pCnt=selMem.filter(m=>m.paid).length;
+  const aLoans=txs.filter(t=>t.type==='قرض'&&!t.returned);
+  const unpaid=curMem.filter(m=>!m.paid);
+  const yearMonths=ALL_MONTHS.filter(m=>m.year===selYear);
+
+  const login=async()=>{const h=await sha256(pwInput);if(h===pwHash){setUnlocked(true);setPwInput('');setPwErr('');}else setPwErr('❌ كلمة المرور غير صحيحة');};
+  const doChPw=async()=>{if(!newPw||newPw.length<3){setPwMsg('❌ قصيرة جداً');return;}const h=await sha256(newPw);setPwHash(h);localStorage.setItem('snd-pw-hash',h);setPwMsg('✅ تم التغيير');setNewPw('');setTimeout(()=>{setPwMsg('');setShowPw(false);},1800);};
+  const addMem=()=>{const n=newMem.trim();if(!n){setMemMsg('❌ أدخل الاسم');return;}if(members.includes(n)){setMemMsg('❌ الاسم موجود');return;}setMembers([...members,n]);setNewMem('');setMemMsg('✅ تمت الإضافة');setTimeout(()=>setMemMsg(''),2000);};
+  const delMem=m=>{if(!window.confirm(`حذف الأخ ${m}؟`))return;setMembers(members.filter(x=>x!==m));const np={};Object.keys(payments).forEach(k=>{if(!k.startsWith(m+'-'))np[k]=payments[k];});setPayments(np);setTxs(t=>t.filter(x=>x.member!==m));};
+  const togPay=(m,ym)=>{const k=`${m}-${ym}`;setPayments(p=>({...p,[k]:!p[k]}));};
+  const addTx=()=>{if(!txForm.amount||+txForm.amount<=0)return;setTxs(p=>[{id:Date.now(),...txForm,amount:+txForm.amount,repaid:0,returned:false},...p]);setTxForm(f=>({...f,amount:'',note:''}));setShowTx(false);};
+  const doRepay=()=>{if(!repayAmt||+repayAmt<=0)return;setTxs(p=>p.map(t=>{if(t.id!==showRepay)return t;const nr=(t.repaid||0)+(+repayAmt);return{...t,repaid:nr,returned:nr>=t.amount};}));setShowRepay(null);setRepayAmt('');};
+  const addExp=()=>{if(!expForm.desc||!expForm.amount||+expForm.amount<=0)return;setExps(p=>[{id:Date.now(),...expForm,amount:+expForm.amount},...p]);setExpForm(f=>({...f,desc:'',amount:''}));setShowExp(false);};
+  const expData=()=>{const blob=new Blob([JSON.stringify({members,payments,transactions:txs,expenses:exps,exportDate:today},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`صندوق-${today.replace(/\//g,'-')}.json`;a.click();};
+  const impData=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(!window.confirm('استبدال جميع البيانات؟'))return;if(d.members)setMembers(d.members);if(d.payments)setPayments(d.payments);if(d.transactions)setTxs(d.transactions);if(d.expenses)setExps(d.expenses);setImpMsg('✅ تم الاستيراد');}catch{setImpMsg('❌ ملف غير صالح');}};r.readAsText(f);e.target.value='';};
+
+  const buildSum=()=>{
+    const L='━━━━━━━━━━━━━━━━━━━━━━';
+    let t=`🏦 *صندوق الإخوة*\n📅 ${today}\n${L}\n\n`;
+    if(sumOpts.balance){t+=`💰 *الملخص المالي*\n• المحصّل: ${totC.toLocaleString()} ﷼\n• الصرف: ${(totW+totE).toLocaleString()} ﷼\n• القروض: ${totL.toLocaleString()} ﷼\n• 🏦 الرصيد: *${bal.toLocaleString()} ﷼*\n${L}\n\n`;}
+    if(sumOpts.month){const p=curMem.filter(m=>m.paid),u=curMem.filter(m=>!m.paid);t+=`📅 *${fmtM(CYM)}*\n• المحصّل: ${p.length*MONTHLY} ﷼ (${p.length}/${members.length})\n`;if(p.length)t+=`• ✅ دفعوا: ${p.map(m=>m.name).join(' · ')}\n`;if(u.length)t+=`• ⏳ لم يدفعوا: ${u.map(m=>m.name).join(' · ')}\n`;t+=`${L}\n\n`;}
+    if(sumOpts.members){t+=`👥 *الأعضاء*\n`;members.forEach(m=>{const c=ALL_MONTHS.filter(o=>payments[`${m}-${o.value}`]).length;t+=`• ${m}: ${c} شهر — ${(c*MONTHLY).toLocaleString()} ﷼\n`;});t+=`${L}\n\n`;}
+    if(sumOpts.loans&&aLoans.length){t+=`🔄 *القروض*\n`;aLoans.forEach(x=>{t+=`• ${x.member}: متبقي ${x.amount-(x.repaid||0)} ﷼\n`;});t+=`${L}\n\n`;}
+    if(sumOpts.expenses&&exps.length){t+=`🧾 *المصروفات* (${totE.toLocaleString()} ﷼)\n`;exps.slice(0,8).forEach(e=>{t+=`• ${e.desc}: ${e.amount.toLocaleString()} ﷼\n`;});t+=`${L}\n\n`;}
+    t+=`📊 _تقرير صندوق الإخوة_`;return t;
+  };
+  const doCopy=()=>{const txt=buildSum();const fb=()=>{const el=document.createElement('textarea');el.value=txt;el.style.cssText='position:fixed;opacity:0';document.body.appendChild(el);el.select();document.execCommand('copy');document.body.removeChild(el);setCpMsg('✅ تم النسخ!');setTimeout(()=>setCpMsg(''),2500);};if(navigator.clipboard)navigator.clipboard.writeText(txt).then(()=>{setCpMsg('✅ تم النسخ!');setTimeout(()=>setCpMsg(''),2500);}).catch(fb);else fb();};
+  const doWA=()=>window.open(`https://wa.me/?text=${encodeURIComponent(buildSum())}`,'_blank');
+  const doPrint=()=>{const txt=buildSum().replace(/\*/g,'');const w=window.open('','_blank');w.document.write(`<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet"><title>تقرير</title><style>body{font-family:'Tajawal',sans-serif;direction:rtl;padding:36px;color:#111;line-height:2.3}h1{color:#8B6914;border-bottom:2px solid #8B6914;padding-bottom:10px;margin-bottom:20px}pre{white-space:pre-wrap;font-family:'Tajawal';line-height:2.4}.pb{margin-top:20px;padding:10px 28px;background:#8B6914;color:white;border:none;border-radius:8px;font-family:'Tajawal';cursor:pointer}@media print{.pb{display:none}}</style></head><body><h1>🏦 تقرير صندوق الإخوة · ${today}</h1><pre>${txt}</pre><button class="pb" onclick="window.print()">🖨️ طباعة</button></body></html>`);w.document.close();};
+
+  useEffect(()=>{
+    if(view!=='stats'||!chartRef.current)return;
+    if(chartInst.current)chartInst.current.destroy();
+    chartInst.current=new Chart(chartRef.current.getContext('2d'),{
+      type:'bar',data:{labels:members,datasets:[{label:'أشهر مدفوعة',data:members.map(m=>ALL_MONTHS.filter(o=>payments[`${m}-${o.value}`]).length),backgroundColor:'rgba(212,170,58,.55)',borderColor:'rgba(212,170,58,.9)',borderWidth:2,borderRadius:8}]},
+      options:{responsive:true,plugins:{legend:{labels:{color:'#e8dfc8',font:{family:'Tajawal',size:12}}}},scales:{x:{ticks:{color:'#6a7d90',font:{family:'Tajawal'}},grid:{color:'rgba(255,255,255,.04)'}},y:{ticks:{color:'#6a7d90',font:{family:'Tajawal'},stepSize:1},grid:{color:'rgba(255,255,255,.04)'},beginAtZero:true}}}
+    });
+  },[view,members,payments]);
+
+  if(!unlocked)return(
+    <div className="lg-bg"><div className="lg-box">
+      <span className="lg-ic">🏦</span>
+      <div className="lg-t">صندوق الإخوة</div>
+      <div className="lg-s">نظام إدارة الصندوق المغلق — نسخة الكمبيوتر</div>
+      <input className="lg-inp" type="password" placeholder="● ● ● ●" value={pwInput} onChange={e=>setPwInput(e.target.value)} onKeyDown={e=>e.key==='Enter'&&login()} autoFocus/>
+      <button className="lg-btn" onClick={login}>🔓 دخول</button>
+      {pwErr&&<div className="lg-err">{pwErr}</div>}
+      <div className="lg-hint">كلمة المرور الافتراضية: 1234</div>
+    </div></div>
+  );
+
+  const Modal=({show,onClose,title,children,wide})=>show?(
+    <div className="ov" onClick={e=>{if(e.target===e.currentTarget)onClose();}}>
+      <div className="modal" style={wide?{maxWidth:600}:{}}>
+        <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:16}}>
+          <h3 style={{marginBottom:0}}>{title}</h3>
+          <button style={{background:'none',border:'none',color:'var(--mut)',fontSize:20,cursor:'pointer'}} onClick={onClose}>✕</button>
+        </div>
+        {children}
+      </div>
+    </div>
+  ):null;
+
+  return(
+  <div className="shell">
+    {/* MODALS */}
+    {showSum&&(
+      <div className="ov" onClick={e=>{if(e.target===e.currentTarget){setShowSum(false);setCpMsg('');}}}>
+        <div className="smod">
+          <div className="smod-hdr"><h2>📤 إرسال الملخص</h2><button className="smod-close" onClick={()=>{setShowSum(false);setCpMsg('');}}>✕</button></div>
+          <div className="smod-body">
+            <div style={{fontSize:11,color:'var(--mut)',fontWeight:700,marginBottom:8}}>اختر المحتوى:</div>
+            <div className="sopts">{[['balance','💰 الرصيد'],['month','📅 الشهر'],['members','👥 الأعضاء'],['loans','🔄 القروض'],['expenses','🧾 المصروفات']].map(([k,l])=><div key={k} className={`sopt ${sumOpts[k]?'on':''}`} onClick={()=>setSumOpts(o=>({...o,[k]:!o[k]}))}>{l}</div>)}</div>
+            <div style={{fontSize:11,color:'var(--mut)',fontWeight:700,marginBottom:8}}>معاينة:</div>
+            <div className="sprev">{buildSum()}</div>
+            <div className="sacts">
+              <button className="sa-btn sa-cp" onClick={doCopy}><span className="si">📋</span>نسخ النص</button>
+              <button className="sa-btn sa-wa" onClick={doWA}><span className="si">📱</span>واتساب</button>
+              <button className="sa-btn sa-pr" onClick={doPrint}><span className="si">🖨️</span>طباعة/PDF</button>
+            </div>
+            {cpMsg&&<div className="cp-msg">{cpMsg}</div>}
+          </div>
+        </div>
+      </div>
+    )}
+    <Modal show={showTx} onClose={()=>setShowTx(false)} title="➕ سحب أو قرض" wide>
+      <div className="frow">
+        <div className="fg"><label className="fl">العضو</label><select className="fs" value={txForm.member} onChange={e=>setTxForm(f=>({...f,member:e.target.value}))}>{members.map(m=><option key={m}>{m}</option>)}</select></div>
+        <div className="fg"><label className="fl">النوع</label><select className="fs" value={txForm.type} onChange={e=>setTxForm(f=>({...f,type:e.target.value}))}><option>سحب</option><option>قرض</option></select></div>
+        <div className="fg"><label className="fl">المبلغ ﷼</label><input className="fi" type="number" placeholder="0" value={txForm.amount} onChange={e=>setTxForm(f=>({...f,amount:e.target.value}))}/></div>
+        <div className="fg"><label className="fl">التاريخ</label><input className="fi" type="date" value={txForm.date} onChange={e=>setTxForm(f=>({...f,date:e.target.value}))}/></div>
+      </div>
+      <div className="fg"><label className="fl">ملاحظة</label><input className="fi" placeholder="سبب السحب أو القرض" value={txForm.note} onChange={e=>setTxForm(f=>({...f,note:e.target.value}))}/></div>
+      <button className="btn bg" style={{width:'100%',marginTop:4}} onClick={addTx}>تسجيل ➕</button>
+    </Modal>
+    <Modal show={showExp} onClose={()=>setShowExp(false)} title="🧾 إضافة مصروف">
+      <div className="fg"><label className="fl">البيان</label><input className="fi" placeholder="وصف المصروف" value={expForm.desc} onChange={e=>setExpForm(f=>({...f,desc:e.target.value}))}/></div>
+      <div className="frow">
+        <div className="fg"><label className="fl">المبلغ ﷼</label><input className="fi" type="number" placeholder="0" value={expForm.amount} onChange={e=>setExpForm(f=>({...f,amount:e.target.value}))}/></div>
+        <div className="fg"><label className="fl">التاريخ</label><input className="fi" type="date" value={expForm.date} onChange={e=>setExpForm(f=>({...f,date:e.target.value}))}/></div>
+      </div>
+      <button className="btn bg" style={{width:'100%',marginTop:4}} onClick={addExp}>إضافة 🧾</button>
+    </Modal>
+    <Modal show={showMem} onClose={()=>{setShowMem(false);setNewMem('');setMemMsg('');}} title="➕ إضافة عضو">
+      <div className="fg"><label className="fl">اسم العضو</label><input className="fi" placeholder="أدخل الاسم" value={newMem} onChange={e=>setNewMem(e.target.value)} onKeyDown={e=>e.key==='Enter'&&addMem()} autoFocus/></div>
+      {memMsg&&<div style={{fontSize:13,fontWeight:700,marginBottom:12,color:memMsg.startsWith('✅')?'var(--grn)':'var(--red)'}}>{memMsg}</div>}
+      <button className="btn bg" style={{width:'100%'}} onClick={addMem}>➕ إضافة</button>
+    </Modal>
+    <Modal show={!!showRepay} onClose={()=>{setShowRepay(null);setRepayAmt('');}} title="🔄 تسجيل سداد">
+      {(()=>{const t=txs.find(x=>x.id===showRepay);return t?(<div>
+        <div className="alert-g">الأخ {t.member} — القرض: {t.amount} ﷼ — المتبقي: {t.amount-(t.repaid||0)} ﷼</div>
+        <div className="fg"><label className="fl">المبلغ المسدَّد</label><input className="fi" type="number" placeholder="0" value={repayAmt} onChange={e=>setRepayAmt(e.target.value)} style={{textAlign:'center',fontSize:18}}/></div>
+        <div style={{display:'flex',gap:10}}><button className="btn bg" style={{flex:1}} onClick={doRepay}>✅ تأكيد</button><button className="btn br" style={{flex:1}} onClick={()=>{setShowRepay(null);setRepayAmt('');}}>إلغاء</button></div>
+      </div>):null;})()}
+    </Modal>
+    <Modal show={showPw} onClose={()=>{setShowPw(false);setNewPw('');setPwMsg('');}} title="🔐 تغيير كلمة المرور">
+      <div className="fg"><label className="fl">كلمة المرور الجديدة</label><input className="fi" type="password" placeholder="أدخل كلمة المرور الجديدة" value={newPw} onChange={e=>setNewPw(e.target.value)} onKeyDown={e=>e.key==='Enter'&&doChPw()}/></div>
+      {pwMsg&&<div style={{fontSize:13,fontWeight:700,marginBottom:12,color:pwMsg.startsWith('✅')?'var(--grn)':'var(--red)'}}>{pwMsg}</div>}
+      <button className="btn bg" style={{width:'100%'}} onClick={doChPw}>💾 حفظ</button>
+    </Modal>
+
+    {/* HEADER */}
+    <div className="hdr">
+      <div><h1>🏦 صندوق الإخوة</h1><p>{members.length} أعضاء · {MONTHLY} ﷼/شهر · {fmtM(CYM)}</p></div>
+      <div className="hdr-r">
+        <button className="hbtn sum" onClick={()=>setShowSum(true)}>📤 إرسال ملخص</button>
+        <button className="hbtn" onClick={()=>setShowPw(true)}>🔐 كلمة المرور</button>
+        <button className="hbtn" onClick={()=>{setUnlocked(false);setPwInput('');}}>🔒 خروج</button>
+      </div>
+    </div>
+
+    <div className="main">
+      {/* SIDEBAR */}
+      <div className="sidebar">
+        {[['home','🏠','لوحة التحكم'],['payments','💳','تسجيل الدفعات'],['year','📅','عرض السنة'],['history','📋','سجل الدفعات'],['withdrawals','💸','سحوبات وقروض'],['expenses','🧾','المصروفات'],['stats','📈','الإحصائيات'],['members','👥','إدارة الأعضاء'],['backup','💾','النسخ الاحتياطي']].map(([k,ic,lb])=>(
+          <div key={k} className={`nav-item ${view===k?'on':''}`} onClick={()=>setView(k)}>
+            <span className="nav-ic">{ic}</span>{lb}
+          </div>
+        ))}
+        <div className="nav-sep"/>
+        <div className="nav-item" onClick={()=>setShowSum(true)}><span className="nav-ic">📤</span>إرسال ملخص</div>
+      </div>
+
+      {/* CONTENT */}
+      <div className="content">
+
+        {/* لوحة التحكم */}
+        {view==='home'&&<>
+          {unpaid.length>0&&<div className="alert-r">⚠️ <strong style={{color:'var(--red)'}}>{unpaid.length} لم يدفعوا في {fmtM(CYM)}:</strong> {unpaid.map(m=>m.name).join(' · ')}</div>}
+          <div className="stats">
+            <div className="sc g"><div className="sc-ic">💰</div><div className="sc-l">إجمالي المحصّل</div><div className="sc-v">{totC.toLocaleString()} ﷼</div></div>
+            <div className="sc gr"><div className="sc-ic">🏦</div><div className="sc-l">رصيد الصندوق</div><div className="sc-v">{bal.toLocaleString()} ﷼</div></div>
+            <div className="sc r"><div className="sc-ic">💸</div><div className="sc-l">إجمالي الصرف</div><div className="sc-v">{(totW+totE).toLocaleString()} ﷼</div></div>
+            <div className="sc b"><div className="sc-ic">🔄</div><div className="sc-l">قروض قائمة</div><div className="sc-v">{totL.toLocaleString()} ﷼</div></div>
+          </div>
+          <div className="two-col">
+            <div className="card">
+              <div className="card-t">📅 {fmtM(CYM)}</div>
+              <div style={{display:'flex',gap:20,marginBottom:12}}>
+                <div><div style={{fontSize:11,color:'var(--mut)'}}>المحصّل</div><div style={{fontSize:20,fontWeight:900,color:'var(--grn)'}}>{curMem.filter(m=>m.paid).length*MONTHLY} ﷼</div></div>
+                <div><div style={{fontSize:11,color:'var(--mut)'}}>المتبقي</div><div style={{fontSize:20,fontWeight:900,color:'var(--red)'}}>{curMem.filter(m=>!m.paid).length*MONTHLY} ﷼</div></div>
+                <div><div style={{fontSize:11,color:'var(--mut)'}}>النسبة</div><div style={{fontSize:20,fontWeight:900,color:'var(--gold)'}}>{members.length?Math.round(curMem.filter(m=>m.paid).length/members.length*100):0}%</div></div>
+              </div>
+              <div className="prog"><div className="prog-f" style={{width:`${members.length?curMem.filter(m=>m.paid).length/members.length*100:0}%`}}></div></div>
+              <div style={{display:'flex',flexWrap:'wrap',gap:6,marginTop:12}}>{curMem.map(m=><span key={m.name} className={`bdg ${m.paid?'b-g':'b-r'}`}>{m.paid?'✓':'✗'} {m.name}</span>)}</div>
+            </div>
+            <div className="card">
+              <div className="card-t">👥 ملخص الأعضاء</div>
+              {members.map(m=>{const cnt=ALL_MONTHS.filter(o=>payments[`${m}-${o.value}`]).length;const pTm=payments[`${m}-${CYM}`]||false;return(
+                <div key={m} style={{display:'flex',justifyContent:'space-between',padding:'8px 0',borderBottom:'1px solid rgba(255,255,255,.04)'}}>
+                  <span style={{fontWeight:700,fontSize:13}}>الأخ {m}</span>
+                  <div style={{display:'flex',gap:8,alignItems:'center'}}>
+                    <span style={{fontSize:11,color:'var(--mut)'}}>{cnt} شهر</span>
+                    <span style={{fontSize:11,color:'var(--gold)',fontWeight:700}}>{(cnt*MONTHLY).toLocaleString()} ﷼</span>
+                    <span className={`bdg ${pTm?'b-g':'b-r'}`} style={{fontSize:10}}>{pTm?'✓':'✗'}</span>
+                  </div>
+                </div>
+              );})}
+            </div>
+          </div>
+          {aLoans.length>0&&<div className="card">
+            <div className="card-t">🔄 القروض القائمة</div>
+            <div style={{overflowX:'auto'}}><table className="tbl">
+              <thead><tr><th>العضو</th><th>القرض</th><th>المسدَّد</th><th>المتبقي</th><th>النسبة</th></tr></thead>
+              <tbody>{aLoans.map(t=>(
+                <tr key={t.id}>
+                  <td style={{fontWeight:700}}>الأخ {t.member}</td>
+                  <td>{t.amount.toLocaleString()} ﷼</td>
+                  <td style={{color:'var(--grn)'}}>{(t.repaid||0).toLocaleString()} ﷼</td>
+                  <td style={{color:'var(--red)',fontWeight:700}}>{(t.amount-(t.repaid||0)).toLocaleString()} ﷼</td>
+                  <td><div style={{display:'flex',alignItems:'center',gap:8}}><div style={{flex:1,height:4,background:'rgba(255,255,255,.06)',borderRadius:2,minWidth:80}}><div style={{height:'100%',background:'var(--grn)',borderRadius:2,width:`${Math.round((t.repaid||0)/t.amount*100)}%`}}></div></div><span style={{fontSize:11,color:'var(--mut)'}}>{Math.round((t.repaid||0)/t.amount*100)}%</span></div></td>
+                </tr>
+              ))}</tbody>
+            </table></div>
+          </div>}
+        </>}
+
+        {/* تسجيل الدفعات */}
+        {view==='payments'&&<div className="card">
+          <div style={{display:'flex',alignItems:'center',gap:14,marginBottom:18,flexWrap:'wrap'}}>
+            <div className="card-t" style={{marginBottom:0}}>💳 تسجيل دفعة الشهر</div>
+            <select className="msel" value={month} onChange={e=>setMonth(e.target.value)}>
+              {ALL_MONTHS.map(o=><option key={o.value} value={o.value}>{o.label}{o.value===CYM?' ◀ الحالي':''}</option>)}
+            </select>
+          </div>
+          <div style={{fontSize:12,color:'var(--mut)',marginBottom:16}}>اضغط على اسم العضو لتسجيل أو إلغاء دفعته لشهر {fmtM(month)}</div>
+          <div className="mg">{selMem.map(m=>(
+            <div key={m.name} className={`mc ${m.paid?'paid':'unpaid'}`} onClick={()=>togPay(m.name,month)}>
+              <div className={`mav ${m.paid?'paid':'unpaid'}`}>{m.paid?'✓':m.name[0]}</div>
+              <div><div className="mn">الأخ {m.name}</div><div className={`ms ${m.paid?'paid':'unpaid'}`}>{m.paid?`✓ ${MONTHLY} ﷼`:'✗ لم يدفع'}</div></div>
+            </div>
+          ))}</div>
+          <div style={{display:'flex',gap:24,padding:'12px 16px',background:'rgba(255,255,255,.03)',borderRadius:10,marginTop:16,flexWrap:'wrap'}}>
+            <div><span style={{fontSize:11,color:'var(--mut)'}}>دفعوا: </span><span style={{fontWeight:800,color:'var(--gold)'}}>{pCnt}/{members.length}</span></div>
+            <div><span style={{fontSize:11,color:'var(--mut)'}}>المحصّل: </span><span style={{fontWeight:800,color:'var(--grn)'}}>{pCnt*MONTHLY} ﷼</span></div>
+            <div><span style={{fontSize:11,color:'var(--mut)'}}>المتبقي: </span><span style={{fontWeight:800,color:'var(--red)'}}>{(members.length-pCnt)*MONTHLY} ﷼</span></div>
+            <div><span style={{fontSize:11,color:'var(--mut)'}}>المستهدف: </span><span style={{fontWeight:800}}>{members.length*MONTHLY} ﷼</span></div>
+          </div>
+        </div>}
+
+        {/* عرض السنة — الجديد */}
+        {view==='year'&&<div className="card">
+          <div className="card-t">📅 عرض دفعات السنة الكاملة</div>
+          <div className="year-tabs">{YEARS.map(y=><div key={y} className={`ytab ${selYear===y?'on':''}`} onClick={()=>setSelYear(y)}>{y}{y===now.getFullYear()?' (الحالية)':''}</div>)}</div>
+          <div style={{fontSize:12,color:'var(--mut)',marginBottom:14}}>اضغط على أي شهر لتسجيل أو إلغاء الدفعات · السنة: {selYear}</div>
+          {members.map(member=>{
+            const paidInYear=yearMonths.filter(o=>payments[`${member}-${o.value}`]).length;
+            return(
+              <div key={member} style={{marginBottom:20,paddingBottom:18,borderBottom:'1px solid rgba(255,255,255,.05)'}}>
+                <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:10}}>
+                  <div style={{fontWeight:800,fontSize:14}}>الأخ {member}</div>
+                  <div style={{display:'flex',gap:12,alignItems:'center'}}>
+                    <span className="bdg b-d">{paidInYear}/12 شهر</span>
+                    <span style={{color:'var(--gold)',fontWeight:800}}>{paidInYear*MONTHLY} ﷼</span>
+                  </div>
+                </div>
+                <div className="month-grid">{yearMonths.map(o=>{
+                  const paid=payments[`${member}-${o.value}`];
+                  const isCur=o.value===CYM;
+                  return(
+                    <div key={o.value} className={`mg-cell ${isCur?'cur':''}`} onClick={()=>togPay(member,o.value)}>
+                      <div className="mc-name">{MA[o.month-1]}</div>
+                      <div className={`mc-stat ${paid?'full':isCur?'part':'none'}`}>{paid?'✅ مدفوع':isCur?'◀ الحالي':'—'}</div>
+                    </div>
+                  );
+                })}</div>
+              </div>
+            );
+          })}
+        </div>}
+
+        {/* سجل الدفعات */}
+        {view==='history'&&<div className="card">
+          <div className="card-t">📋 سجل دفعات جميع الأعضاء</div>
+          {members.map(member=>{
+            const paidM=ALL_MONTHS.filter(o=>payments[`${member}-${o.value}`]);
+            return(<div key={member} style={{marginBottom:22,paddingBottom:18,borderBottom:'1px solid rgba(255,255,255,.05)'}}>
+              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:10}}>
+                <div style={{fontWeight:800,fontSize:14}}>الأخ {member}</div>
+                <div style={{fontSize:12}}><span style={{color:'var(--grn)',fontWeight:700}}>{paidM.length} شهر</span><span style={{color:'var(--mut)'}}> · </span><span style={{color:'var(--gold)',fontWeight:700}}>{paidM.length*MONTHLY} ﷼</span></div>
+              </div>
+              <div style={{display:'flex',flexWrap:'wrap',gap:6}}>
+                {paidM.map(o=><span key={o.value} className="bdg b-g" style={{fontSize:11}}>✓ {o.label}</span>)}
+                {paidM.length===0&&<span style={{color:'var(--mut)',fontSize:12}}>لا توجد دفعات مسجلة بعد</span>}
+              </div>
+            </div>);
+          })}
+        </div>}
+
+        {/* سحوبات وقروض */}
+        {view==='withdrawals'&&<>
+          <div style={{marginBottom:14}}><button className="btn bg" onClick={()=>setShowTx(true)}>💸 إضافة سحب أو قرض ➕</button></div>
+          <div className="card">
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:16}}>
+              <div className="card-t" style={{marginBottom:0}}>📋 السجل</div>
+              <div style={{fontSize:12,color:'var(--mut)'}}>الإجمالي: <span style={{color:'var(--red)',fontWeight:800}}>{(totW+totL).toLocaleString()} ﷼</span></div>
+            </div>
+            {txs.length===0?<div className="empty">لا توجد سجلات بعد</div>:(
+              <div style={{overflowX:'auto'}}><table className="tbl">
+                <thead><tr><th>التاريخ</th><th>العضو</th><th>النوع</th><th>المبلغ</th><th>الحالة</th><th>ملاحظة</th><th>إجراء</th></tr></thead>
+                <tbody>{txs.map(t=>(
+                  <tr key={t.id}>
+                    <td style={{color:'var(--mut)',fontSize:11}}>{t.date}</td>
+                    <td style={{fontWeight:700}}>الأخ {t.member}</td>
+                    <td><span className={`bdg ${t.type==='قرض'?'b-b':'b-r'}`}>{t.type}</span></td>
+                    <td style={{fontWeight:800}}>{t.amount.toLocaleString()} ﷼</td>
+                    <td>{t.type==='قرض'?t.returned?<span className="bdg b-g">✓ مسدَّد</span>:<span style={{fontSize:11,color:'var(--red)',fontWeight:600}}>متبقي: {(t.amount-(t.repaid||0)).toLocaleString()} ﷼</span>:<span className="bdg b-d">نهائي</span>}</td>
+                    <td style={{color:'var(--mut)',fontSize:11}}>{t.note}</td>
+                    <td style={{whiteSpace:'nowrap'}}>
+                      {t.type==='قرض'&&!t.returned&&<button className="btn bgr bsm" style={{marginLeft:6}} onClick={()=>{setShowRepay(t.id);setRepayAmt('');}}>سداد</button>}
+                      <button className="btn br bsm" onClick={()=>{if(window.confirm('حذف؟'))setTxs(p=>p.filter(x=>x.id!==t.id));}}>✕</button>
+                    </td>
+                  </tr>
+                ))}</tbody>
+              </table></div>
+            )}
+          </div>
+        </>}
+
+        {/* المصروفات */}
+        {view==='expenses'&&<>
+          <div style={{marginBottom:14}}><button className="btn bg" onClick={()=>setShowExp(true)}>🧾 إضافة مصروف ➕</button></div>
+          <div className="card">
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:16}}>
+              <div className="card-t" style={{marginBottom:0}}>🧾 المصروفات</div>
+              <div style={{fontWeight:900,color:'var(--red)',fontSize:17}}>{totE.toLocaleString()} ﷼</div>
+            </div>
+            {exps.length===0?<div className="empty">لا توجد مصروفات</div>:(
+              <div style={{overflowX:'auto'}}><table className="tbl">
+                <thead><tr><th>التاريخ</th><th>البيان</th><th>المبلغ</th><th>حذف</th></tr></thead>
+                <tbody>{exps.map(e=>(
+                  <tr key={e.id}>
+                    <td style={{color:'var(--mut)',fontSize:11}}>{e.date}</td>
+                    <td style={{fontWeight:600}}>{e.desc}</td>
+                    <td style={{fontWeight:800,color:'var(--red)'}}>{e.amount.toLocaleString()} ﷼</td>
+                    <td><button className="btn br bsm" onClick={()=>{if(window.confirm('حذف؟'))setExps(p=>p.filter(x=>x.id!==e.id));}}>✕</button></td>
+                  </tr>
+                ))}</tbody>
+              </table></div>
+            )}
+          </div>
+        </>}
+
+        {/* الإحصائيات */}
+        {view==='stats'&&<div className="card">
+          <div className="card-t">📈 إحصائيات الالتزام</div>
+          <div className="chart-box"><canvas ref={chartRef} height={220}></canvas></div>
+          <div style={{marginTop:18,overflowX:'auto'}}><table className="tbl">
+            <thead><tr><th>العضو</th><th>أشهر مدفوعة</th><th>إجمالي</th><th>نسبة الالتزام</th></tr></thead>
+            <tbody>{members.map(m=>{
+              const cnt=ALL_MONTHS.filter(o=>payments[`${m}-${o.value}`]).length;
+              const pct=Math.round(cnt/ALL_MONTHS.length*100);
+              return(<tr key={m}>
+                <td style={{fontWeight:700}}>الأخ {m}</td>
+                <td><span className="bdg b-d">{cnt} / {ALL_MONTHS.length}</span></td>
+                <td style={{color:'var(--gold)',fontWeight:800}}>{(cnt*MONTHLY).toLocaleString()} ﷼</td>
+                <td><div style={{display:'flex',alignItems:'center',gap:10}}><div style={{flex:1,height:6,background:'rgba(255,255,255,.06)',borderRadius:3,minWidth:100}}><div style={{height:'100%',borderRadius:3,background:pct>=80?'var(--grn)':pct>=50?'var(--gold)':'var(--red)',width:`${pct}%`,transition:'width .6s'}}></div></div><span style={{fontSize:12,fontWeight:700,color:pct>=80?'var(--grn)':pct>=50?'var(--gold)':'var(--red)'}}>{pct}%</span></div></td>
+              </tr>);
+            })}</tbody>
+          </table></div>
+        </div>}
+
+        {/* إدارة الأعضاء */}
+        {view==='members'&&<div className="card">
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:16}}>
+            <div className="card-t" style={{marginBottom:0}}>👥 إدارة الأعضاء</div>
+            <button className="btn bg bsm" onClick={()=>setShowMem(true)}>➕ إضافة عضو</button>
+          </div>
+          <div className="alert-g">إجمالي الأعضاء: {members.length} — المستهدف الشهري: {members.length*MONTHLY} ﷼</div>
+          {members.map(m=>{
+            const cnt=ALL_MONTHS.filter(o=>payments[`${m}-${o.value}`]).length;
+            const pTm=payments[`${m}-${CYM}`]||false;
+            return(
+              <div className="mem-row" key={m}>
+                <div style={{display:'flex',alignItems:'center',gap:12}}>
+                  <div style={{width:40,height:40,borderRadius:'50%',background:'rgba(212,170,58,.1)',border:'1.5px solid rgba(212,170,58,.25)',display:'flex',alignItems:'center',justifyContent:'center',fontWeight:800,color:'var(--gold)',fontSize:15}}>{m[0]}</div>
+                  <div><div style={{fontWeight:700,fontSize:14}}>الأخ {m}</div><div style={{fontSize:11,color:'var(--mut)'}}>{cnt} شهر · {(cnt*MONTHLY).toLocaleString()} ﷼</div></div>
+                </div>
+                <div style={{display:'flex',gap:8,alignItems:'center'}}>
+                  <span className={`bdg ${pTm?'b-g':'b-r'}`}>{pTm?'✓ دفع هذا الشهر':'✗ لم يدفع'}</span>
+                  <button className="btn br bsm" onClick={()=>delMem(m)}>🗑️ حذف</button>
+                </div>
+              </div>
+            );
+          })}
+        </div>}
+
+        {/* النسخ الاحتياطي */}
+        {view==='backup'&&<div className="card" style={{maxWidth:520}}>
+          <div className="card-t">💾 النسخ الاحتياطي</div>
+          <div className="alert-g">⚠️ يُنصح بعمل نسخة احتياطية بشكل دوري</div>
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12,marginBottom:18}}>
+            <button className="btn bgr" style={{padding:'18px',display:'flex',flexDirection:'column',alignItems:'center',gap:8}} onClick={expData}><span style={{fontSize:28}}>📥</span>تصدير البيانات<span style={{fontSize:11,fontWeight:400}}>حفظ JSON</span></button>
+            <label className="btn bbl" style={{padding:'18px',display:'flex',flexDirection:'column',alignItems:'center',gap:8,cursor:'pointer'}}>
+              <span style={{fontSize:28}}>📤</span>استيراد البيانات<span style={{fontSize:11,fontWeight:400}}>استعادة JSON</span>
+              <input type="file" accept=".json" style={{display:'none'}} onChange={impData}/>
+            </label>
+          </div>
+          {impMsg&&<div style={{textAlign:'center',fontWeight:700,color:impMsg.startsWith('✅')?'var(--grn)':'var(--red)',fontSize:13,marginBottom:12}}>{impMsg}</div>}
+          <div>{[['👥 الأعضاء',`${members.length}`],['💳 سجلات الدفع',`${Object.values(payments).filter(Boolean).length}`],['💸 السحوبات/القروض',`${txs.length}`],['🧾 المصروفات',`${exps.length}`],['💰 إجمالي المحصّل',`${totC.toLocaleString()} ﷼`],['🏦 رصيد الصندوق',`${bal.toLocaleString()} ﷼`]].map(([l,v])=>(
+            <div className="irow" key={l}><span>{l}</span><span>{v}</span></div>
+          ))}</div>
+        </div>}
+
+      </div>
+    </div>
+  </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
