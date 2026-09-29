@@ -1,0 +1,1167 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>دورة الماء في الطبيعة | وحدة تعلم رقمية</title>
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d1829; --bg2:#122238; --card:#16283f; --card2:#1c3250; --line:#2d4769;
+  --text:#eef3f9; --muted:#b9c6d8;
+  --gold:#f2c14e; --gold-soft:rgba(242,193,78,.14);
+  --teal:#43d9cf; --teal-soft:rgba(67,217,207,.13);
+  --ok:#74e6aa; --ok-bg:rgba(116,230,170,.12);
+  --bad:#ffa3a3; --bad-bg:rgba(255,163,163,.12);
+  --r:16px;
+  --hf:'Cairo',Tahoma,sans-serif; --bf:'Tajawal',Tahoma,sans-serif;
+  --header-h:150px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--bf);font-size:18px;line-height:1.85;overflow-x:hidden}
+h1,h2,h3,h4{font-family:var(--hf);line-height:1.45;margin:0 0 .5em}
+p{margin:0 0 .8em}
+a{color:var(--teal)}
+:focus-visible{outline:3px solid var(--teal);outline-offset:3px;border-radius:6px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ===== الترويسة ===== */
+.topbar{position:sticky;top:0;z-index:50;background:rgba(13,24,41,.97);border-bottom:1px solid var(--line);backdrop-filter:blur(6px)}
+.topbar-inner{max-width:1200px;margin:0 auto;padding:10px 16px}
+.brand-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-mark{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--teal),#1f7fb8);display:grid;place-items:center;font-size:22px}
+.brand h1{font-size:1.25rem;margin:0}
+.brand small{display:block;color:var(--muted);font-size:.85rem;font-family:var(--bf);font-weight:500}
+.tabs{display:flex;gap:6px;background:var(--bg2);padding:4px;border-radius:14px;border:1px solid var(--line)}
+.tab{font-family:var(--hf);font-weight:700;font-size:1rem;min-height:44px;padding:6px 18px;border-radius:10px;border:0;background:transparent;color:var(--muted);cursor:pointer}
+.tab[aria-selected="true"]{background:var(--gold);color:#1b1404}
+
+.progress{list-style:none;margin:10px 0 2px;padding:0;display:grid;grid-template-columns:repeat(6,1fr);gap:6px;counter-reset:st}
+.progress li{position:relative}
+.step{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:4px 6px;border-radius:12px;border:2px solid var(--line);background:var(--card);color:var(--muted);font-family:var(--hf);font-weight:700;font-size:.92rem;cursor:pointer;line-height:1.3;text-align:center}
+.step .dot{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--bg2);border:2px solid var(--line);font-size:.8rem}
+.step.is-current{border-color:var(--gold);color:var(--text);background:var(--gold-soft)}
+.step.is-current .dot{border-color:var(--gold);color:var(--gold)}
+.step.is-done{border-color:var(--teal);color:var(--text)}
+.step.is-done .dot{background:var(--teal);border-color:var(--teal);color:#062624}
+.step:disabled{cursor:not-allowed;opacity:.6}
+.progress li:not(:last-child)::after{content:"←";position:absolute;left:-7px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:.8rem;z-index:1}
+
+/* ===== التخطيط العام ===== */
+main{max-width:1200px;margin:0 auto;padding:8px 16px 120px}
+.block{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:28px;margin:24px 0;scroll-margin-top:calc(var(--header-h) + 14px)}
+.sub{scroll-margin-top:calc(var(--header-h) + 14px);border-radius:14px}
+.block-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.num{flex:none;width:44px;height:44px;border-radius:12px;background:var(--gold-soft);border:2px solid var(--gold);color:var(--gold);display:grid;place-items:center;font-family:var(--hf);font-weight:800;font-size:1.1rem}
+.block-head h2{margin:0;font-size:1.55rem}
+.lead{color:var(--muted)}
+.gold{color:var(--gold)} .teal{color:var(--teal)}
+.panel{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:18px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.chip{display:inline-block;padding:2px 12px;border-radius:999px;background:var(--teal-soft);color:var(--teal);font-weight:700;font-size:.85rem;border:1px solid rgba(67,217,207,.4)}
+.chip.gold{background:var(--gold-soft);color:var(--gold);border-color:rgba(242,193,78,.45)}
+
+.btn{font-family:var(--hf);font-weight:700;font-size:1.02rem;min-height:50px;padding:8px 22px;border-radius:12px;border:2px solid transparent;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;line-height:1.3}
+.btn-primary{background:var(--gold);color:#1b1404}
+.btn-primary:hover{background:#ffd06a}
+.btn-secondary{background:transparent;border-color:var(--teal);color:var(--teal)}
+.btn-secondary:hover{background:var(--teal-soft)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+
+textarea,input[type=text]{width:100%;font-family:var(--bf);font-size:1.05rem;color:var(--text);background:var(--bg2);border:2px solid var(--line);border-radius:12px;padding:12px 14px;line-height:1.7}
+textarea{min-height:110px;resize:vertical}
+textarea:focus,input[type=text]:focus{border-color:var(--teal);outline:none}
+label.field{display:block;font-family:var(--hf);font-weight:700;margin-bottom:6px}
+
+.msg{margin-top:12px;padding:12px 16px;border-radius:12px;border:1px solid var(--line);background:var(--bg2)}
+.msg:empty{display:none}
+.msg.ok{background:var(--ok-bg);border-color:var(--ok);color:var(--text)}
+.msg.bad{background:var(--bad-bg);border-color:var(--bad);color:var(--text)}
+.msg strong.okc{color:var(--ok)} .msg strong.badc{color:var(--bad)}
+
+/* ===== البطاقة التعريفية ===== */
+.meta-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:18px}
+.meta-item{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.meta-item dt{color:var(--muted);font-size:.88rem}
+.meta-item dd{margin:0;font-family:var(--hf);font-weight:700;font-size:1.05rem}
+.objs{margin:0;padding-inline-start:1.6em;list-style:arabic-indic}
+.objs li{margin-bottom:4px}
+.objs li::marker{color:var(--gold);font-family:var(--hf);font-weight:800}
+.model-path{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:14px;font-family:var(--hf);font-weight:700}
+.model-path span{padding:2px 12px;border-radius:999px;background:var(--bg2);border:1px solid var(--line)}
+
+/* ===== التهيئة ===== */
+.hook-q{font-family:var(--hf);font-weight:800;font-size:1.45rem;color:var(--gold);margin:6px 0 14px}
+
+/* ===== المحاكاة ===== */
+.sim-layout{display:grid;grid-template-columns:minmax(0,1.75fr) minmax(0,1fr);gap:18px;align-items:start}
+.sim-box{background:#0a1422;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.sim-box svg{display:block;width:100%;height:auto}
+.sim-caption{font-size:.92rem;color:var(--muted);padding:8px 14px;border-top:1px solid var(--line)}
+.stage-hit{cursor:pointer}
+.stage-hit:focus{outline:none}
+.label-bg{fill:rgba(10,20,34,.82);stroke:#f2c14e;stroke-width:2}
+.label-tx{fill:#fff;font-family:'Cairo',Tahoma,sans-serif;font-weight:700;font-size:22px}
+.stage-hit:hover .label-bg,.stage-hit:focus-visible .label-bg,.stage-hit.active .label-bg{fill:#f2c14e;stroke:#fff;stroke-width:3}
+.stage-hit:hover .label-tx,.stage-hit:focus-visible .label-tx,.stage-hit.active .label-tx{fill:#1b1404}
+.stage-btns{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.stage-btn{min-height:48px;font-family:var(--hf);font-weight:700;font-size:.98rem;border-radius:12px;border:2px solid var(--line);background:var(--card2);color:var(--text);cursor:pointer}
+.stage-btn[aria-pressed="true"]{border-color:var(--gold);background:var(--gold-soft);color:var(--gold)}
+.stage-info{min-height:150px}
+.stage-info h3{color:var(--gold);font-size:1.2rem;margin-bottom:4px}
+
+.temp-lab h3{font-size:1.15rem}
+.temp-read{display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.temp-big{font-family:var(--hf);font-weight:800;font-size:2rem;color:var(--gold)}
+input[type=range]{width:100%;height:36px;accent-color:var(--gold);cursor:pointer;margin:6px 0}
+.range-ends{display:flex;justify-content:space-between;color:var(--muted);font-size:.85rem;margin-top:-4px}
+.counter{margin-top:10px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.counter .val{font-family:var(--hf);font-weight:800;font-size:1.6rem;color:var(--teal)}
+.meter{height:12px;background:#0a1422;border-radius:999px;overflow:hidden;border:1px solid var(--line);margin:8px 0 4px}
+.meter span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--gold));border-radius:999px;transition:width .2s}
+.note{font-size:.88rem;color:var(--muted)}
+
+/* بطاقات المحتوى */
+.content-cards{display:grid;gap:18px;margin-top:22px}
+.order-list{list-style:none;margin:10px 0 6px;padding:0;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.order-list li{background:var(--bg2);border:1px solid var(--teal);border-radius:12px;padding:6px 14px;font-family:var(--hf);font-weight:700}
+.order-list .arr{border:0;background:none;color:var(--gold);padding:0 2px}
+.env-list{margin:0;padding-inline-start:1.2em}
+.env-list li{margin-bottom:6px}
+table{width:100%;border-collapse:collapse;text-align:right}
+th,td{border:1px solid var(--line);padding:10px 12px;vertical-align:top}
+th{background:var(--bg2);font-family:var(--hf);color:var(--gold)}
+.table-wrap{overflow-x:auto}
+.flash{animation:flash 2.4s ease-out 1}
+@keyframes flash{0%,40%{box-shadow:0 0 0 4px var(--gold)}100%{box-shadow:0 0 0 0 transparent}}
+
+/* ===== القاموس ===== */
+.gloss{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin:0}
+.gloss div{background:var(--card2);border:1px solid var(--line);border-inline-start:5px solid var(--teal);border-radius:12px;padding:14px 16px}
+.gloss dt{font-family:var(--hf);font-weight:800;color:var(--teal);font-size:1.2rem}
+.gloss dd{margin:4px 0 0}
+
+/* ===== التطبيقات ===== */
+.task{margin-top:22px}
+.task-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.task-head h3{margin:0;font-size:1.25rem}
+.sort-list{list-style:none;margin:12px 0 0;padding:0;max-width:560px;counter-reset:pos}
+.sort-item{counter-increment:pos;display:flex;align-items:center;gap:10px;background:var(--card);border:2px solid var(--line);border-radius:12px;padding:8px 10px;margin-bottom:10px;touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab;position:relative}
+.sort-item::before{content:counter(pos,arabic-indic);flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--bg2);border:2px solid var(--gold);color:var(--gold);font-family:var(--hf);font-weight:800}
+.sort-item .grip{color:var(--muted);font-size:1.3rem}
+.sort-item .name{flex:1;font-family:var(--hf);font-weight:700;font-size:1.1rem}
+.sort-item.dragging{z-index:5;cursor:grabbing;border-color:var(--gold);box-shadow:0 10px 26px rgba(0,0,0,.45);background:var(--card2)}
+.sort-item.right{border-color:var(--ok)} .sort-item.wrong{border-color:var(--bad)}
+.mv{width:46px;height:46px;border-radius:10px;border:2px solid var(--line);background:var(--bg2);color:var(--text);font-size:1rem;cursor:pointer}
+
+.classify{list-style:none;margin:12px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cl-item{background:var(--card);border:2px solid var(--line);border-radius:12px;padding:12px 14px}
+.cl-item.right{border-color:var(--ok)} .cl-item.wrong{border-color:var(--bad)}
+.cl-item p{font-weight:700;margin-bottom:8px}
+.cl-btns{display:flex;gap:8px}
+.cl-btns .btn{flex:1;min-height:46px;padding:6px 10px}
+.cl-fb{font-size:.95rem;margin-top:8px}
+.cl-fb:empty{display:none}
+
+.rubric{list-style:none;margin:8px 0 0;padding:0}
+.rubric li{margin-bottom:6px}
+.rubric label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+.rubric input{width:22px;height:22px;margin-top:6px;accent-color:var(--gold);flex:none}
+.design-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.cmp{display:grid;gap:10px;margin-top:10px}
+.cmp-row{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.cmp-row h4{color:var(--gold);margin-bottom:6px;font-size:1.05rem}
+.cmp-cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cmp-cols b{display:block;font-family:var(--hf);font-size:.88rem;color:var(--muted)}
+.invalid{border-color:var(--bad)!important}
+
+/* ===== الاختبار ===== */
+.q{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:18px;margin-top:14px}
+.q-top{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:6px}
+.q-top .qn{font-family:var(--hf);font-weight:800;color:var(--gold)}
+.q-text{font-weight:700;font-size:1.08rem;margin-bottom:10px}
+.opts{display:grid;gap:8px}
+.opt{text-align:right;font-family:var(--bf);font-size:1.02rem;min-height:50px;padding:10px 14px;border-radius:12px;border:2px solid var(--line);background:var(--card);color:var(--text);cursor:pointer;display:flex;gap:10px;align-items:center;line-height:1.6}
+.opt .l{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--bg2);font-family:var(--hf);font-weight:800;color:var(--gold)}
+.opt:hover:not(:disabled){border-color:var(--teal)}
+.opt:disabled{cursor:default}
+.opt.chosen.is-correct{border-color:var(--ok);background:var(--ok-bg)}
+.opt.chosen.is-wrong{border-color:var(--bad);background:var(--bad-bg)}
+.tf .opts{grid-template-columns:1fr 1fr}
+.q-status{margin-top:16px;color:var(--muted)}
+
+/* ===== التغذية الراجعة والإتقان ===== */
+.score{font-family:var(--hf);font-weight:800;font-size:2.4rem;color:var(--gold)}
+.obj-miss{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:10px}
+.obj-miss li{background:var(--card2);border:1px solid var(--bad);border-radius:12px;padding:12px 14px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.mastery-card{text-align:center;background:linear-gradient(160deg,rgba(242,193,78,.16),rgba(67,217,207,.10));border:2px solid var(--gold);border-radius:18px;padding:26px}
+.mastery-card .medal{font-size:3.2rem;line-height:1}
+.pred-box{text-align:right;margin-top:16px}
+.pred-box blockquote{margin:6px 0 0;padding:12px 16px;background:var(--bg2);border-inline-start:5px solid var(--teal);border-radius:10px}
+
+.review-bar{position:fixed;inset-inline:0;bottom:0;z-index:60;background:rgba(18,34,56,.98);border-top:2px solid var(--gold);padding:12px 16px}
+.review-bar-inner{max-width:1200px;margin:0 auto;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+
+/* ===== دليل المعلم ===== */
+.guide h3{color:var(--gold);font-size:1.25rem;margin-top:10px}
+.guide ul{margin:0;padding-inline-start:1.2em}
+.guide li{margin-bottom:4px}
+
+/* ===== التجاوب ===== */
+@media (max-width:1000px){
+  .sim-layout{grid-template-columns:1fr}
+  .meta-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media (max-width:700px){
+  body{font-size:17px}
+  .block{padding:18px 16px}
+  .block-head h2{font-size:1.3rem}
+  .brand h1{font-size:1.05rem}
+  .brand small{display:none}
+  .tabs{width:100%}
+  .tab{flex:1;padding:6px 8px}
+  .progress{gap:4px}
+  .step{flex-direction:column;gap:2px;font-size:.72rem;padding:4px 2px;min-height:52px}
+  .step .dot{width:22px;height:22px;font-size:.72rem}
+  .progress li:not(:last-child)::after{display:none}
+  .meta-grid{grid-template-columns:1fr 1fr}
+  .grid-2,.design-grid,.classify,.cmp-cols{grid-template-columns:1fr}
+  .stage-btns{grid-template-columns:1fr 1fr}
+  .hook-q{font-size:1.2rem}
+  .btn{width:100%}
+  .cl-btns .btn,.btn-row.inline .btn{width:auto}
+  .table-wrap{overflow:visible}
+  .table-wrap thead{display:none}
+  .table-wrap table,.table-wrap tbody,.table-wrap tr,.table-wrap td{display:block;width:100%}
+  .table-wrap tr{background:var(--card2);border:1px solid var(--line);border-radius:12px;margin-bottom:10px;overflow:hidden}
+  .table-wrap td{border:0;border-bottom:1px solid var(--line);padding:8px 12px}
+  .table-wrap td:last-child{border-bottom:0}
+  .table-wrap td::before{content:attr(data-label);display:block;font-family:var(--hf);font-weight:700;color:var(--gold);font-size:.85rem}
+  .table-wrap td[rowspan]{background:var(--gold-soft)}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand-row">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">💧</div>
+        <div>
+          <h1>دورة الماء في الطبيعة</h1>
+          <small>وحدة تعلم رقمية · العلوم · المرحلة المتوسطة</small>
+        </div>
+      </div>
+      <div class="tabs" role="tablist" aria-label="أقسام الصفحة">
+        <button class="tab" role="tab" id="tab-unit" aria-controls="panel-unit" aria-selected="true">الوحدة</button>
+        <button class="tab" role="tab" id="tab-guide" aria-controls="panel-guide" aria-selected="false" tabindex="-1">دليل المعلم</button>
+      </div>
+    </div>
+    <nav aria-label="مسار التعلم" id="progress-nav">
+      <ol class="progress" id="progress"></ol>
+    </nav>
+  </div>
+</header>
+
+<main>
+<!-- ================= لوحة الوحدة ================= -->
+<div id="panel-unit" role="tabpanel" aria-labelledby="tab-unit">
+
+  <!-- ١. البطاقة التعريفية -->
+  <section class="block" id="meta" data-step="0" aria-labelledby="h-meta">
+    <div class="block-head"><span class="num">١</span><h2 id="h-meta">البطاقة التعريفية للوحدة</h2></div>
+    <dl class="meta-grid">
+      <div class="meta-item"><dt>العنوان</dt><dd>دورة الماء في الطبيعة</dd></div>
+      <div class="meta-item"><dt>المادة</dt><dd>العلوم</dd></div>
+      <div class="meta-item"><dt>الفئة المستهدفة</dt><dd>المرحلة المتوسطة</dd></div>
+      <div class="meta-item"><dt>نمط التعلم</dt><dd>تعلم ذاتي</dd></div>
+      <div class="meta-item"><dt>الزمن</dt><dd>حصتان</dd></div>
+    </dl>
+    <div class="grid-2">
+      <div class="panel">
+        <h3 class="gold">الهدف العام</h3>
+        <p>أن يفسّر المتعلم دورة الماء في الطبيعة والعوامل المؤثرة فيها، ويوظّف معرفته في تفسير الظواهر المرتبطة بالماء.</p>
+        <div class="model-path" aria-label="مكونات الوحدة">
+          <span>الهدف</span>←<span>المحتوى</span>←<span>التطبيقات</span>←<span>التقييم</span>
+        </div>
+        <p class="note" style="margin-top:8px">إذا لم تتقن هدفاً في الاختبار الذاتي، تعود إلى الجزء الخاص به في المحتوى ثم تعيد المحاولة.</p>
+      </div>
+      <div class="panel">
+        <h3 class="gold">الأهداف التفصيلية</h3>
+        <p class="note">يُتوقع منك بعد دراسة هذه الوحدة أن:</p>
+        <ol class="objs">
+          <li>تعرّف مراحل دورة الماء.</li>
+          <li>تميّز بين التبخر والتكاثف والهطول والجريان السطحي.</li>
+          <li>ترتّب مراحل دورة الماء ترتيباً صحيحاً.</li>
+          <li>تفسّر أثر درجة الحرارة في معدل التبخر.</li>
+          <li>تحلّل أثر التغيرات البيئية في دورة الماء.</li>
+          <li>توظّف الأدلة العلمية في تفسير الظواهر المرتبطة بالماء.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ٢. التهيئة -->
+  <section class="block" id="warmup" data-step="0" aria-labelledby="h-warm">
+    <div class="block-head"><span class="num">٢</span><h2 id="h-warm">التهيئة: فكّر قبل أن تتعلم</h2></div>
+    <p class="hook-q">أين يذهب ماء البحر الذي تتبخره الشمس كل يوم؟</p>
+    <label class="field" for="prediction">اكتب توقعك بكلماتك (لا توجد إجابة خاطئة الآن، وسنعود إلى توقعك في نهاية الوحدة):</label>
+    <textarea id="prediction" placeholder="أتوقع أن ماء البحر المتبخر..."></textarea>
+    <div class="btn-row"><button class="btn btn-primary" id="save-prediction" type="button">احفظ توقعي</button></div>
+    <div class="msg" id="prediction-msg" role="status" aria-live="polite"></div>
+  </section>
+
+  <!-- ٣. المحتوى الرقمي -->
+  <section class="block" id="content" data-step="1" aria-labelledby="h-content">
+    <div class="block-head"><span class="num">٣</span><h2 id="h-content">المحتوى الرقمي: محاكاة دورة الماء</h2></div>
+    <p class="lead">اضغط على أي مرحلة في الرسم أو في الأزرار أسفله لتقرأ عنها، وحرّك منزلق درجة الحرارة لتلاحظ أثرها في تصاعد بخار الماء.</p>
+
+    <div class="sim-layout">
+      <div class="sub" id="content-stages">
+        <div class="sim-box">
+          <svg viewBox="0 0 800 460" role="img" aria-labelledby="sim-title" id="sim">
+            <title id="sim-title">محاكاة متحركة لدورة الماء: الشمس والبحر والجبل والسحب والمطر والجريان السطحي والتسرب</title>
+            <defs>
+              <linearGradient id="gSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#16406b"/><stop offset="1" stop-color="#5b9bc9"/></linearGradient>
+              <linearGradient id="gSea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1d7fc0"/><stop offset="1" stop-color="#0b3a66"/></linearGradient>
+              <linearGradient id="gLand" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6f8a55"/><stop offset="1" stop-color="#465c35"/></linearGradient>
+              <linearGradient id="gGround" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6b4d31"/><stop offset="1" stop-color="#3f2b1a"/></linearGradient>
+              <radialGradient id="gSun"><stop offset="0" stop-color="#fff3b0"/><stop offset=".55" stop-color="#ffcf4a"/><stop offset="1" stop-color="#ffb02e" stop-opacity="0"/></radialGradient>
+              <marker id="mArrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ffffff"/></marker>
+            </defs>
+            <style>
+              .drop{animation:fall 1s linear infinite}
+              @keyframes fall{0%{transform:translateY(-10px);opacity:0}15%{opacity:1}100%{transform:translateY(80px);opacity:0}}
+              .flow{animation:flow 1.6s linear infinite}
+              @keyframes flow{to{stroke-dashoffset:-52}}
+              .wisp{animation:wisp 2.6s ease-in infinite}
+              @keyframes wisp{0%{transform:translateY(0);opacity:0}30%{opacity:.9}100%{transform:translateY(-38px);opacity:0}}
+              .drift{animation:drift 7s ease-in-out infinite alternate}
+              @keyframes drift{to{transform:translateX(18px)}}
+            </style>
+            <!-- السماء -->
+            <rect width="800" height="460" fill="url(#gSky)"/>
+            <!-- الشمس -->
+            <g id="sun">
+              <circle id="sunGlow" cx="95" cy="80" r="75" fill="url(#gSun)" opacity=".6"/>
+              <circle cx="95" cy="80" r="36" fill="#ffd54f"/>
+            </g>
+            <!-- جسيمات بخار الماء -->
+            <g id="vapor" pointer-events="none"></g>
+            <!-- باطن الأرض -->
+            <rect x="330" y="385" width="470" height="75" fill="url(#gGround)"/>
+            <!-- اليابسة والجبل -->
+            <path d="M330,345 L400,330 L470,312 L540,250 L640,140 L700,190 L760,235 L800,250 L800,388 L330,388 Z" fill="url(#gLand)"/>
+            <path d="M640,140 L612,166 L628,162 L642,172 L656,160 L668,166 Z" fill="#eef4f7"/>
+            <!-- النبات (النتح) -->
+            <g class="stage-hit" data-stage="transp" tabindex="0" role="button" aria-label="النتح">
+              <rect x="449" y="282" width="12" height="36" fill="#6b4423"/>
+              <circle cx="455" cy="272" r="24" fill="#2f7d3a"/>
+              <circle cx="438" cy="284" r="15" fill="#358a41"/>
+              <circle cx="472" cy="284" r="15" fill="#358a41"/>
+              <g stroke="#e6f7ff" stroke-width="3" fill="none" stroke-linecap="round">
+                <path class="wisp" d="M442,246 q-5,-8 0,-16"/>
+                <path class="wisp" style="animation-delay:.9s" d="M458,242 q5,-8 0,-16"/>
+                <path class="wisp" style="animation-delay:1.7s" d="M472,248 q-5,-8 0,-16"/>
+              </g>
+              <g class="label" transform="translate(455,196)"><rect class="label-bg" x="-48" y="-21" width="96" height="40" rx="20"/><text class="label-tx" text-anchor="middle" y="8">النتح</text></g>
+            </g>
+            <!-- الجريان السطحي -->
+            <g class="stage-hit" data-stage="runoff" tabindex="0" role="button" aria-label="الجريان السطحي">
+              <path d="M615,190 C585,230 560,240 540,262 S470,300 440,320 S380,338 336,350" fill="none" stroke="#2f8fd0" stroke-width="9" stroke-linecap="round"/>
+              <path class="flow" d="M615,190 C585,230 560,240 540,262 S470,300 440,320 S380,338 336,350" fill="none" stroke="#bfe9ff" stroke-width="3" stroke-dasharray="14 12" stroke-linecap="round"/>
+              <g class="label" transform="translate(600,330)"><rect class="label-bg" x="-86" y="-21" width="172" height="40" rx="20"/><text class="label-tx" text-anchor="middle" y="8">الجريان السطحي</text></g>
+            </g>
+            <!-- التسرب -->
+            <g class="stage-hit" data-stage="infil" tabindex="0" role="button" aria-label="التسرب إلى باطن الأرض">
+              <rect x="330" y="386" width="470" height="74" fill="transparent"/>
+              <g stroke="#9fdcff" stroke-width="3" fill="none" stroke-linecap="round" marker-end="url(#mArrow)">
+                <path class="flow" stroke-dasharray="8 6" d="M560,300 L560,400"/>
+                <path class="flow" stroke-dasharray="8 6" d="M650,245 L650,400"/>
+                <path class="flow" stroke-dasharray="10 8" d="M760,440 L360,440"/>
+              </g>
+              <g class="label" transform="translate(690,412)"><rect class="label-bg" x="-54" y="-21" width="108" height="40" rx="20"/><text class="label-tx" text-anchor="middle" y="8">التسرب</text></g>
+            </g>
+            <!-- البحر والتبخر -->
+            <g class="stage-hit" data-stage="evap" tabindex="0" role="button" aria-label="التبخر">
+              <path d="M0,340 Q40,330 80,340 T160,340 T240,340 T320,340 L345,342 L345,460 L0,460 Z" fill="url(#gSea)"/>
+              <path d="M20,372 q20,-8 40,0 M120,392 q20,-8 40,0 M230,368 q20,-8 40,0 M70,420 q20,-8 40,0 M200,430 q20,-8 40,0" stroke="#7cc6f0" stroke-width="3" fill="none" stroke-linecap="round"/>
+              <rect x="0" y="180" width="340" height="160" fill="transparent"/>
+              <g class="label" transform="translate(120,300)"><rect class="label-bg" x="-52" y="-21" width="104" height="40" rx="20"/><text class="label-tx" text-anchor="middle" y="8">التبخر</text></g>
+            </g>
+            <!-- السحب والتكاثف -->
+            <g class="stage-hit" data-stage="cond" tabindex="0" role="button" aria-label="التكاثف">
+              <g class="drift" id="cloud">
+                <ellipse cx="560" cy="100" rx="120" ry="34" fill="#e8eef5"/>
+                <circle cx="505" cy="86" r="34" fill="#f2f6fa"/>
+                <circle cx="560" cy="70" r="44" fill="#f7fafc"/>
+                <circle cx="620" cy="84" r="36" fill="#eef3f8"/>
+                <ellipse cx="560" cy="112" rx="112" ry="20" fill="#c8d4e0"/>
+              </g>
+              <g class="label" transform="translate(395,70)"><rect class="label-bg" x="-56" y="-21" width="112" height="40" rx="20"/><text class="label-tx" text-anchor="middle" y="8">التكاثف</text></g>
+            </g>
+            <!-- الهطول -->
+            <g class="stage-hit" data-stage="precip" tabindex="0" role="button" aria-label="الهطول">
+              <rect x="520" y="125" width="150" height="90" fill="transparent"/>
+              <g stroke="#bfe6ff" stroke-width="3" stroke-linecap="round" id="rain"></g>
+              <g class="label" transform="translate(735,160)"><rect class="label-bg" x="-54" y="-21" width="108" height="40" rx="20"/><text class="label-tx" text-anchor="middle" y="8">الهطول</text></g>
+            </g>
+          </svg>
+          <div class="sim-caption">النقاط البيضاء المتصاعدة تمثّل جزيئات بخار الماء، وهو في الواقع غاز غير مرئي.</div>
+        </div>
+        <div class="stage-btns" role="group" aria-label="مراحل دورة الماء">
+          <button class="stage-btn" type="button" data-stage="evap" aria-pressed="false">التبخر</button>
+          <button class="stage-btn" type="button" data-stage="cond" aria-pressed="false">التكاثف</button>
+          <button class="stage-btn" type="button" data-stage="precip" aria-pressed="false">الهطول</button>
+          <button class="stage-btn" type="button" data-stage="runoff" aria-pressed="false">الجريان السطحي</button>
+          <button class="stage-btn" type="button" data-stage="infil" aria-pressed="false">التسرب</button>
+          <button class="stage-btn" type="button" data-stage="transp" aria-pressed="false">النتح</button>
+        </div>
+      </div>
+
+      <div style="display:grid;gap:16px">
+        <div class="panel stage-info" id="stage-info" role="region" aria-live="polite" aria-label="معلومات المرحلة">
+          <h3>اختر مرحلة</h3>
+          <p>اضغط على اسم أي مرحلة في الرسم أو في الأزرار لتظهر معلومات عنها هنا.</p>
+        </div>
+        <div class="panel temp-lab sub" id="temp-lab">
+          <h3 class="gold">مختبر درجة الحرارة</h3>
+          <div class="temp-read">
+            <label for="temp" class="field" style="margin:0">درجة حرارة سطح البحر</label>
+            <span class="temp-big" id="temp-val">٢٥°س</span>
+          </div>
+          <input type="range" id="temp" min="10" max="45" step="1" value="25" aria-valuetext="٢٥ درجة سيليزية">
+          <div class="range-ends" aria-hidden="true"><span>١٠°س</span><span>٤٥°س</span></div>
+          <div class="counter" aria-live="polite">
+            <div>معدل تصاعد بخار الماء</div>
+            <div><span class="val" id="rate-val">٧٫٧</span> <span>جسيم/ثانية</span></div>
+            <div class="meter" aria-hidden="true"><span id="rate-meter"></span></div>
+            <div id="rate-ratio" class="note"></div>
+          </div>
+          <p class="note" style="margin-top:8px">نموذج تقريبي يفترض ثبات الرطوبة وسرعة الرياح ومساحة سطح الماء؛ فلا يتغير فيه إلا درجة الحرارة.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-cards">
+      <div class="panel sub" id="content-order">
+        <h3 class="gold">تسلسل مراحل دورة الماء</h3>
+        <p>دورة الماء مستمرة لا بداية لها ولا نهاية، لكننا نبدأ وصفها عادةً من ماء البحر:</p>
+        <ol class="order-list" aria-label="ترتيب المراحل">
+          <li>١. التبخر</li><li class="arr" aria-hidden="true">←</li>
+          <li>٢. التكاثف</li><li class="arr" aria-hidden="true">←</li>
+          <li>٣. الهطول</li><li class="arr" aria-hidden="true">←</li>
+          <li>٤. الجريان السطحي والتسرب</li>
+        </ol>
+        <p>يتبخر الماء بحرارة الشمس، ثم يبرد البخار في طبقات الجو العليا فيتكاثف مكوّناً السحب، ثم يهطل، ثم يجري على سطح الأرض أو يتسرب إلى باطنها، ليعود في النهاية إلى البحار فتبدأ الدورة من جديد. ويضيف النتح من النباتات بخار ماء إلى الهواء أيضاً.</p>
+      </div>
+
+      <div class="panel sub" id="content-env">
+        <h3 class="gold">أثر التغيرات البيئية في دورة الماء</h3>
+        <ul class="env-list">
+          <li><strong class="teal">ارتفاع درجات الحرارة:</strong> يزيد معدل التبخر من البحار والبحيرات والتربة.</li>
+          <li><strong class="teal">قطع الأشجار والغابات:</strong> يقل النتح، ويقل تسرب الماء إلى التربة، فيزداد الجريان السطحي وانجراف التربة.</li>
+          <li><strong class="teal">الزحف العمراني ورصف الأرض بالإسفلت والخرسانة:</strong> هذه السطوح لا ينفذ منها الماء، فيقل التسرب ويزداد الجريان السطحي، وترتفع احتمالية حدوث السيول، وتقل تغذية المياه الجوفية.</li>
+          <li><strong class="teal">الإفراط في ضخ المياه الجوفية:</strong> يستنزف المخزون الجوفي بسرعة تفوق سرعة تعويضه بالتسرب.</li>
+        </ul>
+      </div>
+
+      <div class="panel sub" id="content-evidence">
+        <h3 class="gold">كيف نفسّر الظواهر بالأدلة العلمية؟</h3>
+        <p>التفسير العلمي يمر بثلاث خطوات: <strong>ملاحظة</strong> الظاهرة، ثم جمع <strong>الدليل</strong> الذي يمكن قياسه أو مشاهدته، ثم ربط الدليل <strong>بالمفهوم العلمي</strong> المناسب.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>الظاهرة</th><th>الدليل</th><th>التفسير العلمي</th></tr></thead>
+            <tbody>
+              <tr><td>قطرات ماء على السطح الخارجي لكوب بارد</td><td>لا تظهر القطرات على كوب فيه ماء دافئ، والزجاج لا ينفذ منه الماء</td><td>بخار الماء في الهواء يتكاثف عند ملامسة السطح البارد</td></tr>
+              <tr><td>تجف الملابس أسرع في اليوم الحار</td><td>ملابس متماثلة تجف في وقت أقل عندما تكون درجة الحرارة أعلى</td><td>ارتفاع درجة الحرارة يزيد معدل التبخر</td></tr>
+              <tr><td>الندى على أوراق النباتات صباحاً</td><td>يتكوّن في الليالي الصافية الباردة على السطوح التي تبرد، دون هطول مطر</td><td>تكاثف بخار الماء على السطوح الباردة</td></tr>
+              <tr><td>السيول في شوارع المدن بعد أمطار غزيرة</td><td>الماء يتجمع ويجري على الأسفلت، ويتسرب في التربة المكشوفة</td><td>السطوح المرصوفة تقلل التسرب وتزيد الجريان السطحي</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ٤. قاموس المصطلحات -->
+  <section class="block" id="glossary" data-step="1" aria-labelledby="h-gloss">
+    <div class="block-head"><span class="num">٤</span><h2 id="h-gloss">قاموس المصطلحات</h2></div>
+    <dl class="gloss">
+      <div><dt>التبخر</dt><dd>تحوّل الماء من الحالة السائلة إلى الحالة الغازية (بخار الماء)، ويحدث عند سطح الماء في أي درجة حرارة، ويزداد معدله بارتفاعها.</dd></div>
+      <div><dt>التكاثف</dt><dd>تحوّل بخار الماء من الحالة الغازية إلى الحالة السائلة عندما يبرد، وبه تتكوّن السحب والندى.</dd></div>
+      <div><dt>الهطول</dt><dd>سقوط الماء من الغلاف الجوي إلى سطح الأرض في صورة مطر أو ثلج أو بَرَد.</dd></div>
+      <div><dt>الجريان السطحي</dt><dd>جريان ماء الهطول على سطح الأرض دون أن يتسرب إلى باطنها، حتى يصل إلى الأودية والأنهار والبحيرات والبحار.</dd></div>
+      <div><dt>التسرب</dt><dd>نفاذ ماء الهطول عبر مسامات التربة وشقوق الصخور إلى باطن الأرض، ليكوّن المياه الجوفية.</dd></div>
+      <div><dt>النتح</dt><dd>خروج الماء من النبات إلى الهواء في صورة بخار ماء، عبر الثغور الموجودة غالباً في الأوراق.</dd></div>
+    </dl>
+  </section>
+
+  <!-- ٥. التطبيقات -->
+  <section class="block" id="apps" data-step="2" aria-labelledby="h-apps">
+    <div class="block-head"><span class="num">٥</span><h2 id="h-apps">التطبيقات: أربع مهام متدرجة</h2></div>
+    <p class="lead">المهام مرتبة حسب مستويات عمق المعرفة، من التذكر إلى التفكير الممتد.</p>
+
+    <!-- م١ -->
+    <div class="task panel" id="task1">
+      <div class="task-head"><span class="chip gold">المستوى ١: التذكر</span><h3>رتّب مراحل دورة الماء</h3></div>
+      <p>رتّب المراحل من الأعلى إلى الأسفل بدءاً من ماء البحر. اسحب البطاقة بالفأرة أو بإصبعك، أو استخدم زرّي ▲ ▼.</p>
+      <ol class="sort-list" id="sort-list" aria-label="بطاقات المراحل">
+        <li class="sort-item" data-id="precip"><span class="grip" aria-hidden="true">⠿</span><span class="name">الهطول</span><button class="mv up" type="button" aria-label="انقل الهطول إلى أعلى">▲</button><button class="mv down" type="button" aria-label="انقل الهطول إلى أسفل">▼</button></li>
+        <li class="sort-item" data-id="evap"><span class="grip" aria-hidden="true">⠿</span><span class="name">التبخر</span><button class="mv up" type="button" aria-label="انقل التبخر إلى أعلى">▲</button><button class="mv down" type="button" aria-label="انقل التبخر إلى أسفل">▼</button></li>
+        <li class="sort-item" data-id="runoff"><span class="grip" aria-hidden="true">⠿</span><span class="name">الجريان السطحي</span><button class="mv up" type="button" aria-label="انقل الجريان السطحي إلى أعلى">▲</button><button class="mv down" type="button" aria-label="انقل الجريان السطحي إلى أسفل">▼</button></li>
+        <li class="sort-item" data-id="cond"><span class="grip" aria-hidden="true">⠿</span><span class="name">التكاثف</span><button class="mv up" type="button" aria-label="انقل التكاثف إلى أعلى">▲</button><button class="mv down" type="button" aria-label="انقل التكاثف إلى أسفل">▼</button></li>
+      </ol>
+      <div class="btn-row"><button class="btn btn-primary" id="check-order" type="button">تحقّق من الترتيب</button><button class="btn btn-secondary" id="reset-order" type="button">أعد الترتيب</button></div>
+      <div class="msg" id="order-msg" role="status" aria-live="polite"></div>
+      <p class="sr-only" id="sort-live" aria-live="polite"></p>
+    </div>
+
+    <!-- م٢ -->
+    <div class="task panel" id="task2">
+      <div class="task-head"><span class="chip gold">المستوى ٢: تطبيق المفاهيم</span><h3>تبخر أم تكاثف؟</h3></div>
+      <p>صنّف كل موقف من المواقف الحياتية الآتية.</p>
+      <ul class="classify" id="classify"></ul>
+      <div class="msg" id="classify-msg" role="status" aria-live="polite"></div>
+    </div>
+
+    <!-- م٣ -->
+    <div class="task panel" id="task3">
+      <div class="task-head"><span class="chip gold">المستوى ٣: التفكير الاستراتيجي</span><h3>فسّر الظاهرة</h3></div>
+      <label class="field" for="explain">لماذا تجف الملابس المنشورة في يوم حار أسرع منها في يوم بارد؟ اكتب تفسيرك العلمي.</label>
+      <textarea id="explain" placeholder="تجف الملابس أسرع لأن..."></textarea>
+      <div class="btn-row"><button class="btn btn-primary" id="compare-explain" type="button">قارن إجابتك</button></div>
+      <div class="msg" id="explain-msg" role="status" aria-live="polite"></div>
+      <div id="explain-model" hidden>
+        <div class="grid-2" style="margin-top:14px">
+          <div class="panel" style="background:var(--card)">
+            <h4 class="gold">الإجابة النموذجية</h4>
+            <p>تجف الملابس لأن الماء الموجود فيها يتبخر، أي يتحول من الحالة السائلة إلى بخار ماء ينتشر في الهواء. وفي اليوم الحار ترتفع درجة الحرارة فتزداد طاقة جزيئات الماء وسرعة حركتها، فيزداد عدد الجزيئات التي تفلت من سطح الملابس إلى الهواء في كل ثانية؛ لذلك يزداد معدل التبخر وتجف الملابس في وقت أقل.</p>
+          </div>
+          <div class="panel" style="background:var(--card)">
+            <h4 class="gold">معيار التصحيح: ضع علامة على كل عنصر ورد في إجابتك</h4>
+            <ul class="rubric" id="rubric">
+              <li><label><input type="checkbox"> <span><strong>المفهوم:</strong> ذكرتُ أن الملابس تجف بسبب تبخر الماء منها (تحوّله من سائل إلى غاز).</span></label></li>
+              <li><label><input type="checkbox"> <span><strong>السبب:</strong> ربطتُ ارتفاع درجة الحرارة بزيادة طاقة جزيئات الماء وسرعة حركتها.</span></label></li>
+              <li><label><input type="checkbox"> <span><strong>النتيجة:</strong> استنتجتُ أن معدل التبخر يزداد فتجف الملابس في وقت أقل.</span></label></li>
+            </ul>
+            <p class="msg" id="rubric-score" aria-live="polite">حققتَ ٠ من ٣ عناصر.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- م٤ -->
+    <div class="task panel" id="task4">
+      <div class="task-head"><span class="chip gold">المستوى ٤: التفكير الممتد</span><h3>صمّم تجربة</h3></div>
+      <p>صمّم تجربة تدرس فيها أثر درجة الحرارة في معدل تبخر الماء، ثم قارن تصميمك بالتصميم النموذجي.</p>
+      <form id="design-form" novalidate>
+        <div class="design-grid">
+          <div><label class="field" for="d-q">سؤال التجربة</label><textarea id="d-q" data-key="q" rows="2"></textarea></div>
+          <div><label class="field" for="d-h">الفرضية</label><textarea id="d-h" data-key="h" rows="2"></textarea></div>
+          <div><label class="field" for="d-iv">المتغير المستقل</label><input type="text" id="d-iv" data-key="iv"></div>
+          <div><label class="field" for="d-dv">المتغير التابع</label><input type="text" id="d-dv" data-key="dv"></div>
+          <div><label class="field" for="d-cv">المتغيرات الثابتة</label><textarea id="d-cv" data-key="cv" rows="2"></textarea></div>
+          <div><label class="field" for="d-tools">الأدوات</label><textarea id="d-tools" data-key="tools" rows="2"></textarea></div>
+        </div>
+        <div class="btn-row"><button class="btn btn-primary" type="submit" id="design-submit">اعرض التصميم النموذجي للمقارنة</button></div>
+      </form>
+      <div class="msg" id="design-msg" role="status" aria-live="polite"></div>
+      <div id="design-model" hidden>
+        <h4 class="gold" style="margin-top:14px">قارن تصميمك بالتصميم النموذجي</h4>
+        <div class="cmp" id="design-cmp"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ٦. الاختبار الذاتي -->
+  <section class="block" id="quiz" data-step="3" aria-labelledby="h-quiz">
+    <div class="block-head"><span class="num">٦</span><h2 id="h-quiz">الاختبار الذاتي</h2></div>
+    <p class="lead" id="quiz-intro">ثمانية أسئلة تقيس أهداف الوحدة الستة. اختر إجابة واحدة لكل سؤال، وستظهر لك تغذية راجعة فورية. معيار الإتقان: ٨٠٪ فأكثر.</p>
+    <div id="quiz-list"></div>
+    <p class="q-status" id="quiz-status" aria-live="polite"></p>
+    <div class="btn-row"><button class="btn btn-primary" id="show-result" type="button" disabled>اعرض نتيجتي</button></div>
+  </section>
+
+  <!-- ٧. التغذية الراجعة والإتقان -->
+  <section class="block" id="feedback" data-step="4" aria-labelledby="h-fb" hidden>
+    <div class="block-head"><span class="num">٧</span><h2 id="h-fb">التغذية الراجعة والإتقان</h2></div>
+    <p>نتيجتك: <span class="score" id="score">٠٪</span> <span id="score-detail" class="note"></span></p>
+
+    <div id="remedial" hidden>
+      <div class="msg bad"><strong class="badc">لم تبلغ مستوى الإتقان بعد (٨٠٪).</strong> لا بأس؛ راجع الجزء المرتبط بكل هدف لم تتقنه، ثم أعد الأسئلة التي أخطأت فيها فقط.</div>
+      <h3 style="margin-top:16px">الأهداف التي تحتاج إلى مراجعة</h3>
+      <ul class="obj-miss" id="obj-miss"></ul>
+      <div class="btn-row"><button class="btn btn-primary" id="retry-wrong" type="button" disabled>أعد الأسئلة الخاطئة فقط</button></div>
+      <p class="note" id="retry-hint">راجع جزءاً واحداً على الأقل من المحتوى ليتاح لك زر إعادة الأسئلة.</p>
+    </div>
+
+    <div id="mastery" class="sub" hidden>
+      <div class="mastery-card">
+        <div class="medal" aria-hidden="true">🏅</div>
+        <h3 class="gold" style="font-size:1.6rem">مبارك! لقد أتقنت أهداف الوحدة</h3>
+        <p>أصبحت قادراً على تفسير دورة الماء في الطبيعة والعوامل المؤثرة فيها.</p>
+        <div class="pred-box">
+          <strong class="teal">توقعك الأول في بداية الوحدة:</strong>
+          <blockquote id="pred-show"></blockquote>
+        </div>
+        <div class="pred-box">
+          <strong class="gold">التفسير العلمي الآن:</strong>
+          <blockquote>لا يختفي ماء البحر المتبخر، بل يرتفع بخاراً في الهواء، ثم يبرد في طبقات الجو العليا فيتكاثف مكوّناً السحب، ثم يهطل مطراً أو ثلجاً أو بَرَداً، فيجري على سطح الأرض أو يتسرب إلى باطنها، ثم يعود إلى البحار من جديد في دورة مستمرة.</blockquote>
+        </div>
+        <p style="margin-top:14px">قارن توقعك الأول بالتفسير العلمي: ما الذي تغيّر في فهمك؟</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ================= دليل المعلم ================= -->
+<div id="panel-guide" role="tabpanel" aria-labelledby="tab-guide" hidden>
+  <section class="block guide" aria-labelledby="h-guide">
+    <div class="block-head"><span class="num">📘</span><h2 id="h-guide">دليل المعلم</h2></div>
+
+    <h3>الهدف من الوحدة</h3>
+    <p>تمكين طالب المرحلة المتوسطة من تفسير دورة الماء في الطبيعة والعوامل المؤثرة فيها، وتوظيف معرفته في تفسير الظواهر المرتبطة بالماء، من خلال التعلم الذاتي. وتتبع الوحدة نموذج وحدة التعلم الرقمية (عمر، ٢٠٢٠) بمكوناته الأربعة المترابطة: الهدف ← المحتوى ← التطبيقات ← التقييم، مع عودة الطالب إلى المحتوى إذا لم يتقن الهدف.</p>
+
+    <h3>خطة التنفيذ في حصتين</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>الحصة</th><th>الزمن</th><th>الجزء</th><th>ما يحدث</th></tr></thead>
+        <tbody>
+          <tr><td rowspan="6">الأولى</td><td>٥ دقائق</td><td>التهيئة</td><td>يقرأ الطالب السؤال المثير ويكتب توقعه ويحفظه.</td></tr>
+          <tr><td>٣ دقائق</td><td>البطاقة التعريفية</td><td>يطّلع الطالب على الأهداف ومسار الوحدة.</td></tr>
+          <tr><td>١٧ دقيقة</td><td>المحاكاة</td><td>يستكشف المراحل الست، ويجرّب منزلق درجة الحرارة ويسجّل ملاحظاته.</td></tr>
+          <tr><td>٥ دقائق</td><td>قاموس المصطلحات</td><td>يراجع التعريفات الدقيقة للمصطلحات الست.</td></tr>
+          <tr><td>١٢ دقيقة</td><td>المهمتان م١ وم٢</td><td>يرتّب المراحل، ويصنّف المواقف الحياتية مع تغذية راجعة فورية.</td></tr>
+          <tr><td>٣ دقائق</td><td>ختام</td><td>يلخّص المعلم أبرز الملاحظات ويحدد نقطة البدء في الحصة التالية.</td></tr>
+          <tr><td rowspan="5">الثانية</td><td>٨ دقائق</td><td>المحتوى (تتمة)</td><td>يدرس الطالب أثر التغيرات البيئية وجدول تفسير الظواهر بالأدلة.</td></tr>
+          <tr><td>٧ دقائق</td><td>المهمة م٣</td><td>يكتب تفسيره لجفاف الملابس، ثم يقارنه بالإجابة النموذجية ومعيار التصحيح.</td></tr>
+          <tr><td>١٠ دقائق</td><td>المهمة م٤</td><td>يصمّم تجربة لأثر درجة الحرارة في معدل التبخر ويقارنها بالتصميم النموذجي.</td></tr>
+          <tr><td>١٢ دقيقة</td><td>الاختبار الذاتي</td><td>يجيب عن الأسئلة الثمانية مع تغذية راجعة فورية.</td></tr>
+          <tr><td>٨ دقائق</td><td>التغذية الراجعة والإتقان</td><td>يطّلع على نتيجته؛ فإن لم يتقن عاد إلى المحتوى ثم أعاد الأسئلة الخاطئة، وإن أتقن قارن توقعه الأول بالتفسير العلمي.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid-2" style="margin-top:18px">
+      <div class="panel">
+        <h3 style="margin-top:0">دور المعلم</h3>
+        <ul>
+          <li>ميسّر وموجّه لعملية التعلم الذاتي، لا ناقل للمعلومات.</li>
+          <li>يوضح مسار الوحدة ومعيار الإتقان في بداية الحصة الأولى.</li>
+          <li>يطرح أسئلة سابرة أثناء استكشاف المحاكاة، مثل: ماذا يحدث لمعدل التبخر إذا ارتفعت درجة الحرارة؟</li>
+          <li>يتابع تقدم الطلاب ويقدم دعماً فردياً لمن يحتاجه.</li>
+          <li>يراجع إجابات المهمتين م٣ وم٤ ويناقش أفضلها مع الصف.</li>
+          <li>يتابع الطلاب الذين لم يبلغوا الإتقان ويتأكد من عودتهم إلى المحتوى المناسب.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3 style="margin-top:0">دور المتعلم</h3>
+        <ul>
+          <li>يسير في الوحدة بنفسه وفق سرعته الخاصة.</li>
+          <li>يسجّل توقعه الأول بصدق قبل دراسة المحتوى.</li>
+          <li>يستكشف المحاكاة ويغيّر درجة الحرارة ويلاحظ النتائج.</li>
+          <li>ينفّذ المهام الأربع ويقارن إجاباته بالنماذج بأمانة.</li>
+          <li>يؤدي الاختبار الذاتي، ويعود إلى المحتوى عند الحاجة حتى يتقن الأهداف.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="margin-top:18px">أساليب التقويم</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>النوع</th><th>الأداة في الوحدة</th><th>الغرض</th></tr></thead>
+        <tbody>
+          <tr><td>القبلي</td><td>سؤال التهيئة: «أين يذهب ماء البحر الذي تتبخره الشمس كل يوم؟»</td><td>الكشف عن معرفة الطالب السابقة وتصوراته البديلة، ثم مقارنتها بفهمه في نهاية الوحدة.</td></tr>
+          <tr><td>التكويني</td><td>المهام م١–م٤ بتغذية راجعة فورية، ومعيار التصحيح الذاتي في م٣، والتصميم النموذجي في م٤، وملاحظة المعلم.</td><td>متابعة التعلم أثناء حدوثه وتصحيح الأخطاء أولاً بأول.</td></tr>
+          <tr><td>الختامي</td><td>الاختبار الذاتي (٨ أسئلة تغطي الأهداف الستة والمستويات من الأول إلى الثالث) بمعيار إتقان ٨٠٪.</td><td>الحكم على إتقان الأهداف، وتوجيه غير المتقن إلى المحتوى العلاجي المرتبط بالهدف.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+</main>
+
+<div class="review-bar" id="review-bar" hidden>
+  <div class="review-bar-inner">
+    <span id="review-text">أنت الآن تراجع المحتوى.</span>
+    <div class="btn-row inline" style="margin:0">
+      <button class="btn btn-secondary" id="back-feedback" type="button">العودة إلى النتيجة</button>
+      <button class="btn btn-primary" id="bar-retry" type="button">أعد الأسئلة الخاطئة فقط</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+'use strict';
+var $=function(s,r){return (r||document).querySelector(s);};
+var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s));};
+var AR='٠١٢٣٤٥٦٧٨٩';
+function toAr(v){return String(v).replace(/[0-9]/g,function(d){return AR[d];}).replace('.', '٫');}
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+
+/* حالة الطالب: في الذاكرة فقط أثناء الجلسة */
+var state={prediction:'',reached:[false,false,false,false,false,false],current:0,answers:{},retryIds:null,resultsShown:false,mastered:false,reviewed:false,score:0};
+
+/* ===== التبويبات ===== */
+var tabs=$$('[role=tab]');
+function showTab(id){
+  tabs.forEach(function(t){
+    var on=t.id===id;
+    t.setAttribute('aria-selected',on?'true':'false');
+    t.tabIndex=on?0:-1;
+    document.getElementById(t.getAttribute('aria-controls')).hidden=!on;
+  });
+  $('#progress-nav').hidden=id!=='tab-unit';
+  if(id!=='tab-unit') $('#review-bar').hidden=true;
+  updateHeaderH();
+}
+tabs.forEach(function(t,i){
+  t.addEventListener('click',function(){showTab(t.id);});
+  t.addEventListener('keydown',function(e){
+    if(e.key==='ArrowLeft'||e.key==='ArrowRight'){
+      var n=tabs[(i+1)%tabs.length]; showTab(n.id); n.focus(); e.preventDefault();
+    }
+  });
+});
+function updateHeaderH(){document.documentElement.style.setProperty('--header-h',$('.topbar').offsetHeight+'px');}
+window.addEventListener('resize',updateHeaderH);
+
+/* ===== شريط التقدم ===== */
+var STEPS=[
+  {label:'الهدف',target:'#meta'},
+  {label:'المحتوى',target:'#content'},
+  {label:'التطبيق',target:'#apps'},
+  {label:'التقويم',target:'#quiz'},
+  {label:'التغذية الراجعة',target:'#feedback'},
+  {label:'الإتقان',target:'#mastery'}
+];
+var progress=$('#progress');
+STEPS.forEach(function(s,i){
+  var li=document.createElement('li');
+  li.innerHTML='<button type="button" class="step" data-i="'+i+'"><span class="dot">'+toAr(i+1)+'</span><span>'+s.label+'</span></button>';
+  progress.appendChild(li);
+});
+function stepDone(i){
+  if(i===0) return !!state.prediction||state.reached[1];
+  if(i===1) return state.reached[2];
+  if(i===2) return state.reached[3];
+  if(i===3) return state.resultsShown;
+  return state.mastered;
+}
+function renderProgress(){
+  $$('.step',progress).forEach(function(b,i){
+    var done=stepDone(i), cur=i===state.current;
+    b.classList.toggle('is-done',done);
+    b.classList.toggle('is-current',cur);
+    if(cur) b.setAttribute('aria-current','step'); else b.removeAttribute('aria-current');
+    b.disabled=(i===4&&!state.resultsShown)||(i===5&&!state.mastered);
+    b.setAttribute('aria-label',STEPS[i].label+(done?' (مكتمل)':'')+(cur?' (الحالي)':''));
+  });
+}
+progress.addEventListener('click',function(e){
+  var b=e.target.closest('.step'); if(!b||b.disabled) return;
+  var el=$(STEPS[+b.dataset.i].target); if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+});
+var io=new IntersectionObserver(function(entries){
+  entries.forEach(function(en){
+    if(!en.isIntersecting) return;
+    var s=+en.target.dataset.step;
+    if(en.target.id==='feedback'&&state.mastered) s=5;
+    state.current=s;
+    for(var k=0;k<=s;k++) state.reached[k]=true;
+    renderProgress();
+  });
+},{rootMargin:'-40% 0px -55% 0px'});
+$$('section[data-step]').forEach(function(s){io.observe(s);});
+
+/* ===== التهيئة ===== */
+$('#save-prediction').addEventListener('click',function(){
+  var v=$('#prediction').value.trim(), m=$('#prediction-msg');
+  if(!v){m.className='msg bad';m.textContent='اكتب توقعك أولاً، ولو بجملة واحدة.';$('#prediction').focus();return;}
+  state.prediction=v;
+  m.className='msg ok';
+  m.innerHTML='<strong class="okc">حُفظ توقعك.</strong> انتقل الآن إلى المحتوى، وستجد توقعك في نهاية الوحدة لتقارنه بما تعلمته.';
+  renderProgress();
+});
+
+/* ===== المحاكاة: المراحل ===== */
+var STAGES={
+  evap:{t:'التبخر',p:'تُسخّن أشعة الشمس ماء البحار والمحيطات والبحيرات، فيتحول جزء منه من الحالة السائلة إلى بخار ماء غير مرئي يرتفع في الهواء. ويزداد معدل التبخر كلما ارتفعت درجة الحرارة.'},
+  cond:{t:'التكاثف',p:'يبرد بخار الماء كلما ارتفع إلى طبقات الجو العليا، فيتحول إلى قطيرات ماء دقيقة جداً أو بلورات ثلج تتجمع حول دقائق الغبار، فتتكوّن السحب.'},
+  precip:{t:'الهطول',p:'عندما تتجمع القطيرات في السحب وتكبر ويزداد وزنها، تسقط إلى سطح الأرض في صورة مطر أو ثلج أو بَرَد.'},
+  runoff:{t:'الجريان السطحي',p:'يجري جزء من ماء الهطول على سطح الأرض في الأودية والأنهار، ويصل في النهاية إلى البحيرات والبحار والمحيطات.'},
+  infil:{t:'التسرب',p:'يتسرب جزء من ماء الهطول عبر مسامات التربة وشقوق الصخور إلى باطن الأرض، فيكوّن المياه الجوفية التي قد تعود ببطء إلى البحار.'},
+  transp:{t:'النتح',p:'تمتص النباتات الماء من التربة بجذورها، ثم يخرج جزء منه إلى الهواء في صورة بخار ماء عبر الثغور الموجودة غالباً في أوراقها.'}
+};
+function showStage(id){
+  var s=STAGES[id]; if(!s) return;
+  var box=$('#stage-info');
+  box.innerHTML='<h3>'+s.t+'</h3><p>'+s.p+'</p>';
+  $$('.stage-btn').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.stage===id?'true':'false');});
+  $$('#sim .stage-hit').forEach(function(g){g.classList.toggle('active',g.dataset.stage===id);});
+}
+$$('.stage-btn').forEach(function(b){b.addEventListener('click',function(){showStage(b.dataset.stage);});});
+$$('#sim .stage-hit').forEach(function(g){
+  g.addEventListener('click',function(){showStage(g.dataset.stage);});
+  g.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();showStage(g.dataset.stage);}});
+});
+
+/* المطر */
+var NS='http://www.w3.org/2000/svg', rain=$('#rain');
+for(var r=0;r<16;r++){
+  var ln=document.createElementNS(NS,'line');
+  var x=532+(r*8.3)%128, y=132+(r*13)%30;
+  ln.setAttribute('x1',x);ln.setAttribute('y1',y);ln.setAttribute('x2',x-3);ln.setAttribute('y2',y+14);
+  ln.setAttribute('class','drop');ln.style.animationDelay=(-(r*0.137)%1).toFixed(2)+'s';
+  rain.appendChild(ln);
+}
+
+/* ===== المحاكاة: درجة الحرارة وتصاعد البخار ===== */
+/* ضغط البخار المشبع (صيغة ماغنوس) يتناسب معه معدل التبخر تقريباً عند ثبات الرطوبة والرياح */
+function es(T){return 6.112*Math.exp(17.62*T/(243.12+T));}
+var BASE=3, TMIN=10, TMAX=45;
+function rateAt(T){return BASE*es(T)/es(TMIN);}
+var RMAX=rateAt(TMAX);
+var temp=25, rate=rateAt(25);
+var vapor=$('#vapor'), parts=[], pool=[], acc=0, last=null;
+function levelName(T){return T<18?'منخفض':T<28?'متوسط':T<37?'مرتفع':'مرتفع جداً';}
+function setTemp(T){
+  temp=T; rate=rateAt(T);
+  $('#temp-val').textContent=toAr(T)+'°س';
+  $('#temp').setAttribute('aria-valuetext',toAr(T)+' درجة سيليزية');
+  $('#rate-val').textContent=toAr(rate.toFixed(1));
+  $('#rate-meter').style.width=(rate/RMAX*100).toFixed(1)+'%';
+  $('#rate-ratio').textContent='المعدل '+levelName(T)+'؛ أي نحو '+toAr((rate/BASE).toFixed(1))+' ضعف معدله عند ١٠°س.';
+  var k=(T-TMIN)/(TMAX-TMIN);
+  var g=$('#sunGlow'); g.setAttribute('r',(58+k*42).toFixed(0)); g.setAttribute('opacity',(0.3+k*0.65).toFixed(2));
+}
+$('#temp').addEventListener('input',function(e){setTemp(+e.target.value);});
+setTemp(25);
+
+function spawn(){
+  var c=pool.pop()||document.createElementNS(NS,'circle');
+  c.setAttribute('r',(2.5+Math.random()*2.5).toFixed(1));
+  c.setAttribute('fill','#f2fbff');
+  vapor.appendChild(c);
+  var x0=20+Math.random()*300;
+  parts.push({el:c,x0:x0,y0:338,x1:450+Math.random()*120,y1:95+Math.random()*25,age:0,life:3.6+Math.random()*1.2,ph:Math.random()*6});
+}
+function tick(t){
+  if(last===null) last=t;
+  var dt=Math.min(0.05,(t-last)/1000); last=t;
+  acc+=rate*dt;
+  while(acc>=1){acc-=1;spawn();}
+  for(var i=parts.length-1;i>=0;i--){
+    var p=parts[i]; p.age+=dt; var k=p.age/p.life;
+    if(k>=1){vapor.removeChild(p.el);pool.push(p.el);parts.splice(i,1);continue;}
+    var e=k*k*(3-2*k);
+    var x=p.x0+(p.x1-p.x0)*e+Math.sin(p.age*3+p.ph)*6;
+    var y=p.y0+(p.y1-p.y0)*k;
+    p.el.setAttribute('cx',x.toFixed(1));p.el.setAttribute('cy',y.toFixed(1));
+    p.el.setAttribute('opacity',(k<0.15?k/0.15:k>0.8?(1-k)/0.2:1)*0.9);
+  }
+  requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);
+
+/* ===== م١: السحب والإفلات ===== */
+var CORRECT_ORDER=['evap','cond','precip','runoff'];
+var INITIAL_ORDER=['precip','evap','runoff','cond'];
+var sortList=$('#sort-list');
+function clearOrderMarks(){$$('.sort-item',sortList).forEach(function(li){li.classList.remove('right','wrong');});$('#order-msg').textContent='';$('#order-msg').className='msg';}
+function announce(item){
+  var pos=$$('.sort-item',sortList).indexOf(item)+1;
+  $('#sort-live').textContent=$('.name',item).textContent+' في الموضع '+toAr(pos);
+}
+function baseTop(el){var t=el.style.transform;el.style.transform='';var top=el.getBoundingClientRect().top;el.style.transform=t;return top;}
+var drag=null;
+sortList.addEventListener('pointerdown',function(e){
+  var item=e.target.closest('.sort-item');
+  if(!item||e.target.closest('button')||(e.pointerType==='mouse'&&e.button!==0)) return;
+  e.preventDefault();
+  try{item.setPointerCapture(e.pointerId);}catch(err){}
+  drag={item:item,id:e.pointerId,offset:e.clientY-baseTop(item)};
+  item.classList.add('dragging');
+  clearOrderMarks();
+});
+sortList.addEventListener('pointermove',function(e){
+  if(!drag||e.pointerId!==drag.id) return;
+  var item=drag.item, want=e.clientY-drag.offset, center=want+item.offsetHeight/2;
+  var before=null, others=$$('.sort-item',sortList).filter(function(x){return x!==item;});
+  for(var i=0;i<others.length;i++){var rc=others[i].getBoundingClientRect(); if(center<rc.top+rc.height/2){before=others[i];break;}}
+  if(item.nextElementSibling!==before) sortList.insertBefore(item,before);
+  item.style.transform='translateY('+(want-baseTop(item)).toFixed(1)+'px)';
+});
+function endDrag(e){
+  if(!drag||e.pointerId!==drag.id) return;
+  drag.item.style.transform='';drag.item.classList.remove('dragging');
+  announce(drag.item);drag=null;
+}
+sortList.addEventListener('pointerup',endDrag);
+sortList.addEventListener('pointercancel',endDrag);
+sortList.addEventListener('click',function(e){
+  var b=e.target.closest('.mv'); if(!b) return;
+  var item=b.closest('.sort-item');
+  if(b.classList.contains('up')&&item.previousElementSibling) sortList.insertBefore(item,item.previousElementSibling);
+  else if(b.classList.contains('down')&&item.nextElementSibling) sortList.insertBefore(item.nextElementSibling,item);
+  b.focus(); clearOrderMarks(); announce(item);
+});
+$('#check-order').addEventListener('click',function(){
+  var items=$$('.sort-item',sortList), n=0;
+  items.forEach(function(li,i){var ok=li.dataset.id===CORRECT_ORDER[i]; if(ok)n++; li.classList.toggle('right',ok); li.classList.toggle('wrong',!ok);});
+  var m=$('#order-msg');
+  if(n===4){
+    m.className='msg ok';m.dataset.result='correct';
+    m.innerHTML='<strong class="okc">ترتيب صحيح، أحسنت!</strong> يتبخر ماء البحر، ثم يتكاثف البخار مكوّناً السحب، ثم يهطل، ثم يجري على سطح الأرض عائداً إلى البحر.';
+  }else{
+    m.className='msg bad';m.dataset.result='wrong';
+    m.innerHTML='<strong class="badc">الترتيب غير صحيح.</strong> عدد المراحل في موضعها الصحيح: '+toAr(n)+' من ٤. تلميح: لا يتكاثف البخار قبل أن يتكوّن، ولا يهطل الماء قبل أن تتكوّن السحب.';
+  }
+});
+$('#reset-order').addEventListener('click',function(){
+  INITIAL_ORDER.forEach(function(id){sortList.appendChild($('.sort-item[data-id="'+id+'"]',sortList));});
+  clearOrderMarks();
+});
+
+/* ===== م٢: التصنيف ===== */
+var SITUATIONS=[
+  {t:'تكوّن قطرات ماء على السطح الخارجي لكوب فيه ماء بارد.',a:'cond',why:'بخار الماء في الهواء يبرد عند ملامسة سطح الكوب البارد فيتحول إلى قطرات ماء.'},
+  {t:'جفاف بركة ماء صغيرة بعد عدة أيام مشمسة.',a:'evap',why:'حرارة الشمس حوّلت ماء البركة من الحالة السائلة إلى بخار ماء انتشر في الهواء.'},
+  {t:'تكوّن ضباب على مرآة الحمّام بعد الاستحمام بماء دافئ.',a:'cond',why:'بخار الماء الدافئ يبرد عند ملامسة سطح المرآة البارد فيتحول إلى قطيرات دقيقة.'},
+  {t:'جفاف أرض الفصل المبللة بعد مسحها بقليل.',a:'evap',why:'الماء على الأرض يتحول إلى بخار ماء، فتجف الأرض.'},
+  {t:'ظهور قطرات الندى على أوراق النباتات في الصباح الباكر.',a:'cond',why:'في الليل تبرد الأوراق، فيتكاثف عليها بخار الماء الموجود في الهواء.'},
+  {t:'تجمّع الملح في أحواض الملّاحات بعد تعرّض ماء البحر لأشعة الشمس.',a:'evap',why:'يتبخر الماء من الأحواض ويبقى الملح؛ لأن الملح لا يتبخر مع الماء.'}
+];
+var clBox=$('#classify'), clDone={};
+SITUATIONS.forEach(function(s,i){
+  var li=document.createElement('li'); li.className='cl-item'; li.dataset.i=i;
+  li.innerHTML='<p>'+toAr(i+1)+'. '+s.t+'</p><div class="cl-btns" role="group" aria-label="صنّف الموقف '+toAr(i+1)+'"><button type="button" class="btn btn-secondary" data-a="evap">تبخر</button><button type="button" class="btn btn-secondary" data-a="cond">تكاثف</button></div><div class="cl-fb" aria-live="polite"></div>';
+  clBox.appendChild(li);
+});
+clBox.addEventListener('click',function(e){
+  var b=e.target.closest('button[data-a]'); if(!b) return;
+  var li=b.closest('.cl-item'), s=SITUATIONS[+li.dataset.i], ok=b.dataset.a===s.a, fb=$('.cl-fb',li);
+  li.classList.toggle('right',ok); li.classList.toggle('wrong',!ok);
+  if(ok){
+    fb.innerHTML='<strong class="okc" style="color:var(--ok)">صحيح: '+(s.a==='evap'?'تبخر':'تكاثف')+'.</strong> '+s.why;
+    $$('button',li).forEach(function(x){x.disabled=true;});
+    clDone[li.dataset.i]=true;
+  }else{
+    fb.innerHTML='<strong style="color:var(--bad)">ليس صحيحاً.</strong> اسأل نفسك: هل تحوّل الماء هنا من سائل إلى غاز، أم من غاز إلى سائل؟ حاول مرة أخرى.';
+  }
+  var n=Object.keys(clDone).length, m=$('#classify-msg');
+  if(n===SITUATIONS.length){m.className='msg ok';m.innerHTML='<strong class="okc">أحسنت!</strong> صنّفت المواقف الستة كلها تصنيفاً صحيحاً. التبخر: سائل ← غاز، والتكاثف: غاز ← سائل.';}
+  else{m.className='msg';m.textContent='صنّفت '+toAr(n)+' من ٦ مواقف تصنيفاً صحيحاً.';}
+});
+
+/* ===== م٣: السؤال التفسيري ===== */
+$('#compare-explain').addEventListener('click',function(){
+  var v=$('#explain').value.trim(), m=$('#explain-msg');
+  if(v.length<10){m.className='msg bad';m.textContent='اكتب تفسيرك أولاً (جملة واحدة على الأقل)، ثم قارن.';$('#explain').focus();return;}
+  m.className='msg ok';m.textContent='قارن إجابتك بالإجابة النموذجية، ثم ضع علامة على عناصر معيار التصحيح التي حققتها.';
+  $('#explain-model').hidden=false;
+});
+$('#rubric').addEventListener('change',function(){
+  var n=$$('#rubric input:checked').length, m=$('#rubric-score');
+  m.textContent='حققتَ '+toAr(n)+' من ٣ عناصر.'+(n===3?' تفسير علمي متكامل!':' راجع العنصر الناقص وأضفه إلى إجابتك.');
+  m.className='msg'+(n===3?' ok':'');
+});
+
+/* ===== م٤: تصميم التجربة ===== */
+var DESIGN=[
+  {k:'q',t:'سؤال التجربة',m:'ما أثر درجة الحرارة في معدل تبخر الماء؟'},
+  {k:'h',t:'الفرضية',m:'كلما ارتفعت درجة الحرارة ازداد معدل تبخر الماء.'},
+  {k:'iv',t:'المتغير المستقل',m:'درجة الحرارة (مثلاً: ١٥°س و٢٥°س و٣٥°س).'},
+  {k:'dv',t:'المتغير التابع',m:'معدل التبخر: كمية الماء المتبخرة خلال زمن محدد، وتُقاس بالنقص في حجم الماء بالمخبار المدرج (أو في كتلته بالميزان).'},
+  {k:'cv',t:'المتغيرات الثابتة',m:'كمية الماء في البداية، ونوع الإناء ومساحة سطح الماء فيه، ونوع الماء، ومدة التجربة، والرطوبة وحركة الهواء حول الأواني.'},
+  {k:'tools',t:'الأدوات',m:'ثلاثة أوانٍ متماثلة، ومخبار مدرج، وماء، ومقياس حرارة (ثيرمومتر)، ومصادر حرارة مختلفة أو أماكن مختلفة الحرارة، وساعة إيقاف.'}
+];
+$('#design-form').addEventListener('submit',function(e){
+  e.preventDefault();
+  var missing=[], vals={};
+  $$('#design-form [data-key]').forEach(function(f){
+    var v=f.value.trim(); vals[f.dataset.key]=v;
+    f.classList.toggle('invalid',!v); f.setAttribute('aria-invalid',v?'false':'true');
+    if(!v) missing.push(f);
+  });
+  var m=$('#design-msg');
+  if(missing.length){
+    m.className='msg bad';m.textContent='أكمل الحقول الفارغة أولاً ('+toAr(missing.length)+' حقل)، ثم اعرض التصميم النموذجي.';
+    missing[0].focus();$('#design-model').hidden=true;return;
+  }
+  m.className='msg ok';m.textContent='قارن كل حقل في تصميمك بالتصميم النموذجي، وعدّل ما يحتاج إلى تحسين.';
+  $('#design-cmp').innerHTML=DESIGN.map(function(d){
+    return '<div class="cmp-row"><h4>'+d.t+'</h4><div class="cmp-cols"><div><b>تصميمك</b>'+esc(vals[d.k])+'</div><div><b>التصميم النموذجي</b>'+d.m+'</div></div></div>';
+  }).join('');
+  $('#design-model').hidden=false;
+});
+
+/* ===== الاختبار الذاتي ===== */
+var OBJ={
+  1:{t:'يعرّف مراحل دورة الماء',a:'#content-stages',sec:'محاكاة دورة الماء ومراحلها'},
+  2:{t:'يميّز بين التبخر والتكاثف والهطول والجريان السطحي',a:'#glossary',sec:'قاموس المصطلحات'},
+  3:{t:'يرتّب المراحل ترتيباً صحيحاً',a:'#content-order',sec:'تسلسل مراحل دورة الماء'},
+  4:{t:'يفسّر أثر درجة الحرارة في معدل التبخر',a:'#temp-lab',sec:'مختبر درجة الحرارة'},
+  5:{t:'يحلّل أثر التغيرات البيئية في دورة الماء',a:'#content-env',sec:'أثر التغيرات البيئية'},
+  6:{t:'يوظّف الأدلة العلمية في تفسير الظواهر المرتبطة بالماء',a:'#content-evidence',sec:'تفسير الظواهر بالأدلة'}
+};
+var LV={1:'المستوى ١: التذكر',2:'المستوى ٢: تطبيق المفاهيم',3:'المستوى ٣: التفكير الاستراتيجي'};
+var Q=[
+  {id:1,obj:1,lv:1,type:'mcq',q:'يُسمّى تحوّل الماء من الحالة السائلة إلى الحالة الغازية:',o:[
+    {t:'التبخر',ok:1,f:'التبخر هو تحوّل الماء من الحالة السائلة إلى بخار الماء (الحالة الغازية).'},
+    {t:'التكاثف',f:'التكاثف عكس ذلك؛ إذ يتحول فيه بخار الماء (غاز) إلى ماء سائل عندما يبرد.'},
+    {t:'الهطول',f:'الهطول سقوط الماء من الغلاف الجوي إلى سطح الأرض، ولا يتحول فيه الماء من سائل إلى غاز.'},
+    {t:'التسرب',f:'التسرب نفاذ الماء السائل عبر مسامات التربة إلى باطن الأرض، وليس تحولاً إلى غاز.'}]},
+  {id:2,obj:1,lv:1,type:'tf',q:'الهطول هو سقوط الماء من الغلاف الجوي إلى سطح الأرض في صورة مطر أو ثلج أو بَرَد.',o:[
+    {t:'صح',ok:1,f:'هذا هو تعريف الهطول، وهو المرحلة التي تعيد الماء من السحب إلى سطح الأرض.'},
+    {t:'خطأ',f:'العبارة تصف الهطول وصفاً دقيقاً؛ فالمطر والثلج والبَرَد كلها صور للهطول.'}]},
+  {id:3,obj:2,lv:2,type:'mcq',q:'تتكوّن قطرات ماء على السطح الخارجي لكوب فيه ماء بارد. ما سبب ذلك؟',o:[
+    {t:'تكاثف بخار الماء الموجود في الهواء عند ملامسته سطح الكوب البارد',ok:1,f:'يبرد بخار الماء في الهواء المحيط بالكوب عند ملامسته السطح البارد، فيتكاثف ويتحول إلى قطرات.'},
+    {t:'تسرّب الماء من داخل الكوب عبر جداره',f:'الزجاج لا ينفذ منه الماء، والدليل أن القطرات لا تظهر على كوب فيه ماء دافئ.'},
+    {t:'تبخر الماء الموجود داخل الكوب',f:'التبخر يحوّل الماء إلى بخار غير مرئي، ولا يكوّن قطرات على السطح الخارجي للكوب.'},
+    {t:'هطول قطرات من الهواء على الكوب',f:'الهطول سقوط الماء من السحب إلى سطح الأرض، أما هنا فالقطرات تتكوّن على سطح الكوب نفسه.'}]},
+  {id:4,obj:2,lv:2,type:'tf',q:'التبخر والتكاثف كلاهما يحوّل الماء من الحالة الغازية إلى الحالة السائلة.',o:[
+    {t:'صح',f:'التبخر يحوّل الماء من سائل إلى غاز، والتكاثف يحوّله من غاز إلى سائل؛ فهما عمليتان متعاكستان.'},
+    {t:'خطأ',ok:1,f:'العبارة خاطئة؛ لأن التبخر تحوّل من سائل إلى غاز، أما التكاثف فتحوّل من غاز إلى سائل.'}]},
+  {id:5,obj:3,lv:2,type:'mcq',q:'أيّ مما يأتي يمثّل الترتيب الصحيح لمراحل دورة الماء بدءاً من ماء البحر؟',o:[
+    {t:'التبخر ← التكاثف ← الهطول ← الجريان السطحي',ok:1,f:'يتبخر الماء أولاً، ثم يتكاثف البخار مكوّناً السحب، ثم يهطل، ثم يجري على سطح الأرض عائداً إلى البحر.'},
+    {t:'التكاثف ← التبخر ← الهطول ← الجريان السطحي',f:'لا يحدث التكاثف قبل التبخر؛ لأن بخار الماء يجب أن يتكوّن أولاً حتى يتكاثف.'},
+    {t:'التبخر ← الهطول ← التكاثف ← الجريان السطحي',f:'لا يهطل الماء قبل أن يتكاثف البخار ويكوّن السحب.'},
+    {t:'الهطول ← الجريان السطحي ← التكاثف ← التبخر',f:'هذا الترتيب لا يبدأ من ماء البحر، ويضع التكاثف قبل التبخر.'}]},
+  {id:6,obj:4,lv:3,type:'mcq',q:'وضع أحمد كأسين متماثلين فيهما الكمية نفسها من الماء، أحدهما في مكان مشمس حار والآخر في الظل. بعد يومين نقص الماء في الكأسين، لكن النقص في الكأس المشمس كان أكبر. ما التفسير الأنسب؟',o:[
+    {t:'ارتفاع درجة الحرارة يزيد طاقة جزيئات الماء، فيزداد عدد الجزيئات التي تفلت من سطحه؛ أي يزداد معدل التبخر',ok:1,f:'الكأسان متماثلان في كل شيء عدا درجة الحرارة، فهي سبب الفرق؛ إذ تزيد طاقة الجزيئات فيزداد معدل التبخر.'},
+    {t:'الماء في الكأس المشمس تسرّب عبر جدار الكأس',f:'الكأسان متماثلان والزجاج لا ينفذ منه الماء؛ فالفرق سببه اختلاف درجة الحرارة.'},
+    {t:'الماء في كأس الظل تكاثف فزادت كميته',f:'كمية الماء في كأس الظل نقصت أيضاً، ولكن ببطء؛ لأنه يتبخر بمعدل أقل، لا لأنه يتكاثف.'},
+    {t:'درجة الحرارة لا تؤثر في التبخر، والفرق حدث بالمصادفة',f:'التجارب المتكررة تبيّن أن معدل التبخر يزداد بارتفاع درجة الحرارة، وهذا ما لاحظته في مختبر درجة الحرارة.'}]},
+  {id:7,obj:5,lv:3,type:'mcq',q:'قُطعت أشجار منطقة ورُصفت مساحة واسعة من أرضها بالإسفلت. ما الأثر المتوقع في دورة الماء في تلك المنطقة؟',o:[
+    {t:'يزداد الجريان السطحي ويقل تسرب الماء إلى باطن الأرض',ok:1,f:'الإسفلت سطح لا ينفذ منه الماء، وغياب الأشجار يقلل تسرب الماء إلى التربة؛ فيجري معظم ماء المطر على السطح.'},
+    {t:'يزداد تسرب الماء إلى باطن الأرض',f:'الإسفلت يمنع نفاذ الماء إلى التربة، فيقل التسرب ولا يزداد.'},
+    {t:'يزداد النتح في المنطقة',f:'النتح يحدث في النباتات، وقطع الأشجار يقلله ولا يزيده.'},
+    {t:'لا تتأثر دورة الماء بتغيّر سطح الأرض',f:'طبيعة سطح الأرض تحدد مقدار الماء الذي يتسرب إلى باطنها أو يجري على سطحها.'}]},
+  {id:8,obj:6,lv:3,type:'mcq',q:'لاحظت سارة قطرات ماء على العشب في صباح يوم بارد صافٍ، مع أن المطر لم يهطل، وفسّرت ذلك بأن بخار الماء في الهواء تكاثف على العشب البارد. أيّ الأدلة الآتية يدعم تفسيرها أكثر؟',o:[
+    {t:'تكوّنت قطرات مماثلة في الوقت نفسه على زجاج السيارة البارد، ولم تتكوّن على السطوح الدافئة',ok:1,f:'ظهور القطرات على السطوح الباردة فقط دليل على أنها ناتجة عن تكاثف بخار الماء عند ملامسته سطحاً بارداً.'},
+    {t:'لون العشب أخضر',f:'لون العشب لا علاقة له بمصدر القطرات، فهو ليس دليلاً على التفسير.'},
+    {t:'اختفت القطرات بعد ارتفاع درجة الحرارة ظهراً',f:'اختفاء القطرات يدل على تبخرها لاحقاً، لكنه لا يثبت مصدرها.'},
+    {t:'سُقي العشب قبل أسبوع',f:'السقي قبل أسبوع لا يفسّر ظهور القطرات هذا الصباح، ولا يدعم فكرة التكاثف.'}]}
+];
+var LETTERS=['أ','ب','ج','د'];
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function visibleQs(){return state.retryIds?Q.filter(function(q){return state.retryIds.indexOf(q.id)>-1;}):Q;}
+function renderQuiz(){
+  var box=$('#quiz-list'); box.innerHTML='';
+  visibleQs().forEach(function(q,idx){
+    var order=q.o.map(function(_,i){return i;});
+    if(state.retryIds&&q.type==='mcq') order=shuffle(order);
+    var d=document.createElement('div');
+    d.className='q '+q.type; d.dataset.qid=q.id;
+    d.setAttribute('role','group'); d.setAttribute('aria-labelledby','qt'+q.id);
+    d.innerHTML='<div class="q-top"><span class="qn">السؤال '+toAr(idx+1)+'</span><span class="chip">الهدف '+toAr(q.obj)+'</span><span class="chip gold">'+LV[q.lv]+'</span></div>'+
+      '<p class="q-text" id="qt'+q.id+'">'+q.q+'</p><div class="opts">'+
+      order.map(function(oi,k){return '<button type="button" class="opt" data-oi="'+oi+'"><span class="l">'+(q.type==='tf'?(oi===0?'✓':'✗'):LETTERS[k])+'</span><span>'+q.o[oi].t+'</span></button>';}).join('')+
+      '</div><div class="msg q-fb" role="status" aria-live="polite"></div>';
+    box.appendChild(d);
+  });
+  updateQuizStatus();
+}
+$('#quiz-list').addEventListener('click',function(e){
+  var b=e.target.closest('.opt'); if(!b||b.disabled) return;
+  var card=b.closest('.q'), q=Q.filter(function(x){return x.id===+card.dataset.qid;})[0], o=q.o[+b.dataset.oi], ok=!!o.ok;
+  state.answers[q.id]={oi:+b.dataset.oi,correct:ok};
+  $$('.opt',card).forEach(function(x){x.disabled=true;});
+  b.classList.add('chosen',ok?'is-correct':'is-wrong');
+  var fb=$('.q-fb',card);
+  fb.className='msg q-fb '+(ok?'ok':'bad');
+  fb.innerHTML=ok?'<strong class="okc">إجابة صحيحة.</strong> '+o.f:'<strong class="badc">إجابة غير صحيحة.</strong> '+o.f+' <span class="note">(راجع: '+OBJ[q.obj].sec+')</span>';
+  updateQuizStatus();
+});
+function updateQuizStatus(){
+  var vs=visibleQs(), n=vs.filter(function(q){return state.answers[q.id];}).length;
+  $('#quiz-status').textContent='أجبت عن '+toAr(n)+' من '+toAr(vs.length)+' '+(vs.length>2&&vs.length<11?'أسئلة':'سؤال')+'.';
+  $('#show-result').disabled=n<vs.length;
+}
+function computeScore(){
+  var c=Q.filter(function(q){return state.answers[q.id]&&state.answers[q.id].correct;}).length;
+  return {correct:c,pct:c*100/Q.length};
+}
+$('#show-result').addEventListener('click',showResults);
+function showResults(){
+  var s=computeScore(); state.score=s.pct; state.resultsShown=true;
+  var fbSec=$('#feedback'); fbSec.hidden=false;
+  $('#score').textContent=toAr(s.pct%1?s.pct.toFixed(1):s.pct)+'٪';
+  $('#score-detail').textContent='('+toAr(s.correct)+' إجابات صحيحة من ٨)';
+  if(s.pct>=80){
+    state.mastered=true;
+    $('#remedial').hidden=true; $('#mastery').hidden=false;
+    var ps=$('#pred-show');
+    if(state.prediction) ps.textContent='«'+state.prediction+'»';
+    else ps.textContent='لم تكتب توقعاً في بداية الوحدة. فكّر الآن: ماذا كنت ستتوقع قبل أن تدرس الوحدة؟';
+  }else{
+    state.mastered=false;
+    $('#mastery').hidden=true; $('#remedial').hidden=false;
+    var miss=[];
+    Q.forEach(function(q){if(!(state.answers[q.id]&&state.answers[q.id].correct)&&miss.indexOf(q.obj)<0) miss.push(q.obj);});
+    miss.sort();
+    $('#obj-miss').innerHTML=miss.map(function(k){
+      return '<li data-obj="'+k+'"><span><strong class="gold">الهدف '+toAr(k)+':</strong> '+OBJ[k].t+'</span><button type="button" class="btn btn-secondary review-btn" data-obj="'+k+'">راجع: '+OBJ[k].sec+'</button></li>';
+    }).join('');
+    $('#retry-wrong').disabled=!state.reviewed;
+    $('#retry-hint').hidden=state.reviewed;
+  }
+  $('#review-bar').hidden=true;
+  renderProgress();
+  fbSec.scrollIntoView({behavior:'smooth',block:'start'});
+}
+$('#obj-miss').addEventListener('click',function(e){
+  var b=e.target.closest('.review-btn'); if(b) goToContent(+b.dataset.obj);
+});
+function goToContent(k){
+  showTab('tab-unit');
+  var el=$(OBJ[k].a);
+  state.reviewed=true;
+  $('#retry-wrong').disabled=false; $('#retry-hint').hidden=true;
+  $('#review-text').textContent='تراجع الآن: '+OBJ[k].sec+' (الهدف '+toAr(k)+'). عندما تنتهي أعد الأسئلة الخاطئة.';
+  $('#review-bar').hidden=false;
+  el.scrollIntoView({behavior:'smooth',block:'start'});
+  el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash');
+  if(!el.hasAttribute('tabindex')) el.setAttribute('tabindex','-1');
+  el.focus({preventScroll:true});
+}
+function retryWrong(){
+  state.retryIds=Q.filter(function(q){return !(state.answers[q.id]&&state.answers[q.id].correct);}).map(function(q){return q.id;});
+  state.retryIds.forEach(function(id){delete state.answers[id];});
+  state.resultsShown=false; $('#feedback').hidden=true; $('#review-bar').hidden=true;
+  $('#quiz-intro').textContent='إعادة المحاولة: تُعرض لك الآن الأسئلة التي أخطأت فيها فقط ('+toAr(state.retryIds.length)+'). تُحسب نتيجتك من الأسئلة الثمانية كلها.';
+  renderQuiz(); renderProgress();
+  $('#quiz').scrollIntoView({behavior:'smooth',block:'start'});
+  var first=$('#quiz-list .opt'); if(first) first.focus({preventScroll:true});
+}
+$('#retry-wrong').addEventListener('click',retryWrong);
+$('#bar-retry').addEventListener('click',retryWrong);
+$('#back-feedback').addEventListener('click',function(){$('#review-bar').hidden=true;$('#feedback').scrollIntoView({behavior:'smooth',block:'start'});});
+
+/* تسميات خلايا الجداول لعرضها بطاقات على الجوال */
+$$('.table-wrap table').forEach(function(t){
+  var heads=$$('thead th',t).map(function(th){return th.textContent;});
+  $$('tbody tr',t).forEach(function(tr){
+    var tds=$$('td',tr), off=heads.length-tds.length;
+    tds.forEach(function(td,i){td.setAttribute('data-label',heads[i+off]);});
+  });
+});
+
+renderQuiz();
+renderProgress();
+updateHeaderH();
+if(document.fonts&&document.fonts.ready) document.fonts.ready.then(updateHeaderH);
+})();
+</script>
+</body>
+</html>
