@@ -521,7 +521,7 @@ begin
 
   -- أسعار الملف تحل محل أي أسعار ضُبطت قبل الاستيراد (لا توجد قيود بعد، فلا أثر رجعي)
   if jsonb_array_length(coalesce(payload -> 'rates', '[]')) > 0 then
-    delete from public.contribution_rates;
+    delete from public.contribution_rates where true;
   end if;
   for v_row in select * from jsonb_array_elements(coalesce(payload -> 'rates', '[]'))
   loop
