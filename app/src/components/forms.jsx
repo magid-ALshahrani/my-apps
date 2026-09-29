@@ -110,7 +110,8 @@ export function ContributionDialog({ member, period: initial, onClose }) {
 /* ---------- سحب / قرض / مصروف ---------- */
 export function EntryDialog({ kind, memberId, onClose }) {
   const { derived } = useFund();
-  const [member, setMember] = useState(memberId || derived.activeMembers[0]?.id || '');
+  // لا يُختار عضو تلقائياً حتى لا تُسجَّل الحركة على الشخص الخطأ
+  const [member, setMember] = useState(memberId || '');
   const [amount, setAmount] = useState('');
   const [date, setDate] = useState(derived.today);
   const [note, setNote] = useState('');
@@ -149,7 +150,8 @@ export function EntryDialog({ kind, memberId, onClose }) {
       <form onSubmit={(e) => { e.preventDefault(); setTried(true); if (ok) submit(); }}>
         {kind !== 'expense' && (
           <Field label="العضو" error={tried && errs.member}>
-            <select className="input" value={member} onChange={(e) => setMember(e.target.value)}>
+            <select className={`input ${tried && errs.member ? 'bad' : ''}`} value={member} onChange={(e) => setMember(e.target.value)}>
+              <option value="" disabled>— اختر العضو —</option>
               {derived.activeMembers.map((m) => <option key={m.id} value={m.id}>{m.name}</option>)}
             </select>
           </Field>
