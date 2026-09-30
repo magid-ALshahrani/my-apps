@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>دورة الماء في الطبيعة | وحدة تعلم رقمية</title>
+<title>دورة الماء في الطبيعة</title>
 <link rel="icon" href="data:,">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,6 +19,7 @@
   --r:16px;
   --hf:'Cairo',Tahoma,sans-serif; --bf:'Tajawal',Tahoma,sans-serif;
   --header-h:150px;
+  color-scheme:dark;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -30,7 +31,7 @@ a{color:var(--teal)}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 /* ===== الترويسة ===== */
-.topbar{position:sticky;top:0;z-index:50;background:rgba(13,24,41,.97);border-bottom:1px solid var(--line);backdrop-filter:blur(6px)}
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:rgba(13,24,41,.97);border-bottom:1px solid var(--line);backdrop-filter:blur(6px)}
 .topbar-inner{max-width:1200px;margin:0 auto;padding:10px 16px}
 .brand-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .brand{display:flex;align-items:center;gap:10px}
@@ -213,7 +214,7 @@ th{background:var(--bg2);font-family:var(--hf);color:var(--gold)}
 .pred-box{text-align:right;margin-top:16px}
 .pred-box blockquote{margin:6px 0 0;padding:12px 16px;background:var(--bg2);border-inline-start:5px solid var(--teal);border-radius:10px}
 
-.review-bar{position:fixed;inset-inline:0;bottom:0;z-index:60;background:rgba(18,34,56,.98);border-top:2px solid var(--gold);padding:12px 16px}
+.review-bar{position:fixed;inset-inline:0;bottom:0;z-index:60;background:rgba(18,34,56,.98);border-top:2px solid var(--gold);padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px))}
 .review-bar-inner{max-width:1200px;margin:0 auto;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
 
 /* ===== دليل المعلم ===== */
