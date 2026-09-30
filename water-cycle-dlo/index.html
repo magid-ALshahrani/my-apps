@@ -180,6 +180,14 @@ th{background:var(--bg2);font-family:var(--hf);color:var(--gold)}
 .cmp-cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .cmp-cols b{display:block;font-family:var(--hf);font-size:.88rem;color:var(--muted)}
 .invalid{border-color:var(--bad)!important}
+.env-cards{list-style:none;margin:12px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.env-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.env-s{font-family:var(--hf);font-weight:700;color:var(--teal);margin-bottom:4px}
+.env-row{border-top:1px dashed var(--line);padding:8px 0 4px;margin-top:6px}
+.env-row p{margin-bottom:6px}
+.env-row.right{border-inline-start:4px solid var(--ok);padding-inline-start:10px}
+.env-row.wrong{border-inline-start:4px solid var(--bad);padding-inline-start:10px}
+.env-row .cl-btns .btn[aria-pressed="true"]{background:var(--teal);border-color:var(--teal);color:#062624}
 
 /* ===== الاختبار ===== */
 .q{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:18px;margin-top:14px}
@@ -220,6 +228,7 @@ th{background:var(--bg2);font-family:var(--hf);color:var(--gold)}
 }
 @media (max-width:700px){
   body{font-size:17px}
+  .env-cards{grid-template-columns:1fr}
   .block{padding:18px 16px}
   .block-head h2{font-size:1.3rem}
   .brand h1{font-size:1.05rem}
@@ -506,7 +515,7 @@ th{background:var(--bg2);font-family:var(--hf);color:var(--gold)}
 
   <!-- ٥. التطبيقات -->
   <section class="block" id="apps" data-step="2" aria-labelledby="h-apps">
-    <div class="block-head"><span class="num">٥</span><h2 id="h-apps">التطبيقات: أربع مهام متدرجة</h2></div>
+    <div class="block-head"><span class="num">٥</span><h2 id="h-apps">التطبيقات: خمس مهام متدرجة</h2></div>
     <p class="lead">المهام مرتبة حسب مستويات عمق المعرفة، من التذكر إلى التفكير الممتد.</p>
 
     <!-- م١ -->
@@ -556,6 +565,15 @@ th{background:var(--bg2);font-family:var(--hf);color:var(--gold)}
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- مهمة الهدف ٥ -->
+    <div class="task panel" id="task-env">
+      <div class="task-head"><span class="chip gold">المستوى ٣: التفكير الاستراتيجي</span><h3>حلّل أثر التغيرات البيئية</h3></div>
+      <p>لكل تغيير بيئي، حدّد أثره في العملية المذكورة من دورة الماء: هل تزداد أم تقل أم لا تتغير؟ ثم تحقّق من تحليلك.</p>
+      <ul class="env-cards" id="env-grid"></ul>
+      <div class="btn-row"><button class="btn btn-primary" id="check-env" type="button">تحقّق من تحليلي</button></div>
+      <div class="msg" id="env-msg" role="status" aria-live="polite"></div>
     </div>
 
     <!-- م٤ -->
@@ -641,10 +659,11 @@ th{background:var(--bg2);font-family:var(--hf);color:var(--gold)}
           <tr><td>٥ دقائق</td><td>قاموس المصطلحات</td><td>يراجع التعريفات الدقيقة للمصطلحات الست.</td></tr>
           <tr><td>١٢ دقيقة</td><td>المهمتان م١ وم٢</td><td>يرتّب المراحل، ويصنّف المواقف الحياتية مع تغذية راجعة فورية.</td></tr>
           <tr><td>٣ دقائق</td><td>ختام</td><td>يلخّص المعلم أبرز الملاحظات ويحدد نقطة البدء في الحصة التالية.</td></tr>
-          <tr><td rowspan="5">الثانية</td><td>٨ دقائق</td><td>المحتوى (تتمة)</td><td>يدرس الطالب أثر التغيرات البيئية وجدول تفسير الظواهر بالأدلة.</td></tr>
-          <tr><td>٧ دقائق</td><td>المهمة م٣</td><td>يكتب تفسيره لجفاف الملابس، ثم يقارنه بالإجابة النموذجية ومعيار التصحيح.</td></tr>
-          <tr><td>١٠ دقائق</td><td>المهمة م٤</td><td>يصمّم تجربة لأثر درجة الحرارة في معدل التبخر ويقارنها بالتصميم النموذجي.</td></tr>
-          <tr><td>١٢ دقيقة</td><td>الاختبار الذاتي</td><td>يجيب عن الأسئلة الثمانية مع تغذية راجعة فورية.</td></tr>
+          <tr><td rowspan="6">الثانية</td><td>٦ دقائق</td><td>المحتوى (تتمة)</td><td>يدرس الطالب أثر التغيرات البيئية وجدول تفسير الظواهر بالأدلة.</td></tr>
+          <tr><td>٦ دقائق</td><td>المهمة م٣</td><td>يكتب تفسيره لجفاف الملابس، ثم يقارنه بالإجابة النموذجية ومعيار التصحيح.</td></tr>
+          <tr><td>٥ دقائق</td><td>مهمة التغيرات البيئية</td><td>يحلّل أثر أربعة تغيرات بيئية في عمليات دورة الماء، ويتلقى تغذية راجعة لكل تحليل.</td></tr>
+          <tr><td>٩ دقائق</td><td>المهمة م٤</td><td>يصمّم تجربة لأثر درجة الحرارة في معدل التبخر ويقارنها بالتصميم النموذجي.</td></tr>
+          <tr><td>١١ دقيقة</td><td>الاختبار الذاتي</td><td>يجيب عن الأسئلة الثمانية مع تغذية راجعة فورية.</td></tr>
           <tr><td>٨ دقائق</td><td>التغذية الراجعة والإتقان</td><td>يطّلع على نتيجته؛ فإن لم يتقن عاد إلى المحتوى ثم أعاد الأسئلة الخاطئة، وإن أتقن قارن توقعه الأول بالتفسير العلمي.</td></tr>
         </tbody>
       </table>
@@ -668,7 +687,7 @@ th{background:var(--bg2);font-family:var(--hf);color:var(--gold)}
           <li>يسير في الوحدة بنفسه وفق سرعته الخاصة.</li>
           <li>يسجّل توقعه الأول بصدق قبل دراسة المحتوى.</li>
           <li>يستكشف المحاكاة ويغيّر درجة الحرارة ويلاحظ النتائج.</li>
-          <li>ينفّذ المهام الأربع ويقارن إجاباته بالنماذج بأمانة.</li>
+          <li>ينفّذ المهام الخمس ويقارن إجاباته بالنماذج بأمانة.</li>
           <li>يؤدي الاختبار الذاتي، ويعود إلى المحتوى عند الحاجة حتى يتقن الأهداف.</li>
         </ul>
       </div>
@@ -680,7 +699,7 @@ th{background:var(--bg2);font-family:var(--hf);color:var(--gold)}
         <thead><tr><th>النوع</th><th>الأداة في الوحدة</th><th>الغرض</th></tr></thead>
         <tbody>
           <tr><td>القبلي</td><td>سؤال التهيئة: «أين يذهب ماء البحر الذي تتبخره الشمس كل يوم؟»</td><td>الكشف عن معرفة الطالب السابقة وتصوراته البديلة، ثم مقارنتها بفهمه في نهاية الوحدة.</td></tr>
-          <tr><td>التكويني</td><td>المهام م١–م٤ بتغذية راجعة فورية، ومعيار التصحيح الذاتي في م٣، والتصميم النموذجي في م٤، وملاحظة المعلم.</td><td>متابعة التعلم أثناء حدوثه وتصحيح الأخطاء أولاً بأول.</td></tr>
+          <tr><td>التكويني</td><td>المهام الخمس بتغذية راجعة فورية، ومعيار التصحيح الذاتي في م٣، وتلميحات مهمة التغيرات البيئية، والتصميم النموذجي في م٤، وملاحظة المعلم.</td><td>متابعة التعلم أثناء حدوثه وتصحيح الأخطاء أولاً بأول.</td></tr>
           <tr><td>الختامي</td><td>الاختبار الذاتي (٨ أسئلة تغطي الأهداف الستة والمستويات من الأول إلى الثالث) بمعيار إتقان ٨٠٪.</td><td>الحكم على إتقان الأهداف، وتوجيه غير المتقن إلى المحتوى العلاجي المرتبط بالهدف.</td></tr>
         </tbody>
       </table>
@@ -975,6 +994,50 @@ $('#rubric').addEventListener('change',function(){
   m.textContent='حققتَ '+toAr(n)+' من ٣ عناصر.'+(n===3?' تفسير علمي متكامل!':' راجع العنصر الناقص وأضفه إلى إجابتك.');
   m.className='msg'+(n===3?' ok':'');
 });
+
+/* ===== مهمة الهدف ٥: تحليل أثر التغيرات البيئية ===== */
+var ENV=[
+  {s:'قطع غابة كاملة وتحويلها إلى أرض جرداء',p:'النتح',a:'down',h:'أين يحدث النتح؟ وماذا يحدث له إذا قلّت النباتات؟',why:'النتح يحدث في أوراق النباتات، فقلة الأشجار تقلل بخار الماء الخارج منها.'},
+  {s:'قطع غابة كاملة وتحويلها إلى أرض جرداء',p:'الجريان السطحي',a:'up',h:'إذا قلّ الماء المتسرب إلى التربة، فأين يذهب باقي ماء المطر؟',why:'بدون الأشجار وجذورها يقل تسرب الماء إلى التربة، فيجري جزء أكبر من ماء المطر على السطح.'},
+  {s:'رصف حيّ سكني كامل بالإسفلت والخرسانة',p:'التسرب',a:'down',h:'هل ينفذ الماء عبر الإسفلت والخرسانة؟',why:'الإسفلت والخرسانة سطوح لا ينفذ منها الماء إلى التربة.'},
+  {s:'رصف حيّ سكني كامل بالإسفلت والخرسانة',p:'الجريان السطحي',a:'up',h:'الماء الذي لا يتسرب إلى التربة، أين يذهب؟',why:'الماء الذي لا يتسرب يجري على السطح، فتزداد احتمالية حدوث السيول.'},
+  {s:'ارتفاع متوسط درجة الحرارة حول بحيرة',p:'التبخر',a:'up',h:'تذكّر ما لاحظته في مختبر درجة الحرارة.',why:'ارتفاع درجة الحرارة يزيد طاقة جزيئات الماء، فيزداد معدل التبخر من البحيرة.'},
+  {s:'زراعة أشجار على منحدر جبلي كان أجرد',p:'التسرب',a:'up',h:'كيف تؤثر الجذور في قدرة التربة على امتصاص الماء؟',why:'الجذور تفكك التربة وتبطئ جريان الماء، فيتسرب جزء أكبر منه إلى باطن الأرض.'},
+  {s:'زراعة أشجار على منحدر جبلي كان أجرد',p:'النتح',a:'up',h:'أين يحدث النتح؟ وماذا يحدث له إذا زادت النباتات؟',why:'زيادة عدد النباتات تزيد بخار الماء الخارج من أوراقها.'}
+];
+var ENV_LBL={up:'يزداد ↑',down:'يقل ↓',same:'لا يتغير'};
+(function(){
+  var grid=$('#env-grid'), groups=[];
+  ENV.forEach(function(r,i){var g=groups.filter(function(x){return x.s===r.s;})[0]; if(!g){g={s:r.s,rows:[]};groups.push(g);} g.rows.push(i);});
+  grid.innerHTML=groups.map(function(g,gi){
+    return '<li class="env-card"><p class="env-s">التغيير '+toAr(gi+1)+': '+g.s+'</p>'+g.rows.map(function(i){
+      return '<div class="env-row" data-i="'+i+'"><p>أثره في <strong class="gold">'+ENV[i].p+'</strong>:</p><div class="cl-btns" role="group" aria-label="أثر '+g.s+' في '+ENV[i].p+'">'+
+        ['up','down','same'].map(function(v){return '<button type="button" class="btn btn-secondary" data-v="'+v+'" aria-pressed="false">'+ENV_LBL[v]+'</button>';}).join('')+
+        '</div><div class="cl-fb" aria-live="polite"></div></div>';
+    }).join('')+'</li>';
+  }).join('');
+  grid.addEventListener('click',function(e){
+    var b=e.target.closest('button[data-v]'); if(!b) return;
+    var row=b.closest('.env-row');
+    $$('button',row).forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});
+    row.classList.remove('right','wrong'); $('.cl-fb',row).textContent='';
+  });
+  $('#check-env').addEventListener('click',function(){
+    var rows=$$('.env-row',grid), m=$('#env-msg');
+    var empty=rows.filter(function(r){return !$('button[aria-pressed="true"]',r);});
+    if(empty.length){m.className='msg bad';m.textContent='أكمل تحليل كل العمليات أولاً (بقي '+toAr(empty.length)+').';$('button',empty[0]).focus();return;}
+    var n=0;
+    rows.forEach(function(r){
+      var d=ENV[+r.dataset.i], v=$('button[aria-pressed="true"]',r).dataset.v, ok=v===d.a;
+      if(ok) n++;
+      r.classList.toggle('right',ok); r.classList.toggle('wrong',!ok);
+      $('.cl-fb',r).innerHTML=ok?'<strong style="color:var(--ok)">صحيح.</strong> '+d.why:'<strong style="color:var(--bad)">راجع تحليلك.</strong> '+d.h;
+    });
+    m.dataset.result=n===rows.length?'correct':'wrong';
+    if(n===rows.length){m.className='msg ok';m.innerHTML='<strong class="okc">تحليل صحيح!</strong> لاحظ النمط: التغييرات التي تزيل الغطاء النباتي أو تغطي التربة تقلل التسرب وتزيد الجريان السطحي، والتشجير يفعل العكس، وارتفاع درجة الحرارة يزيد التبخر.';}
+    else{m.className='msg bad';m.textContent='حلّلت '+toAr(n)+' من ٧ تحليلاً صحيحاً. عدّل الإجابات المحددة بالأحمر مستعيناً بالتلميح، ثم تحقّق مرة أخرى.';}
+  });
+})();
 
 /* ===== م٤: تصميم التجربة ===== */
 var DESIGN=[
