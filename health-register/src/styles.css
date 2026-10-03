@@ -1,0 +1,122 @@
+@import '@fontsource/cairo/600.css';
+@import '@fontsource/cairo/700.css';
+@import '@fontsource/tajawal/400.css';
+@import '@fontsource/tajawal/500.css';
+@import '@fontsource/tajawal/700.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* رموز التصميم: قيم RGB حتى تعمل الشفافية في Tailwind. كل الألوان من هنا فقط. */
+:root,
+[data-theme='light'] {
+  color-scheme: light;
+  --bg: 251 249 245;          /* أبيض دافئ */
+  --surface: 255 255 255;
+  --surface-2: 244 240 232;
+  --border: 222 215 202;
+  --text: 23 32 46;
+  --muted: 84 93 107;         /* 6.1:1 على الخلفية */
+  --primary: 15 118 110;      /* تيل: 5.4:1 مع الأبيض */
+  --on-primary: 255 255 255;
+  --primary-soft: 224 242 239;
+  --accent: 146 94 8;         /* ذهبي داكن للنص: 5.6:1 */
+  --accent-fill: 234 179 8;
+  --on-accent: 255 255 255;
+  --danger: 185 28 28;
+  --danger-soft: 254 226 226;
+  --success: 21 128 61;
+  --warning: 161 98 7;
+  --warning-soft: 254 243 199;
+  /* ألوان الحالات الصحية */
+  --c-diabetes: 29 78 216;    /* أزرق */
+  --c-bp: 220 38 38;          /* أحمر */
+  --c-allergy: 234 179 8;     /* أصفر */
+  --c-exempt: 22 163 74;      /* أخضر */
+  --c-chronic: 124 58 237;    /* بنفسجي */
+  --c-followup: 107 114 128;  /* رمادي */
+  --c-critical: 185 28 28;
+  --on-c-light: 255 255 255;
+  --on-c-dark: 23 32 46;
+  /* الرسوم */
+  /* لوحة الرسوم: متحقق منها (تباين، عمى ألوان) عبر validate_palette */
+  --chart-1: 13 148 136;
+  --chart-2: 161 98 7;
+  --chart-3: 37 99 235;
+  --chart-4: 220 38 38;
+  --chart-5: 124 58 237;
+  --chart-6: 107 114 128;
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: 8 15 30;              /* كحلي داكن جدًا */
+  --surface: 15 25 44;
+  --surface-2: 22 35 59;
+  --border: 41 58 89;
+  --text: 233 238 246;
+  --muted: 163 176 197;       /* 8.6:1 على الخلفية */
+  --primary: 45 212 191;      /* تيل فاتح */
+  --on-primary: 4 32 28;
+  --primary-soft: 17 58 60;
+  --accent: 251 191 36;       /* ذهبي */
+  --accent-fill: 251 191 36;
+  --on-accent: 42 26 0;
+  --danger: 248 113 113;
+  --danger-soft: 69 20 28;
+  --success: 74 222 128;
+  --warning: 251 191 36;
+  --warning-soft: 66 46 10;
+  --c-diabetes: 96 165 250;
+  --c-bp: 248 113 113;
+  --c-allergy: 250 204 21;
+  --c-exempt: 74 222 128;
+  --c-chronic: 167 139 250;
+  --c-followup: 156 163 175;
+  --c-critical: 248 113 113;
+  --on-c-light: 8 15 30;
+  --on-c-dark: 8 15 30;
+  --chart-1: 13 148 136;
+  --chart-2: 217 119 6;
+  --chart-3: 59 130 246;
+  --chart-4: 239 68 68;
+  --chart-5: 139 92 246;
+  --chart-6: 156 163 175;
+}
+
+html, body { background: rgb(var(--bg)); color: rgb(var(--text)); }
+body { font-family: 'Tajawal', system-ui, sans-serif; font-size: 16px; line-height: 1.6; -webkit-tap-highlight-color: transparent; }
+h1, h2, h3, h4, .font-heading { font-family: 'Cairo', 'Tajawal', sans-serif; }
+button, input, select, textarea { font: inherit; }
+:focus-visible { outline: 3px solid rgb(var(--accent-fill)); outline-offset: 2px; border-radius: 8px; }
+
+@layer components {
+  .card { @apply bg-surface border border-border rounded-2xl; }
+  .btn { @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed; min-height: 44px; }
+  .btn-primary { @apply btn bg-primary text-on-primary hover:opacity-90; }
+  .btn-accent { @apply btn bg-accent text-on-accent hover:opacity-90; }
+  .btn-ghost { @apply btn bg-transparent text-text hover:bg-surface-2 border border-border; }
+  .btn-danger { @apply btn bg-danger text-surface hover:opacity-90; }
+  .icon-btn { @apply inline-flex items-center justify-center rounded-xl text-text hover:bg-surface-2; min-width: 44px; min-height: 44px; }
+  .field { @apply block w-full rounded-xl border border-border bg-surface px-3 text-text placeholder:text-muted; min-height: 44px; }
+  .label { @apply block text-sm font-medium text-muted mb-1; }
+  .chip { @apply inline-flex items-center gap-1.5 rounded-full border border-border px-3 text-sm; min-height: 36px; }
+  .chip-on { @apply bg-primary text-on-primary border-primary; }
+  .badge { @apply inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium; }
+  .table { @apply w-full text-sm; }
+  .table th { @apply text-start font-medium text-muted px-3 py-2 border-b border-border whitespace-nowrap; }
+  .table td { @apply px-3 py-2 border-b border-border align-top; }
+}
+
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+
+/* الطباعة: خلفية بيضاء دائمًا بغض النظر عن الثيم */
+@media print {
+  :root, [data-theme='dark'] {
+    --bg: 255 255 255; --surface: 255 255 255; --surface-2: 245 245 245; --border: 200 200 200;
+    --text: 0 0 0; --muted: 60 60 60;
+  }
+  .no-print { display: none !important; }
+  body { background: #fff !important; color: #000 !important; }
+}
