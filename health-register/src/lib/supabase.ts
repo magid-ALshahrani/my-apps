@@ -6,7 +6,7 @@ const anon = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
 export const configured = Boolean(url && anon);
 
 // المفتاح العام فقط. الحماية الفعلية في RLS.
-export const supabase = createClient(url ?? 'http://invalid.local', anon ?? 'missing', {
+export const supabase = createClient(url || 'http://invalid.local', anon || 'missing', {
   auth: { persistSession: true, autoRefreshToken: true, storageKey: 'hr-auth' },
 });
 
