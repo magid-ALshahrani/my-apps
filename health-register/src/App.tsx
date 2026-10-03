@@ -25,6 +25,8 @@ const School = lazy(() => import('./pages/School'));
 const Clinic = lazy(() => import('./pages/School').then((m) => ({ default: () => <div><h1 className="text-2xl font-bold font-heading mb-5">سجل بيانات العيادة المدرسية</h1><m.Clinic /></div> })));
 const About = lazy(() => import('./pages/School').then((m) => ({ default: m.About })));
 const Forms = lazy(() => import('./pages/Forms'));
+const Reports = lazy(() => import('./pages/Reports'));
+const Plan = lazy(() => import('./pages/Reports').then((m) => ({ default: m.Plan })));
 
 export function Unauthorized() {
   return (
@@ -71,6 +73,8 @@ function Gate() {
           <Route path="environment" element={<Guard roles={LEAD}><Environment /></Guard>} />
           <Route path="school" element={<Guard roles={LEAD}><School /></Guard>} />
           <Route path="clinic" element={<Guard roles={STAFF}><Clinic /></Guard>} />
+          <Route path="reports" element={<Guard roles={STAFF}><Reports /></Guard>} />
+          <Route path="plan" element={<Plan />} />
           <Route path="forms" element={<Forms />} />
           <Route path="about" element={<About />} />
           <Route path="import" element={<Guard roles={GUIDE}><ImportWizard /></Guard>} />

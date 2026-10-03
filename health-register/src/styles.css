@@ -115,6 +115,7 @@ button, input, select, textarea { font: inherit; }
 @page { size: A4; margin: 14mm; }
 @media print {
   :root, [data-theme='dark'] {
+    color-scheme: light;
     --bg: 255 255 255; --surface: 255 255 255; --surface-2: 245 245 245; --border: 200 200 200;
     --text: 0 0 0; --muted: 60 60 60;
   }

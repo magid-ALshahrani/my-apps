@@ -95,3 +95,11 @@ describe('الاعتماد والتوثيق', () => {
     expect((await nurse.from('health_center').update({ name: 'x' }).eq('id', 1).select()).data ?? []).toHaveLength(0);
   });
 });
+
+describe('كتالوج قاعدة البيانات', () => {
+  it('لا يوجد أي عمود باسم يشير إلى الهوية في أي جدول', async () => {
+    const { rows } = await pool.query(`select table_name, column_name from information_schema.columns where table_schema = 'public'
+      and column_name ~* '(national|iqama|civil|identity|hawiy|id_?number)'`);
+    expect(rows).toEqual([]);
+  });
+});

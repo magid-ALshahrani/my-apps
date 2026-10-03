@@ -17,6 +17,8 @@ export const NAV: NavItem[] = [
   { to: '/', label: 'لوحة التحكم', icon: 'home', roles: ALL, mobile: true },
   { to: '/classes', label: 'الصفوف والطلاب', icon: 'classes', roles: STAFF, mobile: true },
   { to: '/programs', label: 'البرامج والتقويم', icon: 'calendar', roles: ALL, mobile: true },
+  { to: '/plan', label: 'خطة المتابعة السنوية', icon: 'clipboard', roles: ALL },
+  { to: '/reports', label: 'التقارير', icon: 'report', roles: STAFF },
   { to: '/visits', label: 'زيارات العيادة', icon: 'stethoscope', roles: STAFF, mobile: true },
   { to: '/records', label: 'السجلات الرسمية', icon: 'clipboard', roles: STAFF },
   { to: '/violence', label: 'سجل العنف الأسري', icon: 'lock', roles: ['health_guide'] },
@@ -71,7 +73,7 @@ export function Layout() {
         </div>
       </aside>
 
-      <div className="flex-1 lg:ms-64 min-w-0">
+      <div className="flex-1 lg:ms-64 print:ms-0 min-w-0">
         <header className="sticky top-0 z-30 bg-bg/95 backdrop-blur border-b border-border no-print">
           <div className="flex items-center gap-2 px-4 lg:px-8 h-14">
             <div className="lg:hidden font-heading font-bold truncate">سجل الموجه الصحي</div>
