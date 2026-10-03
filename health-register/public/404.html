@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>جارٍ التحويل…</title>
+<script>
+  // GitHub Pages لا يدعم توجيه الصفحات: نعيد أي رابط داخل /health/ إلى التطبيق مع حفظ المسار
+  (function () {
+    var base = '/my-apps/health/';
+    var p = location.pathname;
+    if (p.indexOf(base) === 0) {
+      location.replace(base + '?r=' + encodeURIComponent(p.slice(base.length) + location.search) + location.hash);
+    } else {
+      location.replace('/my-apps/');
+    }
+  })();
+</script>
+</head>
+<body></body>
+</html>

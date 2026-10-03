@@ -12,7 +12,7 @@ function Shell({ children }: { children: React.ReactNode }) {
       <button className="icon-btn fixed top-3 end-3" onClick={toggle} aria-label="تبديل الثيم"><Icon name={theme === 'dark' ? 'sun' : 'moon'} /></button>
       <div className="card w-full max-w-md p-6">
         <div className="flex items-center gap-3 mb-6">
-          <img src="/icon.svg" alt="" width={48} height={48} className="rounded-xl" />
+          <img src={`${import.meta.env.BASE_URL}icon.svg`} alt="" width={48} height={48} className="rounded-xl" />
           <div>
             <h1 className="font-heading font-bold text-xl leading-tight">سجل الموجه الصحي</h1>
             <p className="text-muted text-sm">الشؤون الصحية المدرسية · 1448هـ</p>

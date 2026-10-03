@@ -25,10 +25,27 @@ jobs:
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: app/package-lock.json
+          cache-dependency-path: |
+            app/package-lock.json
+            health-register/package-lock.json
       - run: npm ci
       - run: npm test
       - run: npm run build
+      # سجل الموجه الصحي: يُبنى ويُنشر تحت /health/ بجانب صندوق الإخوة
+      - name: سجل الموجه الصحي — تثبيت واختبار وبناء
+        working-directory: health-register
+        env:
+          VITE_BASE: /my-apps/health/
+          # المفتاح العام (publishable) مصمم ليكون داخل الواجهة؛ الحماية في RLS
+          VITE_SUPABASE_URL: https://aafjvmlhsrlcxhbzxdic.supabase.co
+          VITE_SUPABASE_ANON_KEY: ${{ vars.HEALTH_SUPABASE_PUBLISHABLE_KEY }}
+        run: |
+          npm ci
+          npm test
+          npm run build
+          rm -rf ../app/dist/health
+          cp -r dist ../app/dist/health
+          cp public/404.html ../app/dist/404.html
       - if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v3
         with:
