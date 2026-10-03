@@ -14,7 +14,10 @@ export default defineConfig({
         short_name: 'الموجه الصحي',
         lang: 'ar',
         dir: 'rtl',
-        start_url: '.',
+        // هوية ونطاق مستقلان حتى لا يُعامل كجزء من «صندوق الإخوة» المنشور على المسار الأب /my-apps/
+        id: 'health-register',
+        start_url: './',
+        scope: './',
         display: 'standalone',
         background_color: '#0b1324',
         theme_color: '#0f766e',
