@@ -1,0 +1,246 @@
+[
+  {
+    "name": "dashboard-375-light",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 173,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "dots-375-light",
+    "dots": {
+      "diabetes": {
+        "bg": "rgb(29, 78, 216)",
+        "glyph": "M12 3s6 6.5 "
+      },
+      "bp": {
+        "bg": "rgb(220, 38, 38)",
+        "glyph": "M12 20s-7-4."
+      }
+    }
+  },
+  {
+    "name": "section-375-light",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 23,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "import-map-375-light",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 44,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "import-preview-375-light",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 77,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "plan-375-light",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 217,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "reports-375-light",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 246,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "dashboard-1280-light",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 193,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "dots-1280-light",
+    "dots": {
+      "diabetes": {
+        "bg": "rgb(29, 78, 216)",
+        "glyph": "M12 3s6 6.5 "
+      },
+      "bp": {
+        "bg": "rgb(220, 38, 38)",
+        "glyph": "M12 20s-7-4."
+      }
+    }
+  },
+  {
+    "name": "section-1280-light",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 42,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "import-map-1280-light",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 63,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "import-preview-1280-light",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 96,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "plan-1280-light",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 236,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "reports-1280-light",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 265,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "dashboard-375-dark",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 173,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "dots-375-dark",
+    "dots": {
+      "diabetes": {
+        "bg": "rgb(96, 165, 250)",
+        "glyph": "M12 3s6 6.5 "
+      },
+      "bp": {
+        "bg": "rgb(248, 113, 113)",
+        "glyph": "M12 20s-7-4."
+      }
+    }
+  },
+  {
+    "name": "section-375-dark",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 23,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "import-map-375-dark",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 44,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "import-preview-375-dark",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 77,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "plan-375-dark",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 217,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "reports-375-dark",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 246,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "dashboard-1280-dark",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 193,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "dots-1280-dark",
+    "dots": {
+      "diabetes": {
+        "bg": "rgb(96, 165, 250)",
+        "glyph": "M12 3s6 6.5 "
+      },
+      "bp": {
+        "bg": "rgb(248, 113, 113)",
+        "glyph": "M12 20s-7-4."
+      }
+    }
+  },
+  {
+    "name": "section-1280-dark",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 42,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "import-map-1280-dark",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 63,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "import-preview-1280-dark",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 96,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "plan-1280-dark",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 236,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "reports-1280-dark",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 265,
+    "lowContrast": [],
+    "lowCount": 0
+  }
+]

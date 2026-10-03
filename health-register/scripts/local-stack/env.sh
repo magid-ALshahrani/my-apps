@@ -1,0 +1,21 @@
+# متغيرات بيئة الاختبار المحلية فقط (قيم وهمية لا تصلح لأي بيئة حقيقية)
+export LS_DIR=${LS_DIR:-/var/tmp/hr-stack}
+export PGPORT=54322
+export JWT_SECRET=local-test-secret-not-for-production-0123456789
+export GOTRUE_DB_DRIVER=postgres
+export DATABASE_URL="postgres://supabase_auth_admin:local-only@127.0.0.1:54322/postgres?search_path=auth"
+export GOTRUE_DB_MIGRATIONS_PATH=$LS_DIR/auth/migrations
+export GOTRUE_SITE_URL=http://localhost:5173
+export API_EXTERNAL_URL=http://localhost:54321/auth/v1
+export GOTRUE_API_HOST=127.0.0.1
+export PORT=9999
+export GOTRUE_JWT_SECRET=$JWT_SECRET
+export GOTRUE_JWT_AUD=authenticated
+export GOTRUE_JWT_DEFAULT_GROUP_NAME=authenticated
+export GOTRUE_JWT_ADMIN_ROLES=service_role
+export GOTRUE_JWT_EXP=3600
+export GOTRUE_DISABLE_SIGNUP=true
+export GOTRUE_EXTERNAL_EMAIL_ENABLED=true
+export GOTRUE_MAILER_AUTOCONFIRM=true
+export GOTRUE_PASSWORD_MIN_LENGTH=10
+export GOTRUE_LOG_LEVEL=warn

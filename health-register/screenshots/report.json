@@ -1,0 +1,182 @@
+[
+  {
+    "name": "dashboard-375-light",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 165,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "dots-375-light",
+    "dots": {
+      "diabetes": {
+        "bg": "rgb(29, 78, 216)",
+        "glyph": "M12 3s6 6.5 "
+      },
+      "bp": {
+        "bg": "rgb(220, 38, 38)",
+        "glyph": "M12 20s-7-4."
+      }
+    }
+  },
+  {
+    "name": "section-375-light",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 41,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "import-map-375-light",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 43,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "import-preview-375-light",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 70,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "dashboard-1280-light",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 172,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "dots-1280-light",
+    "dots": {
+      "diabetes": {
+        "bg": "rgb(29, 78, 216)",
+        "glyph": "M12 3s6 6.5 "
+      },
+      "bp": {
+        "bg": "rgb(220, 38, 38)",
+        "glyph": "M12 20s-7-4."
+      }
+    }
+  },
+  {
+    "name": "section-1280-light",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 48,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "import-map-1280-light",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 50,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "import-preview-1280-light",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 77,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "dashboard-375-dark",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 165,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "dots-375-dark",
+    "dots": {
+      "diabetes": {
+        "bg": "rgb(96, 165, 250)",
+        "glyph": "M12 3s6 6.5 "
+      },
+      "bp": {
+        "bg": "rgb(248, 113, 113)",
+        "glyph": "M12 20s-7-4."
+      }
+    }
+  },
+  {
+    "name": "section-375-dark",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 41,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "import-map-375-dark",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 43,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "import-preview-375-dark",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 70,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "dashboard-1280-dark",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 172,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "dots-1280-dark",
+    "dots": {
+      "diabetes": {
+        "bg": "rgb(96, 165, 250)",
+        "glyph": "M12 3s6 6.5 "
+      },
+      "bp": {
+        "bg": "rgb(248, 113, 113)",
+        "glyph": "M12 20s-7-4."
+      }
+    }
+  },
+  {
+    "name": "section-1280-dark",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 48,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "import-map-1280-dark",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 50,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "import-preview-1280-dark",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 77,
+    "lowContrast": [],
+    "lowCount": 0
+  }
+]
