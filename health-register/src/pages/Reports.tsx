@@ -87,7 +87,7 @@ export default function Reports() {
       {q.loading ? <Spinner label="جارٍ إعداد التقرير…" /> : q.error ? <Alert tone="danger">{q.error}</Alert> : (
         <>
           <ExportBar m={q.data!} onApprove={kind === 'semester' && role === 'principal' ? approve : undefined} />
-          <ReportView m={q.data!} />
+          <div className="overflow-x-auto max-w-full print:overflow-visible"><ReportView m={q.data!} /></div>
         </>
       )}
     </div>
@@ -112,7 +112,7 @@ export function Plan() {
       <div className="no-print"><PageHeader title="خطة المتابعة السنوية" subtitle="الخطة الزمنية للبرامج الصحية المدرسية 1448هـ وحالة تنفيذ كل برنامج" /></div>
       <ExportBar m={m} />
       <div className="flex flex-wrap gap-2 text-sm no-print">{Object.keys(PROGRAM_STATUS).map((s) => <StatusBadge key={s} s={s} />)}</div>
-      <div className="card overflow-x-auto no-print">
+      <div className="card overflow-x-auto max-w-full no-print" style={{ contain: 'inline-size' }}>
         <table className="text-sm border-separate" style={{ borderSpacing: 2 }}>
           <thead>
             <tr>
@@ -128,7 +128,7 @@ export function Plan() {
               <tr key={g.id}>
                 <th className="sticky start-0 bg-surface text-start font-medium px-2 py-1">{g.name}</th>
                 {g.months.map((on, i) => (
-                  <td key={i} className="rounded" style={{ minWidth: 36, height: 30, background: on ? `rgb(var(--${PROGRAM_STATUS[g.status]?.token ?? 'chart-3'}) / 0.35)` : 'rgb(var(--surface-2))' }}
+                  <td key={i} className="rounded relative" style={{ minWidth: 36, height: 30, background: on ? `rgb(var(--${PROGRAM_STATUS[g.status]?.token ?? 'chart-3'}) / 0.35)` : 'rgb(var(--surface-2))' }}
                     title={on ? `${PLAN_MONTHS[i]}: ${PROGRAM_STATUS[g.status]?.label}` : undefined}>
                     {on && <span className="flex justify-center text-text"><span aria-hidden>●</span><span className="sr-only">{PLAN_MONTHS[i]}</span></span>}
                   </td>

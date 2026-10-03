@@ -1,0 +1,18 @@
+# إعدادات Supabase CLI (للربط والنشر عبر سطر الأوامر). القيم الحساسة لا تُكتب هنا.
+project_id = "health-register"
+
+[auth]
+# لا تسجيل ذاتي: الحسابات تُنشأ من الموجه الصحي عبر Edge Function
+enable_signup = false
+minimum_password_length = 10
+jwt_expiry = 3600
+
+[auth.email]
+enable_signup = false
+enable_confirmations = false
+
+[storage]
+file_size_limit = "10MiB"
+
+[functions.admin-users]
+verify_jwt = true

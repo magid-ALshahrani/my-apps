@@ -104,3 +104,7 @@ for (const theme of ['light', 'dark']) {
 await browser.close();
 fs.writeFileSync(`${OUT}/report.json`, JSON.stringify(report, null, 2));
 console.log(JSON.stringify(report, null, 1));
+const problems = report.filter((r) => !r.dots && (r.lowCount || r.horizontalOverflow || r.dir !== 'rtl'));
+const dotsBad = report.filter((r) => r.dots && (!r.dots.diabetes || !r.dots.bp || r.dots.diabetes.glyph === r.dots.bp.glyph));
+console.log(problems.length || dotsBad.length ? `❌ مشكلات: ${problems.length + dotsBad.length}` : `✅ ${report.length} فحصًا: RTL سليم، بلا تمرير أفقي، وكل النصوص ≥ 4.5:1، ونقاط السكري والضغط برمزين مختلفين`);
+process.exit(problems.length || dotsBad.length ? 1 : 0);
