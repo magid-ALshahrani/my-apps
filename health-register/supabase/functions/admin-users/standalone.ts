@@ -176,10 +176,22 @@ const cors = {
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
 };
 
+/** مفتاح الخدمة من بيئة الدالة: المفتاح القديم إن وُجد، وإلا المفتاح السري الجديد (sb_secret_…) */
+function serviceKey(): string {
+  const legacy = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+  if (legacy) return legacy;
+  try {
+    const keys = JSON.parse(Deno.env.get('SUPABASE_SECRET_KEYS') ?? '{}') as Record<string, string>;
+    return keys.default ?? Object.values(keys)[0] ?? '';
+  } catch {
+    return '';
+  }
+}
+
 Deno.serve(async (req: Request) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: cors });
   if (req.method !== 'POST') return new Response('Method not allowed', { status: 405, headers: cors });
-  const admin = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!, {
+  const admin = createClient(Deno.env.get('SUPABASE_URL')!, serviceKey(), {
     auth: { persistSession: false, autoRefreshToken: false },
   });
   let body: unknown = null;
