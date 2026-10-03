@@ -1,0 +1,162 @@
+[
+  {
+    "name": "programs-375-light",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 305,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "calendar-375-light",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 305,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "records-375-light",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 27,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "visits-375-light",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 54,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "environment-375-light",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 12,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "programs-1280-light",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 322,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "calendar-1280-light",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 322,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "records-1280-light",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 44,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "visits-1280-light",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 71,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "environment-1280-light",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 29,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "programs-375-dark",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 305,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "calendar-375-dark",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 305,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "records-375-dark",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 27,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "visits-375-dark",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 54,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "environment-375-dark",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 12,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "programs-1280-dark",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 322,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "calendar-1280-dark",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 322,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "records-1280-dark",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 44,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "visits-1280-dark",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 71,
+    "lowContrast": [],
+    "lowCount": 0
+  },
+  {
+    "name": "environment-1280-dark",
+    "dir": "rtl",
+    "horizontalOverflow": 0,
+    "textChecked": 29,
+    "lowContrast": [],
+    "lowCount": 0
+  }
+]

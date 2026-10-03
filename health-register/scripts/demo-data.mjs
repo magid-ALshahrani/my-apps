@@ -56,7 +56,7 @@ async function fill(ids) {
 
   const types = ok(await sb.from('condition_types').select('id,name'));
   const T = Object.fromEntries(types.map((t) => [t.name, t.id]));
-  const stage = ok(await sb.from('stages').insert({ name: 'ابتدائي', gender: 'boys', sort: 0 }).select('id').single());
+  const stage = ok(await sb.from('stages').insert({ name: 'ابتدائي (تجريبي)', gender: 'boys', sort: 0 }).select('id').single());
   ids.stages.push(stage.id);
   let n = 0;
   // الحذف يتم عبر stages (يتتالى إلى الصفوف والفصول) والطلاب عبر sections
@@ -84,6 +84,23 @@ async function fill(ids) {
       });
     }
   }
+  const someStudents = ok(await sb.from('students').select('id,guardian_phone').in('section_id', ids.sections).limit(8));
+  const [a, b, c, d] = someStudents;
+  ok(await sb.from('official_records').insert([
+    { kind: 'infectious', disease_name: 'جدري الماء', student_id: a.id, case_date: '2026-09-21', actions: 'عزل منزلي 7 أيام وإبلاغ المركز الصحي', guardian_phone: a.guardian_phone },
+    { kind: 'chronic', disease_name: 'سكري النوع الأول', student_id: b.id, case_date: '2026-08-25', actions: 'خطة رعاية فردية وتدريب المعلمين على الهبوط', guardian_phone: b.guardian_phone },
+    { kind: 'emergency', disease_name: 'إغماء', student_id: c.id, case_date: '2026-09-30', actions: 'إسعاف أولي واستدعاء ولي الأمر', guardian_phone: c.guardian_phone },
+  ]));
+  ok(await sb.from('referrals').insert([
+    { student_id: d.id, reason: 'ضعف إبصار ملحوظ داخل الفصل', status: 'sent', sent_on: '2026-09-28', follow_up_on: '2026-10-03', notes: null, outcome: null },
+    { student_id: a.id, reason: 'متابعة بعد جدري الماء', status: 'reviewed', sent_on: '2026-09-22', follow_up_on: '2026-10-10', notes: null, outcome: null },
+  ]));
+  const today = new Date();
+  ok(await sb.from('clinic_visits').insert([
+    [9, 10, 'صداع', 'راحة وماء', 'returned'], [10, 5, 'ألم بطن', 'راحة', 'returned'], [11, 40, 'ارتفاع حرارة', 'خافض حرارة والاتصال بولي الأمر', 'sent_home'], [12, 15, 'ضيق تنفس', 'بخاخ وتحويل', 'referred'],
+  ].map(([h, m, complaint, action, outcome], i) => { const t = new Date(today); t.setHours(h, m, 0, 0); return { student_id: someStudents[4 + i].id, visited_at: t.toISOString(), complaint, action, outcome }; })));
+  ids.meetings.push(ok(await sb.from('committee_meetings').insert({ number: 1, held_on: '2026-09-10', held_time: '10:00', place: 'غرفة الاجتماعات', attendees: 6, absentees: 1,
+    items: [{ item: 'اعتماد خطة البرامج الصحية للفصل الأول', recommendation: 'اعتماد الخطة وتوزيع المهام' }, { item: 'متابعة الحالات المزمنة', recommendation: 'تحديث خطط الرعاية الفردية' }] }).select('id').single()).id);
   ok(await sb.from('student_conditions').insert(conds.map((c) => ({ status: 'active', medication: null, emergency_action: null, doctor_notes: null, notes: null, ...c }))));
 
   // حالات تنفيذ لبعض البرامج
@@ -99,7 +116,7 @@ async function fill(ids) {
     ok(await sb.from('programs').update(p).eq('id', P[name]));
     ids.programs.push(P[name]);
   }
-  ids.inspections.push(ok(await sb.from('env_inspections').insert({ inspected_on: '2026-09-20', answers: Object.fromEntries(Array.from({ length: 22 }, (_, i) => [`k${i}`, { yes: i % 5 !== 0, note: '' }])) }).select('id').single()).id);
+  ids.inspections.push(ok(await sb.from('env_inspections').insert({ inspected_on: '2026-09-20', answers: Object.fromEntries(['clean_1', 'clean_2', 'clean_3', 'clean_4', 'class_1', 'class_2', 'class_3', 'class_4', 'class_5', 'class_6', 'water_1', 'water_2', 'water_3', 'water_4', 'water_5', 'service_1', 'service_2', 'service_3', 'canteen_1', 'canteen_2', 'canteen_3', 'canteen_4'].map((k, i) => [k, { yes: i % 5 !== 0, note: i % 5 === 0 ? 'يحتاج متابعة' : '' }])) }).select('id').single()).id);
   console.log(`✅ أُضيفت بيانات تجريبية: ${n} طالبًا، ${conds.length} حالة، 4 مستخدمين (@demo.invalid)`);
 }
 

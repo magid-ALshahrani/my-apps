@@ -118,8 +118,16 @@ async function storage(req: http.IncomingMessage, res: http.ServerResponse) {
   m = p.match(/^\/object\/(?:authenticated\/)?([^/]+)\/(.+)$/);
   if (m && (req.method === 'POST' || req.method === 'PUT')) {
     const [, bucket, name] = m;
-    const body = await readBody(req);
-    const mime = String(req.headers['content-type'] ?? 'application/octet-stream').split(';')[0];
+    let body = await readBody(req);
+    let mime = String(req.headers['content-type'] ?? 'application/octet-stream').split(';')[0];
+    // المتصفح يرسل الرفع كـ multipart/form-data (كما في Supabase الحقيقي)
+    if (mime === 'multipart/form-data') {
+      const form = await new Request('http://x', { method: 'POST', headers: { 'content-type': String(req.headers['content-type']) }, body }).formData();
+      const file = [...form.values()].find((v): v is File => typeof v !== 'string');
+      if (!file) return send(res, 400, { statusCode: '400', error: 'no_file', message: 'No file' });
+      body = Buffer.from(await file.arrayBuffer());
+      mime = file.type || 'application/octet-stream';
+    }
     const b = await pool.query('select file_size_limit, allowed_mime_types from storage.buckets where id=$1', [bucket]);
     if (!b.rowCount) return send(res, 400, { statusCode: '404', error: 'Bucket not found', message: 'Bucket not found' });
     if (body.length > Number(b.rows[0].file_size_limit)) return send(res, 400, { statusCode: '413', error: 'Payload too large', message: 'The object exceeded the maximum allowed size' });

@@ -28,6 +28,7 @@ export default defineConfig({
         // لا تخزين مؤقت لطلبات البيانات: بيانات صحية لا تُحفظ في ذاكرة المتصفح
         navigateFallbackDenylist: [/^\/(rest|auth|storage|functions)\//],
         globPatterns: ['**/*.{js,css,html,svg,png,woff2}'],
+        globIgnores: ['ocr/**'],
         maximumFileSizeToCacheInBytes: 6 * 1024 * 1024,
       },
     }),

@@ -10,6 +10,8 @@ import { dual, isoDate } from '../lib/dates';
 import { PageHeader, Spinner, Empty, Modal, Field, Alert, useConfirm, useToast } from '../components/ui';
 import { ConditionDot, CriticalBanner, type ConditionType } from '../components/ConditionDot';
 import { Icon } from '../components/Icon';
+import { Attachments } from '../components/Attachments';
+import { suggestConditionFields } from '../lib/ocr';
 
 interface Student { id: string; full_name: string; guardian_phone: string | null; phone_needs_review: boolean; notes: string | null; section_id: string }
 export interface Condition {
@@ -179,6 +181,11 @@ export function ConditionDialog({ student, cond, types, canEdit, canDelete, onCl
             {view('ملاحظات', cond.notes)}
             {view('تاريخ البداية', cond.started_on ? dual(cond.started_on) : null)}
           </dl>
+          <div>
+            <div className="label">المرفقات</div>
+            <Attachments ownerType="condition" ownerId={cond.id} canUpload={canEdit} canDelete={canDelete} suggest={suggestConditionFields}
+              onApply={(s) => { const next = { ...f }; for (const x of s) if (x.field in next) (next as Record<string, string>)[x.field] = x.value; setF(next); setEditing(true); }} />
+          </div>
         </div>
       ) : (
         <div className="space-y-4">

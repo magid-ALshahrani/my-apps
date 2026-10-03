@@ -13,6 +13,18 @@ const SectionView = lazy(() => import('./pages/SectionView'));
 const ImportWizard = lazy(() => import('./pages/ImportWizard'));
 const Users = lazy(() => import('./pages/Users'));
 const Settings = lazy(() => import('./pages/Settings'));
+const Records = lazy(() => import('./pages/Records'));
+const Violence = lazy(() => import('./pages/Violence'));
+const Referrals = lazy(() => import('./pages/Referrals'));
+const ReferralPrint = lazy(() => import('./pages/Referrals').then((m) => ({ default: m.ReferralPrint })));
+const Visits = lazy(() => import('./pages/Visits'));
+const Programs = lazy(() => import('./pages/Programs'));
+const Committee = lazy(() => import('./pages/Committee'));
+const Environment = lazy(() => import('./pages/Environment'));
+const School = lazy(() => import('./pages/School'));
+const Clinic = lazy(() => import('./pages/School').then((m) => ({ default: () => <div><h1 className="text-2xl font-bold font-heading mb-5">سجل بيانات العيادة المدرسية</h1><m.Clinic /></div> })));
+const About = lazy(() => import('./pages/School').then((m) => ({ default: m.About })));
+const Forms = lazy(() => import('./pages/Forms'));
 
 export function Unauthorized() {
   return (
@@ -33,6 +45,7 @@ function Guard({ roles, children }: { roles: Role[]; children: ReactNode }) {
 
 const STAFF: Role[] = ['health_guide', 'principal', 'nurse'];
 const GUIDE: Role[] = ['health_guide'];
+const LEAD: Role[] = ['health_guide', 'principal'];
 
 function Gate() {
   const { loading, session, profile } = useAuth();
@@ -48,6 +61,18 @@ function Gate() {
           <Route index element={<Dashboard />} />
           <Route path="classes" element={<Guard roles={STAFF}><Classes /></Guard>} />
           <Route path="classes/:sectionId" element={<Guard roles={STAFF}><SectionView /></Guard>} />
+          <Route path="records" element={<Guard roles={STAFF}><Records /></Guard>} />
+          <Route path="violence" element={<Guard roles={GUIDE}><Violence /></Guard>} />
+          <Route path="referrals" element={<Guard roles={STAFF}><Referrals /></Guard>} />
+          <Route path="referrals/:id/print" element={<Guard roles={STAFF}><ReferralPrint /></Guard>} />
+          <Route path="visits" element={<Guard roles={STAFF}><Visits /></Guard>} />
+          <Route path="programs" element={<Programs />} />
+          <Route path="committee" element={<Guard roles={LEAD}><Committee /></Guard>} />
+          <Route path="environment" element={<Guard roles={LEAD}><Environment /></Guard>} />
+          <Route path="school" element={<Guard roles={LEAD}><School /></Guard>} />
+          <Route path="clinic" element={<Guard roles={STAFF}><Clinic /></Guard>} />
+          <Route path="forms" element={<Forms />} />
+          <Route path="about" element={<About />} />
           <Route path="import" element={<Guard roles={GUIDE}><ImportWizard /></Guard>} />
           <Route path="users" element={<Guard roles={GUIDE}><Users /></Guard>} />
           <Route path="settings" element={<Guard roles={GUIDE}><Settings /></Guard>} />

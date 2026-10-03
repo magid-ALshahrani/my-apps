@@ -93,7 +93,7 @@ for (const theme of ['light', 'dark']) {
       await shoot(page, `import-preview-${tag}`);
     }
     for (const extra of (process.env.EXTRA ?? '').split(',').filter(Boolean)) {
-      const [path, name] = extra.split('=');
+      const i = extra.lastIndexOf('='); const [path, name] = [extra.slice(0, i), extra.slice(i + 1)];
       await page.goto(`${BASE}${path}`);
       await page.waitForLoadState('networkidle');
       await shoot(page, `${name}-${tag}`);

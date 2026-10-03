@@ -10,11 +10,23 @@ export interface NavItem { to: string; label: string; icon: string; roles: Role[
 
 const ALL: Role[] = ['health_guide', 'principal', 'nurse', 'committee_member'];
 const STAFF: Role[] = ['health_guide', 'principal', 'nurse'];
+const LEAD: Role[] = ['health_guide', 'principal'];
 
 // القوائم تظهر حسب الدور. الحماية الفعلية في RLS.
 export const NAV: NavItem[] = [
   { to: '/', label: 'لوحة التحكم', icon: 'home', roles: ALL, mobile: true },
   { to: '/classes', label: 'الصفوف والطلاب', icon: 'classes', roles: STAFF, mobile: true },
+  { to: '/programs', label: 'البرامج والتقويم', icon: 'calendar', roles: ALL, mobile: true },
+  { to: '/visits', label: 'زيارات العيادة', icon: 'stethoscope', roles: STAFF, mobile: true },
+  { to: '/records', label: 'السجلات الرسمية', icon: 'clipboard', roles: STAFF },
+  { to: '/violence', label: 'سجل العنف الأسري', icon: 'lock', roles: ['health_guide'] },
+  { to: '/referrals', label: 'التحويلات', icon: 'referral', roles: STAFF },
+  { to: '/committee', label: 'لجنة الصحة المدرسية', icon: 'users', roles: LEAD },
+  { to: '/environment', label: 'تفقد البيئة المدرسية', icon: 'building', roles: LEAD },
+  { to: '/clinic', label: 'العيادة المدرسية', icon: 'stethoscope', roles: STAFF },
+  { to: '/school', label: 'بيانات المدرسة والموجه', icon: 'building', roles: LEAD },
+  { to: '/forms', label: 'الأدلة والنماذج', icon: 'book', roles: ALL },
+  { to: '/about', label: 'الرسالة والرؤية', icon: 'star', roles: ALL },
   { to: '/import', label: 'استيراد القوائم', icon: 'upload', roles: ['health_guide'] },
   { to: '/users', label: 'المستخدمون', icon: 'users', roles: ['health_guide'] },
   { to: '/settings', label: 'الإعدادات', icon: 'settings', roles: ['health_guide'] },
@@ -30,7 +42,7 @@ export function Layout() {
   const [more, setMore] = useState(false);
   const loc = useLocation();
   const items = navFor(profile?.role ?? null);
-  const mobileItems = items.filter((i) => i.mobile).slice(0, 4);
+  const mobileItems = items.filter((i) => i.mobile).slice(0, 3);
   const extra = items.filter((i) => !mobileItems.includes(i));
 
   const link = (n: NavItem, compact = false) => (

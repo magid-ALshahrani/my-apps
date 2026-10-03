@@ -107,14 +107,15 @@ begin
   end if;
   s := coalesce((p ->> 'status')::public.program_status, (select status from public.programs where id = p_id));
   update public.programs set
+    -- حقول الحالة تتغير فقط إذا أُرسلت status؛ التوثيق وحده لا يمسّها
     status = s,
-    actual_date = case when s = 'done' then (p ->> 'actual_date')::date end,
-    beneficiaries = case when s = 'done' then (p ->> 'beneficiaries')::int end,
-    skip_reason = case when s in ('not_done', 'postponed') then (p ->> 'skip_reason')::public.skip_reason end,
-    skip_note = case when s in ('not_done', 'postponed') then nullif(trim(p ->> 'skip_note'), '') end,
-    new_date = case when s = 'postponed' then (p ->> 'new_date')::date end,
-    status_updated_at = now(),
-    status_updated_by = auth.uid(),
+    actual_date = case when not (p ? 'status') then actual_date when s = 'done' then (p ->> 'actual_date')::date end,
+    beneficiaries = case when not (p ? 'status') then beneficiaries when s = 'done' then (p ->> 'beneficiaries')::int end,
+    skip_reason = case when not (p ? 'status') then skip_reason when s in ('not_done', 'postponed') then (p ->> 'skip_reason')::public.skip_reason end,
+    skip_note = case when not (p ? 'status') then skip_note when s in ('not_done', 'postponed') then nullif(trim(p ->> 'skip_note'), '') end,
+    new_date = case when not (p ? 'status') then new_date when s = 'postponed' then (p ->> 'new_date')::date end,
+    status_updated_at = case when p ? 'status' then now() else status_updated_at end,
+    status_updated_by = case when p ? 'status' then auth.uid() else status_updated_by end,
     executor = case when p ? 'executor' then p ->> 'executor' else executor end,
     goal = case when p ? 'goal' then p ->> 'goal' else goal end,
     doc_start = case when p ? 'doc_start' then (p ->> 'doc_start')::date else doc_start end,

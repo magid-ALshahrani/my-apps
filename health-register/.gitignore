@@ -8,3 +8,4 @@ dev-dist/
 test-results/
 screenshots/tmp/
 .demo-ids.json
+public/ocr/
