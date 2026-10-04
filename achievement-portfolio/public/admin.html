@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>ملف الإنجاز — لوحة المعلم</title>
+    <script src="/js/theme-init.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container">
+        <a class="brand" href="/admin"><span class="brand-mark" data-icon="book"></span><span>لوحة ملف الإنجاز</span></a>
+        <span id="roleBadge" class="badge" hidden></span>
+        <div class="spacer"></div>
+        <button class="btn btn-ghost icon-btn" data-theme-toggle type="button"></button>
+        <button class="btn btn-sm" id="logout" type="button" data-icon="logout" hidden><span class="hide-sm">خروج</span></button>
+      </div>
+    </header>
+
+    <main class="container">
+      <div id="boot" class="loading-state"><div class="spinner"></div><span>جارٍ التحميل…</span></div>
+
+      <!-- تسجيل الدخول -->
+      <section id="login" class="card login-card" hidden>
+        <h1 class="card-title" style="font-size: 1.3rem" data-icon="lock"><span>دخول اللوحة</span></h1>
+        <form id="loginForm" novalidate>
+          <div class="tabs role-switch" role="tablist">
+            <button type="button" class="tab" role="tab" aria-selected="true" data-role="teacher">المعلم</button>
+            <button type="button" class="tab" role="tab" aria-selected="false" data-role="manager">المدير (اطلاع)</button>
+          </div>
+          <div class="field">
+            <label for="pin">الرمز السري</label>
+            <input id="pin" class="input pin-input" type="password" inputmode="numeric" autocomplete="current-password" required />
+          </div>
+          <div id="loginError" class="notice danger" hidden></div>
+          <button class="btn btn-primary btn-block" type="submit" id="loginBtn">دخول</button>
+        </form>
+        <p class="staff-link"><a href="/">العودة لصفحة الطلاب</a></p>
+      </section>
+
+      <!-- اللوحة -->
+      <section id="dash" hidden>
+        <div class="page-head">
+          <h1>لوحة المتابعة</h1>
+          <div class="toolbar">
+            <button class="btn btn-gold" id="openManage" type="button" data-write data-icon="plus"><span>الفصول والطلاب</span></button>
+            <button class="btn" id="openSettings" type="button" data-write data-icon="settings"><span>الإعدادات</span></button>
+            <button class="btn" id="openReports" type="button" data-icon="printer"><span>الكشوف والتصدير</span></button>
+          </div>
+        </div>
+
+        <div id="readonlyNote" class="notice" hidden>
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" /><circle cx="12" cy="12" r="3" /></svg>
+          <div>أنت في وضع <b>الاطلاع فقط</b>: يمكنك عرض البيانات وفتح الملفات وتحميلها وطباعة الكشوف، دون أي تعديل.</div>
+        </div>
+        <div id="deadlineInfo"></div>
+
+        <div class="summary">
+          <div class="card kpi"><div class="kpi-icon teal" data-icon="users"></div><div><b id="kStudents">—</b><span>عدد الطلاب</span></div></div>
+          <div class="card kpi"><div class="kpi-icon gold" data-icon="chart"></div><div><b id="kAvg">—</b><span>متوسط الإنجاز</span></div></div>
+          <div class="card kpi"><div class="kpi-icon success" data-icon="trophy"></div><div><b id="kDone">—</b><span>المكتملون</span></div></div>
+        </div>
+
+        <div class="grid-2">
+          <section class="card">
+            <h2 class="card-title" data-icon="chart"><span>مقارنة الإنجاز بين الفصول</span></h2>
+            <div id="chart" class="chart"></div>
+          </section>
+
+          <section class="card">
+            <h2 class="card-title" data-icon="list"><span>الطلاب</span></h2>
+            <div class="filters">
+              <label class="search">
+                <span class="sr-only">بحث بالاسم</span>
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4.3-4.3" /></svg>
+                <input id="fSearch" class="input" type="search" placeholder="بحث بالاسم…" />
+              </label>
+              <label><span class="sr-only">الفصل</span><select id="fClass" class="input"></select></label>
+              <label
+                ><span class="sr-only">نسبة الإنجاز</span>
+                <select id="fPct" class="input">
+                  <option value="">كل النسب</option>
+                  <option value="done">مكتمل (100%)</option>
+                  <option value="high">50% – 90%</option>
+                  <option value="low">10% – 40%</option>
+                  <option value="zero">لم يبدأ (0%)</option>
+                </select>
+              </label>
+            </div>
+            <div class="table-wrap">
+              <table class="data" id="table">
+                <thead>
+                  <tr>
+                    <th scope="col">م</th>
+                    <th scope="col" data-sort="name"><button class="sort" type="button">الاسم<span class="arrow"></span></button></th>
+                    <th scope="col" data-sort="className"><button class="sort" type="button">الفصل<span class="arrow"></span></button></th>
+                    <th scope="col" data-sort="count"><button class="sort" type="button">الإضافات<span class="arrow"></span></button></th>
+                    <th scope="col" data-sort="score"><button class="sort" type="button">الدرجة<span class="arrow"></span></button></th>
+                    <th scope="col" data-sort="percent"><button class="sort" type="button">نسبة الإنجاز<span class="arrow"></span></button></th>
+                  </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+              </table>
+            </div>
+            <div id="tableEmpty" hidden></div>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <!-- درج تفاصيل الطالب -->
+    <div class="drawer-backdrop" id="drawerBg"></div>
+    <aside class="drawer" id="drawer" aria-labelledby="dName" role="dialog" aria-modal="true">
+      <div class="drawer-head">
+        <div style="flex: 1; min-width: 0">
+          <h2 id="dName"></h2>
+          <div class="muted" id="dMeta"></div>
+        </div>
+        <button class="btn btn-ghost icon-btn" type="button" id="drawerClose" aria-label="إغلاق" data-icon="x"></button>
+      </div>
+      <div class="drawer-body" id="dBody"></div>
+    </aside>
+
+    <!-- إدارة الفصول والطلاب -->
+    <dialog class="modal wide" id="manageDlg" aria-labelledby="manageTitle">
+      <div class="modal-head">
+        <h2 id="manageTitle">إدارة الفصول والطلاب</h2>
+        <button type="button" class="btn btn-ghost icon-btn" data-close aria-label="إغلاق" data-icon="x"></button>
+      </div>
+      <div class="modal-body">
+        <div class="tabs" role="tablist">
+          <button type="button" class="tab" role="tab" aria-selected="true" data-mtab="classes" data-icon="folder"><span>الفصول</span></button>
+          <button type="button" class="tab" role="tab" aria-selected="false" data-mtab="students" data-icon="users"><span>إضافة طلاب</span></button>
+        </div>
+
+        <div data-mpanel="classes">
+          <form class="inline-form" id="addClassForm">
+            <input class="input" id="newClass" placeholder="اسم الفصل الجديد" maxlength="100" required />
+            <button class="btn btn-primary" type="submit" data-icon="plus"><span>إضافة فصل</span></button>
+          </form>
+          <div class="manage-section">
+            <h3>الفصول الحالية</h3>
+            <div class="class-list" id="classList"></div>
+          </div>
+        </div>
+
+        <div data-mpanel="students" hidden>
+          <div class="field">
+            <label for="targetClass">الفصل</label>
+            <select id="targetClass" class="input"></select>
+          </div>
+          <div class="tabs" role="tablist" id="methodTabs">
+            <button type="button" class="tab" role="tab" aria-selected="true" data-method="one"><span>اسم واحد</span></button>
+            <button type="button" class="tab" role="tab" aria-selected="false" data-method="paste"><span>لصق قائمة</span></button>
+            <button type="button" class="tab" role="tab" aria-selected="false" data-method="file"><span>ملف CSV / Excel</span></button>
+            <button type="button" class="tab" role="tab" aria-selected="false" data-method="ocr" data-icon="camera"><span>كاميرا</span></button>
+          </div>
+
+          <div data-method-panel="one">
+            <form class="inline-form" id="oneForm">
+              <input class="input" id="oneName" placeholder="اسم الطالب" maxlength="100" />
+              <button class="btn btn-primary" type="submit" data-icon="plus"><span>إضافة</span></button>
+            </form>
+          </div>
+
+          <div data-method-panel="paste" hidden>
+            <div class="field">
+              <label for="pasteBox">الصق الأسماء، كل اسم في سطر</label>
+              <textarea id="pasteBox" class="input" placeholder="محمد أحمد&#10;سارة علي&#10;…"></textarea>
+            </div>
+            <button class="btn" type="button" id="pastePreview" data-icon="list"><span>معاينة القائمة</span></button>
+          </div>
+
+          <div data-method-panel="file" hidden>
+            <label class="dropzone">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><path d="M14 2v6h6M8 13h8M8 17h8" /></svg>
+              <strong>اختر ملف CSV أو XLSX</strong>
+              <span>يُقرأ عمود «الاسم»، وعمود «الفصل» إن وُجد (وإلا يُضاف الجميع للفصل المختار أعلاه)</span>
+              <input type="file" id="importFile" class="sr-only" accept=".csv,.xlsx,.xls,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+            </label>
+          </div>
+
+          <div data-method-panel="ocr" hidden>
+            <div class="notice warn">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z" /><path d="M12 9v4M12 17h.01" /></svg>
+              <div><b>تنبيه:</b> قراءة الخط العربي آليًا (OCR) ليست دقيقة دائمًا. راجع كل اسم وصحّحه قبل الاعتماد. لن يُحفظ شيء قبل ضغطك «اعتماد وحفظ». صوّر الكشف بإضاءة جيدة وبشكل مستقيم.</div>
+            </div>
+            <div id="ocrLive" hidden>
+              <div class="camera-box"><video id="ocrVideo" playsinline muted autoplay></video></div>
+              <div class="camera-actions">
+                <button type="button" class="btn btn-primary" id="ocrSnap" data-icon="camera"><span>التقاط</span></button>
+                <button type="button" class="btn" id="ocrStop" data-icon="x"><span>إيقاف الكاميرا</span></button>
+              </div>
+            </div>
+            <div class="camera-actions" id="ocrStartRow">
+              <button type="button" class="btn btn-primary" id="ocrCam" data-icon="camera"><span>تصوير الكشف</span></button>
+              <label class="btn" data-icon="upload">
+                <span>اختيار صورة</span>
+                <input type="file" id="ocrFile" class="sr-only" accept="image/*" capture="environment" />
+              </label>
+            </div>
+            <img id="ocrImg" class="ocr-preview" alt="صورة الكشف" hidden />
+            <div id="ocrStatus" hidden style="margin-top: 12px">
+              <div class="progress"><span id="ocrBar"></span></div>
+              <p class="muted" id="ocrMsg" style="margin: 6px 0 0; font-size: 0.85rem"></p>
+            </div>
+          </div>
+
+          <div id="previewBox" class="manage-section" hidden>
+            <h3>مراجعة الأسماء قبل الحفظ <span class="badge" id="previewCount"></span></h3>
+            <p class="muted" style="margin-top: -6px; font-size: 0.88rem">عدّل أي اسم أو احذفه. الأسماء المظللة بالذهبي مكررة في الفصل نفسه.</p>
+            <div class="edit-list" id="previewList"></div>
+            <div class="camera-actions">
+              <button type="button" class="btn" id="previewAdd" data-icon="plus"><span>إضافة سطر</span></button>
+              <button type="button" class="btn btn-primary" id="previewSave" data-icon="check"><span>اعتماد وحفظ</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- الإعدادات -->
+    <dialog class="modal" id="settingsDlg" aria-labelledby="setTitle">
+      <div class="modal-head">
+        <h2 id="setTitle">الإعدادات</h2>
+        <button type="button" class="btn btn-ghost icon-btn" data-close aria-label="إغلاق" data-icon="x"></button>
+      </div>
+      <div class="modal-body">
+        <form id="deadlineForm">
+          <div class="field">
+            <label for="deadlineInput">الموعد النهائي (بتوقيت الرياض)</label>
+            <input type="datetime-local" id="deadlineInput" class="input" />
+          </div>
+          <div class="inline-form" style="margin-bottom: 8px">
+            <button class="btn btn-primary" type="submit" data-icon="check"><span>حفظ الموعد</span></button>
+            <button class="btn btn-sm" type="button" data-extend="1">تمديد يوم</button>
+            <button class="btn btn-sm" type="button" data-extend="3">تمديد 3 أيام</button>
+            <button class="btn btn-sm" type="button" data-extend="7">تمديد أسبوع</button>
+            <button class="btn btn-sm btn-danger" type="button" id="clearDeadline">إلغاء الموعد</button>
+          </div>
+          <p class="muted" id="deadlineNow" style="font-size: 0.88rem; margin: 0"></p>
+        </form>
+
+        <div class="manage-section">
+          <h3>الحد الأقصى لحجم الملف</h3>
+          <form class="inline-form" id="sizeForm">
+            <input type="number" id="sizeInput" class="input" min="1" max="1024" step="1" aria-label="الحجم بالميجابايت" />
+            <button class="btn btn-primary" type="submit"><span>حفظ</span></button>
+          </form>
+          <p class="muted" style="font-size: 0.85rem; margin: 6px 0 0">بالميجابايت.</p>
+        </div>
+
+        <div class="manage-section">
+          <h3>فتح الرفع لطالب بعد الموعد</h3>
+          <form id="overrideForm">
+            <div class="field"><label for="ovStudent">الطالب</label><select id="ovStudent" class="input"></select></div>
+            <div class="field">
+              <label for="ovUntil">حتى (اختياري، بتوقيت الرياض)</label>
+              <input type="datetime-local" id="ovUntil" class="input" />
+            </div>
+            <button class="btn btn-primary" type="submit" data-icon="unlock"><span>فتح الرفع</span></button>
+          </form>
+          <div class="overrides" id="ovList"></div>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- الكشوف والتصدير -->
+    <dialog class="modal" id="reportsDlg" aria-labelledby="repTitle">
+      <div class="modal-head">
+        <h2 id="repTitle">الكشوف والتصدير</h2>
+        <button type="button" class="btn btn-ghost icon-btn" data-close aria-label="إغلاق" data-icon="x"></button>
+      </div>
+      <div class="modal-body">
+        <div class="field">
+          <label for="repClass">الفصل</label>
+          <select id="repClass" class="input"></select>
+        </div>
+        <p class="muted" style="font-size: 0.88rem">الطباعة تفتح كشفًا رسميًا بمقاس A4 (كل فصل في صفحة). لحفظه PDF اختر «حفظ بتنسيق PDF» من نافذة الطباعة.</p>
+      </div>
+      <div class="modal-foot">
+        <a class="btn btn-primary" id="repPrint" href="/print" target="_blank" rel="noopener" data-icon="printer"><span>طباعة / PDF</span></a>
+        <a class="btn btn-gold" id="repExcel" href="/api/admin/export.xlsx" data-icon="sheet"><span>تصدير Excel</span></a>
+      </div>
+    </dialog>
+
+    <script src="/js/common.js"></script>
+    <script src="/js/admin.js"></script>
+  </body>
+</html>

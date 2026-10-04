@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>ملف الإنجاز — لوحتي</title>
+    <script src="/js/theme-init.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container">
+        <a class="brand" href="/student"><span class="brand-mark" data-icon="book"></span><span>ملف الإنجاز</span></a>
+        <div class="spacer"></div>
+        <button class="btn btn-ghost icon-btn" data-theme-toggle type="button"></button>
+        <button class="btn btn-sm" id="logout" type="button" data-icon="logout"><span>تغيير الاسم</span></button>
+      </div>
+    </header>
+
+    <main class="container">
+      <div id="loading" class="loading-state"><div class="spinner"></div><span>جارٍ تحميل ملفك…</span></div>
+
+      <div id="app" hidden>
+        <div id="deadline"></div>
+
+        <section class="card student-head">
+          <div class="ring-wrap" role="img" id="ringWrap">
+            <svg class="ring" viewBox="0 0 200 200" aria-hidden="true">
+              <defs>
+                <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" style="stop-color: var(--teal)" />
+                  <stop offset="100%" style="stop-color: var(--gold)" />
+                </linearGradient>
+              </defs>
+              <circle class="track" cx="100" cy="100" r="86" />
+              <circle class="bar" id="ringBar" cx="100" cy="100" r="86" />
+            </svg>
+            <div class="ring-label">
+              <strong><span id="ringNum">0</span><small>/<span id="ringMax">10</span></small></strong>
+              <span>إنجاز</span>
+            </div>
+          </div>
+          <div class="student-info">
+            <h1 id="sName"></h1>
+            <div class="meta"><span class="badge badge-teal" id="sClass"></span></div>
+            <div class="score-line">
+              <div class="stat"><b id="sScore">0/10</b><span>الدرجة</span></div>
+              <div class="stat"><b id="sCount">0</b><span>عمل مرفوع</span></div>
+              <div class="stat"><b id="sLeft">10</b><span>خانة متبقية</span></div>
+            </div>
+          </div>
+        </section>
+
+        <h2 class="card-title" style="margin-top: 8px">خانات الإنجاز</h2>
+        <div class="slots" id="slots"></div>
+      </div>
+    </main>
+
+    <!-- نافذة إضافة عمل -->
+    <dialog class="modal" id="addDlg" aria-labelledby="addTitle">
+      <form id="addForm" novalidate>
+        <div class="modal-head">
+          <h2 id="addTitle">إضافة عمل — الخانة <span id="addSlot"></span></h2>
+          <button type="button" class="btn btn-ghost icon-btn" data-close aria-label="إغلاق" data-icon="x"></button>
+        </div>
+        <div class="modal-body">
+          <div class="field">
+            <label for="title">عنوان العمل <span class="badge badge-gold">إلزامي</span></label>
+            <input id="title" class="input" maxlength="120" required placeholder="مثال: تقرير الوحدة الأولى" />
+          </div>
+
+          <div class="tabs" role="tablist">
+            <button type="button" class="tab" role="tab" aria-selected="true" data-tab="file" data-icon="upload"><span>رفع ملف</span></button>
+            <button type="button" class="tab" role="tab" aria-selected="false" data-tab="camera" data-icon="camera"><span>تصوير بالكاميرا</span></button>
+          </div>
+
+          <div data-panel="file">
+            <label class="dropzone" id="dropzone">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><path d="M17 8l-5-5-5 5" /><path d="M12 3v12" /></svg>
+              <strong>اضغط لاختيار ملف من جهازك</strong>
+              <span>كل أنواع الملفات مقبولة · الحد الأقصى <b id="maxMb">20</b> ميجابايت</span>
+              <input type="file" id="fileInput" class="sr-only" />
+            </label>
+          </div>
+
+          <div data-panel="camera" hidden>
+            <div id="camLive" hidden>
+              <div class="camera-box"><video id="video" playsinline muted autoplay></video></div>
+              <div class="camera-actions"><button type="button" class="btn btn-primary" id="snap" data-icon="camera"><span>التقاط الصورة</span></button></div>
+            </div>
+            <div id="camPreview" hidden>
+              <div class="camera-box"><img id="snapImg" alt="معاينة الصورة الملتقطة" /></div>
+              <div class="camera-actions">
+                <button type="button" class="btn" id="retake" data-icon="refresh"><span>إعادة التصوير</span></button>
+                <button type="button" class="btn btn-primary" id="approve" data-icon="check"><span>اعتماد الصورة</span></button>
+              </div>
+            </div>
+            <div id="camStarting" class="loading-state"><div class="spinner"></div><span>جارٍ تشغيل الكاميرا…</span></div>
+            <div id="camFallback" hidden>
+              <div class="notice warn"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 9v4M12 17h.01" /><circle cx="12" cy="12" r="10" /></svg><div id="camFallbackMsg">تعذّر تشغيل الكاميرا مباشرة. استخدم كاميرا الجهاز بدلًا من ذلك.</div></div>
+              <label class="dropzone">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" /><circle cx="12" cy="13" r="4" /></svg>
+                <strong>اضغط لفتح الكاميرا</strong>
+                <input type="file" id="captureInput" class="sr-only" accept="image/*" capture="environment" />
+              </label>
+            </div>
+          </div>
+
+          <div class="picked" id="picked" hidden></div>
+          <div id="formError" class="notice danger" style="margin: 12px 0 0" hidden></div>
+          <div id="upProgress" hidden style="margin-top: 14px">
+            <div class="progress"><span id="upBar"></span></div>
+            <p class="muted" style="margin: 6px 0 0; font-size: 0.85rem">جارٍ الرفع… <span id="upPct">0</span>%</p>
+          </div>
+        </div>
+        <div class="modal-foot">
+          <button type="submit" class="btn btn-primary" id="saveBtn" data-icon="check"><span>حفظ العمل</span></button>
+          <button type="button" class="btn" data-close>إلغاء</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script src="/js/common.js"></script>
+    <script src="/js/student.js"></script>
+  </body>
+</html>
