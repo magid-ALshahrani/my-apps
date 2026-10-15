@@ -625,3 +625,11 @@ grant execute on function
   public.members_see_all(), public.is_importing(), public.fund_balance(), public.loan_outstanding(uuid),
   public.rate_for(date), public.fund_summary(), public.mark_backup(), public.import_data(jsonb)
 to authenticated;
+
+-- إبقاء المشروع نشطاً (تستدعيها مهمة GitHub التلقائية) — لا تلمس بيانات الصندوق
+create function public.keep_alive() returns timestamptz
+language sql stable set search_path = '' as $$
+  select now()
+$$;
+revoke execute on function public.keep_alive() from public;
+grant execute on function public.keep_alive() to anon, authenticated;
