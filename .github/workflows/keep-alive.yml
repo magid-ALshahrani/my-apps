@@ -1,7 +1,7 @@
 name: إبقاء قاعدة البيانات نشطة
 
-# Supabase المجاني يوقف المشروع بعد 7 أيام بلا استخدام؛ هذه المهمة تستدعيه كل 3 أيام.
-# إذا فشلت فغالباً المشروع متوقف: افتح لوحة Supabase واضغط Restore.
+# Supabase المجاني يوقف المشروع بعد 7 أيام بلا استخدام؛ هذه المهمة تستدعي كل مشروع كل 3 أيام.
+# إذا فشلت مهمة مشروع فغالباً هو متوقف: افتح لوحة Supabase واضغط Resume project.
 on:
   schedule:
     - cron: '17 6 */3 * *'
@@ -11,7 +11,8 @@ permissions:
   contents: read
 
 jobs:
-  ping:
+  sandooq:
+    name: صندوق الإخوة
     runs-on: ubuntu-latest
     steps:
       - name: استدعاء keep_alive
@@ -20,6 +21,24 @@ jobs:
           SUPABASE_URL: https://negrrneumbulrgudhtaq.supabase.co
           SUPABASE_KEY: sb_publishable_fCeVt3ChrTWk7g3vXTzhVA_YTTSMMlL
         run: |
+          curl -fsS --retry 3 --retry-delay 10 -X POST "$SUPABASE_URL/rest/v1/rpc/keep_alive" \
+            -H "apikey: $SUPABASE_KEY" -H "Content-Type: application/json" -d '{}'
+          echo
+
+  health-register:
+    name: سجل الموجه الصحي
+    runs-on: ubuntu-latest
+    steps:
+      - name: استدعاء keep_alive
+        env:
+          # المفتاح العام نفسه المستخدم في بناء الواجهة (متغير المستودع HEALTH_SUPABASE_PUBLISHABLE_KEY)
+          SUPABASE_URL: https://aafjvmlhsrlcxhbzxdic.supabase.co
+          SUPABASE_KEY: ${{ vars.HEALTH_SUPABASE_PUBLISHABLE_KEY }}
+        run: |
+          if [ -z "$SUPABASE_KEY" ]; then
+            echo "::error::متغير المستودع HEALTH_SUPABASE_PUBLISHABLE_KEY غير موجود"
+            exit 1
+          fi
           curl -fsS --retry 3 --retry-delay 10 -X POST "$SUPABASE_URL/rest/v1/rpc/keep_alive" \
             -H "apikey: $SUPABASE_KEY" -H "Content-Type: application/json" -d '{}'
           echo

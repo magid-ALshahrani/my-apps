@@ -37,7 +37,9 @@
 
 ### 2) إنشاء قاعدة البيانات
 **الطريقة أ (لوحة Supabase):** من **SQL Editor** شغّل ملفات `supabase/migrations/` واحدًا تلو الآخر **بالترتيب**:
-`20261003000001_core.sql` ← `…02_rls.sql` ← `…03_functions.sql` ← `…04_reference_data.sql`.
+`20261003000001_core.sql` ← `…02_rls.sql` ← `…03_functions.sql` ← `…04_reference_data.sql` ← `20261017000001_keep_alive.sql`.
+
+> `keep_alive` دالة صغيرة تستدعيها مهمة GitHub التلقائية (`.github/workflows/keep-alive.yml`) كل 3 أيام، حتى لا يوقف Supabase المجاني المشروع بعد أسبوع بلا استخدام. ترجع الوقت فقط ولا تلمس بيانات السجل.
 
 **الطريقة ب (Supabase CLI):**
 ```bash
