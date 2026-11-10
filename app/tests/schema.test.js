@@ -262,3 +262,32 @@ describe('الاستيراد', () => {
     expect(rows[0].c).toBe(0);
   });
 });
+
+describe('النبض (keep_alive)', () => {
+  it('يكتب سطراً حقيقياً، مرة في الساعة على الأكثر، ولا يكشف الجدول', async () => {
+    await db.exec('reset role; set role anon;');
+    try {
+      await db.query('select public.keep_alive()');
+      await db.query('select public.keep_alive()');
+      await expect(db.query('select * from public.heartbeat')).rejects.toThrow(/permission denied/);
+      await expect(db.query('select * from public.entries')).rejects.toThrow(/permission denied/);
+    } finally {
+      await db.exec('reset role;');
+    }
+    const { rows } = await db.query('select count(*)::int c from public.heartbeat');
+    expect(rows[0].c).toBe(1);
+  });
+
+  it('ملف التصحيح يُطبَّق فوق المخطط القديم مرتين بلا خطأ', async () => {
+    const patch = readFileSync(fileURLToPath(new URL('../../supabase/patches/003-keep-alive-heartbeat.sql', import.meta.url)), 'utf8');
+    const old = readFileSync(fileURLToPath(new URL('../../supabase/patches/002-keep-alive.sql', import.meta.url)), 'utf8');
+    const fresh = new PGlite();
+    await fresh.exec(SUPABASE_STUB);
+    await fresh.exec(old);
+    await fresh.exec(patch);
+    await fresh.exec(patch);
+    await fresh.exec('set role anon;');
+    const r = await fresh.query('select public.keep_alive() t');
+    expect(r.rows[0].t).toBeTruthy();
+  });
+});
